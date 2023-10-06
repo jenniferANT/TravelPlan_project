@@ -1,0 +1,28 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/travel_plan
+    username: postgres
+    password: 123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: true
+    hibernate:
+      dll-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+app:
+  security:
+    jwt:
+      access-expires-at: 900_000 #ms -15ph
+      refresh-expires-at: 2_592_000_000 #30day
+      prefix: "Bearer "
+      auth-header: "Authorization"
+      access-secret: access
+      refresh-secret: refresh
+
