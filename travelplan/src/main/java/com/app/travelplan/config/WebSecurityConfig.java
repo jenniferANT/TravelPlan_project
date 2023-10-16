@@ -51,7 +51,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/v3/api-ui.html").permitAll()
                                 .requestMatchers("/webjars/**").permitAll()
                                 .requestMatchers("/swagger-ui.html").permitAll()
-                                .requestMatchers("/api/v1/demo/admin").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers("/api/v1/admin/**").hasAnyAuthority("ROLE_ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .build();

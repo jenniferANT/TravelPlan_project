@@ -28,6 +28,9 @@ public class Image extends BaseEntity {
     @Column(name = "data", unique = false, nullable = false, length = 1000000)
     private byte[] data;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private User user;
+
     public String getUrlImage() {
         return AppUtils.getBaseUrl() + "/api/v1/image/get/" + this.id;
     }

@@ -29,6 +29,8 @@ public class UserServiceImpl implements UserService {
         Image image = imageRepository.findById(id)
                 .orElseThrow(() ->
                         new NotFoundException("Image not found with id " + id));
+
+        image.setUser(user);
         user.setAvatar(image);
         return UserDto.toDto(userRepository.save(user));
     }
