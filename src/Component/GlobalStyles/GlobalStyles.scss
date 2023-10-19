@@ -1,0 +1,23 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@600;700&display=swap');
+
+:root {
+    --primary-color: #F66F4D;
+    --second-color: #FAF8ED;
+}
+
+html {
+    font-size: 62.5%;
+   
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+font-family: 'Montserrat', sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+    margin: 0;
+    padding: 0;
+   
+}
