@@ -25,7 +25,7 @@ spring:
 app:
   security:
     jwt:
-      access-expires-at: 900_000 #ms -15ph
+      access-expires-at: 900_000 #ms 15ph
       refresh-expires-at: 2_592_000_000 #30day
       prefix: "Bearer "
       auth-header: "Authorization"

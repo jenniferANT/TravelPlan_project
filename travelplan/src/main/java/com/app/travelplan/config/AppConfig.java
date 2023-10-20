@@ -1,11 +1,13 @@
 package com.app.travelplan.config;
 
-import com.app.travelplan.model.entity.Image;
+import com.app.travelplan.model.entity.Category;
 import com.app.travelplan.model.entity.Role;
 import com.app.travelplan.model.entity.User;
+import com.app.travelplan.repository.CategoryRepository;
 import com.app.travelplan.repository.ImageRepository;
 import com.app.travelplan.repository.RoleRepository;
 import com.app.travelplan.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,19 +15,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 
 @Configuration
-public class RoleConfig {
+@RequiredArgsConstructor
+public class AppConfig {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ImageRepository imageRepository;
-
-
-    public RoleConfig(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, ImageRepository imageRepository) {
-        this.roleRepository = roleRepository;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.imageRepository = imageRepository;
-    }
+    private final CategoryRepository categoryRepository;
 
     @Bean
     public void accountConfig() {
@@ -47,9 +42,27 @@ public class RoleConfig {
                     .name("Admin")
                     .username("admin")
                     .password(passwordEncoder.encode("admin"))
+                    .email("admin@gmail.com")
                     .role(roleRepository.findByName("ROLE_ADMIN").get())
                     .build();
             userRepository.save(admin);
+        }
+
+        if(!categoryRepository.existsByName("like")) {
+            var like = Category.builder()
+                    .id(1l)
+                    .name("like")
+                    .category(null)
+                    .build();
+            categoryRepository.save(like);
+        }
+        if(!categoryRepository.existsByName("area")) {
+            var area = Category.builder()
+                    .id(2l)
+                    .name("area")
+                    .category(null)
+                    .build();
+            categoryRepository.save(area);
         }
     }
 }

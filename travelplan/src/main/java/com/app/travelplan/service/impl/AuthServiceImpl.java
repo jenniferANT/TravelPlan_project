@@ -2,7 +2,6 @@ package com.app.travelplan.service.impl;
 
 import com.app.travelplan.exception.InvalidRefreshTokenException;
 import com.app.travelplan.model.dto.AuthDto;
-import com.app.travelplan.model.entity.Image;
 import com.app.travelplan.model.entity.Role;
 import com.app.travelplan.model.entity.User;
 import com.app.travelplan.model.form.LoginForm;
@@ -31,6 +30,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthDto login(LoginForm form) {
+        User user = userRepository.findByUsername(form.getUsername())
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Username not found"));
+        if(!passwordEncoder.matches(form.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Password valid");
+        }
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(form.getUsername(), form.getPassword())
         );
@@ -54,6 +60,7 @@ public class AuthServiceImpl implements AuthService {
                 .password(passwordEncoder.encode(form.getPassword()))
                 .name(form.getName())
                 .role(role)
+                .email(form.getEmail())
                 .build();
 
         userRepository.save(user);

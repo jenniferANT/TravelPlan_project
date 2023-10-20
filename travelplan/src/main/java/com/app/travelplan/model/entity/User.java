@@ -25,11 +25,13 @@ public class User extends BaseEntity implements UserDetails {
     private String username;
     private String password;
     private String name;
+    private String email;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Role role;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_id", referencedColumnName = "id")
     private Image avatar;
 
     @Override
