@@ -70,7 +70,7 @@
 }
 .icon-drone{
     top: 70%;
-    left: 5%;
+    left: 5%        ;
 }
 .icon-book{
     top: 60%;
@@ -93,24 +93,24 @@
     font-size: 20px;
     font-weight: 500;
 }
-.regis__container {
+.login__container {
     position: absolute;
     background-color: #ffffff;
     width: 550px;
-    height: 700px;
-    top: 120px;
+    height: 560px;
+    top: 210px;
     right: 80px;
     border-radius: 30px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
 }
-.regis__container-header {
+.login__container-header {
     display: inline-block;
     width: 100%;
 }
-.regis-header-text {
-    width: 140px;
-    padding: 14px 0px 10px 12px;
+.header-text {
+    width: 200px;
+    padding: 14px 0px 10px 40px;
     font-size: 22px;
     font-weight: 550;
     float: left;
@@ -137,24 +137,24 @@
     display: block  ;
     font-size: 40px;
     margin: 0;
-    padding-left: 22px;
+    padding-left: 40px;
     margin-bottom: 20px;
 }
-.regis-form {
+.login-form {
     display: block;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
 }
-.regis-form__element{
+.login-form__element{
     width: 460px;
     height: 60px;
     border-radius: 20px;
     border: 1px solid;
     margin: 20px 4px 24px 0px;
 }
-.regis-form__element > input {
+.login-form__element > input {
     width: 430px;
     height: 96%;
     background: transparent;
@@ -162,7 +162,7 @@
     outline: none;
     padding-left: 32px;
 }
-.regis-form-btn {
+.login-form-btn {
     background-color:var(--primary-color);
     width: 100px;
     height: 60px;
@@ -172,10 +172,19 @@
     font-size: 20px;
     justify-content: center;
     align-items: center;
-
+    margin-top: 40px;
 }
-.regis-form-btn:hover {
+.login-form-btn:hover {
     cursor: pointer;
     opacity: 0.8;
 }
 
+.login-form-reset {
+
+}
+.reset-pass {
+    color: var(--primary-color);
+    font-weight: 100;
+    text-decoration: none;
+    
+}

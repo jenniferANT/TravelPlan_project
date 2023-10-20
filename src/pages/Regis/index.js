@@ -11,6 +11,11 @@ import iconScience from './img/icon-science.png'
 import iconBook from './img/icon-book.png'
 import qrCode from './img/Frame 38.png'
 import { useState } from 'react';
+
+
+export {earthImg, iconBook, iconDrone, iconMobile, iconRobot, iconScience, qrCode}
+
+
 function Regis() {
     
     const [userName, setUserName] = useState('');
@@ -18,22 +23,40 @@ function Regis() {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [userDatas, setUserDatas] = useState([])
+
+
     const [errorUser,setErrorUser] = useState('')
     const [errorEmail,setErrorEmail] = useState('')
     const [errorpassword,setErrorPassword] = useState('')
+
+    const api = axios.create({
+        baseURL: 'http://locallhost:8081/api/v1'
+    });
+
+
     const isValidEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
+
+
+
     const clearInput = () => {
         setName('');
         setEmail('');
         setUserName('');
         setPassword('');
     }
+
+
+
     const handleSubmit = (event) => {
         event.preventDefault();
         
+        
+
+
+
         if (userName.length <= 8 || userName.includes(" ")) {
             setErrorUser("Username phải có ít nhất 8 kí tự và không chứa khoảng trắng")
             if(errorUser!= '') {console.log(errorUser);}
@@ -49,8 +72,15 @@ function Regis() {
                 return newUser
             })
             
-            
-            axios.post('url', { userName, email, name, password })
+            const data = {
+                userName: userName,
+                email:email,
+                name:name,
+                password:password
+            };
+
+
+            api.post('/auth/register', data)
                 .then(response => {
                     console.log(response.data); // In ra dữ liệu được trả về từ server
                     clearInput(); // Clear các ô input sau khi gửi thành công
@@ -67,7 +97,7 @@ function Regis() {
             <h1 className='body-up__sub-text'>Your Travel Planning</h1>
         </div>
         <div className="body-down">
-            <img className='icon icon-robot' src={iconRobot}></img>
+            <img alt='' className='icon icon-robot' src={iconRobot}></img>
             <img className='icon icon-mobile' src={iconMobile}></img>
             <img className='icon icon-drone' src={iconDrone}></img>
             <img className='icon icon-book' src={iconBook}></img>
@@ -78,29 +108,29 @@ function Regis() {
         <div className='body-img__container'>
              <img className='login-img' src={earthImg}  alt="Earth-img"/>
         </div>
-        <div className="login__container">
-            <div className='login__container-header'>
-                <p className='header-text'>Welcome to</p>
+        <div className="regis__container">
+            <div className='regis__container-header'>
+                <p className='regis-header-text'>Welcome to</p>
                 <div className='header-link-container'>
                     <Link className='header-link-home' to="/">TravelPlan</Link>
                 </div>
                 <div className='clear'></div>
                 <h2 className='header-sign-text'>Sign up</h2>
             </div>
-            <div className='login-form'>
-                <div className='login-form__element'>
+            <div className='regis-form'>
+                <div className='regis-form__element'>
                      <input value={name} onChange={(e) => setName(e.target.value)} required placeholder='Your Name:' />
                 </div>
-                <div className='login-form__element'>
+                <div className='regis-form__element'>
                     <input value={email}  onChange={(e) => setEmail(e.target.value)} required placeholder='Your email:' />
                 </div>
-                <div className='login-form__element'>
+                <div className='regis-form__element'>
                     <input value={userName}  onChange={(e) => setUserName(e.target.value)} required placeholder='Username:' />
                 </div>
-                <div className='login-form__element'>
+                <div className='regis-form__element'>
                     <input value={password}  type='password' onChange={(e) => setPassword(e.target.value)} required placeholder='Password:' />
                 </div>
-                <button onClick={handleSubmit} className='login-form-btn'>Sign up</button>
+                <button onClick={handleSubmit} className='regis-form-btn'>Sign up</button>
             </div>
         </div>
     {/* <Routes>
