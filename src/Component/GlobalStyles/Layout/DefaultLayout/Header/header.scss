@@ -1,0 +1,150 @@
+@import "../../../GlobalStyles.scss";
+
+
+
+.content-header {
+  font-family: "Inter", sans-serif;
+  background-color: var(---color);
+}
+.font {
+  font-family: "Inter", sans-serif;
+}
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 30px;
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  /* Add any other styles you need for the fixed header */
+}
+
+.header-heading-left {
+  margin-right: 600px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.header-heading-right {
+  display: flex;
+  width: 140px;
+  background-color: var(--second-color);
+  align-items: center;
+}
+
+.heading-right-button {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  height: 40px;
+  padding: 0 0 0 8px;
+  border-radius: 10px;
+  border-color: var(--primary-color);
+  border-width: 1.8px;
+  background-color: var(--second-color);
+}
+
+.heading-right-button:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+.heading-right-button > Link {
+  width: 70%;
+  
+  color: var(--primary-color);
+  font-weight: 500;
+  text-decoration: none;
+}
+.header-heading-right > button > img {
+}
+
+.header-home,
+.header-planing,
+.header-discover,
+.header-blog {
+  margin: 0 10px 0 10px;
+}
+
+.logo {
+  display: flex;
+  width: 200px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+}
+.logo-name {
+  text-align: center;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.header-home,
+.header-discover,
+.header-blog,
+.header-planing {
+  background-color: var(--second-color);
+  border: none;
+  height: 48px;
+  margin-bottom: 4px;
+  width: 80px;
+}
+.header-home,
+.header-discover,
+.header-blog,
+.header-planing > p {
+}
+
+
+.header-home:hover .header__link-hover{
+  cursor: pointer;
+  border-bottom: 2px solid var(--primary-color);
+  opacity: 0.8;
+  padding-bottom: 4px;
+}
+
+
+.header-discover:hover .header__link-hover {
+  cursor: pointer;
+  border-bottom: 2px solid var(--primary-color);
+  opacity: 0.8;
+  padding-bottom: 4px;
+}
+
+.header-blog:hover .header__link-hover {
+  cursor: pointer;
+  border-bottom: 2px solid var(--primary-color);
+  opacity: 0.8;
+  padding-bottom: 4px;
+}
+
+.header-planing:hover .header__link-hover {
+  cursor: pointer;
+  border-bottom: 2px solid var(--primary-color);
+  opacity: 0.8;
+  padding-bottom: 4px;
+}
+
+.header__link-left {
+    text-decoration: none;
+    height: auto;
+    width: 100%;
+    color: black;
+}
+.header__link-right {
+    text-decoration: none;
+    color: var(--primary-color);
+    padding-right: 4px;
+    font-weight: 500;
+    height: 100%;
+    padding-top: 18px;
+}
+

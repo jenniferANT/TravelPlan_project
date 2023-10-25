@@ -1,0 +1,380 @@
+@import "../../Component/GlobalStyles/GlobalStyles.scss";
+.content {
+    background-color: var(--second-color);
+    font-family: 'Inter', sans-serif;
+
+}
+.intro {
+    background-color: var(--second-color);
+}
+
+.intro {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: 100px;
+}
+
+.intro-left {
+    width: 440px;
+}
+
+.intro-left-main {
+    color: var(--third-color);
+    font-size: 70px;
+    margin-bottom: 10px;
+}
+.intro-left-sub {
+    opacity: 0.7;
+}
+.intro-left-container {
+    
+}
+.intro-left-btn {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    width: 180px;
+    border-radius: 20px;
+    border: none;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.left-btn__link {
+    color: var(--primary-color);
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 14px;
+    text-decoration: none;
+}
+
+.intro-left-btn:hover {
+    
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.intro-left-btn > img {
+    width: 20px;
+    margin-right: 14px;
+}
+
+.intro-right {
+    position: relative;
+}
+
+.intro-right-imgMap {
+    position: absolute;
+    left: 10%;
+    top: 10%;
+}
+.intro-right-imgEarth {
+    position: relative;
+    width: 40px;
+    left: 10%;
+    top: 80%;
+}
+
+.about-us {
+    height: 600px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 140px;
+}
+
+.about-us-left {
+    width: 40%;
+    position: relative;
+}
+
+.left-main-img {
+    width: 400px;
+}
+
+.left-sub-img-des {
+    position: absolute;
+    top: 50%;
+    left: -5%;
+    width: 100px;
+}
+
+.left-sub-img-cus {
+    position: absolute;
+    bottom: -10%;
+    left: 30%;
+    width: 250px;
+}
+.about-us-right {
+    width: 700px;
+}
+
+.about-us-right {
+
+}
+
+.about-us-right-up > p:first-child {
+    color: var(--primary-color);
+    
+}
+
+.about-us-right-up > h2 {
+    color: var(--third-color);
+    font-size: 45px;
+    margin: 0;
+    width: 600px;
+}
+.about-us-right-up {
+    margin-left: 20px;
+}
+.about-us-right-down {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.feed-back {
+   // margin-top: 300px;
+    display: flex;
+    justify-content: space-around;
+    align-items:center;
+}
+.feed-back-dev {
+    position: relative;
+}
+.dev-heading {
+    color: var(--third-color);
+    width: fit-content;
+}
+.dev-heading::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    left: 0px;
+    width: 50px;
+    height:6px;
+    background-color: black;
+    border-radius: 20px;
+    background-color: var(--primary-color);
+    opacity: 0.4;
+}
+
+.dev-content {
+    background-color: white;
+    width: 550px;
+    padding: 12px;
+    height: 290px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 20px;
+}
+.dev-content > p {
+    width: fit-content;
+    
+    margin-left: 300px;
+}
+
+.main-text {
+    
+}
+
+.dev-ava {
+    
+}
+
+.feed-back-customer {
+    position: relative;
+}
+.customer-heading {
+    color: var(--third-color);
+}
+
+  .customer-heading::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    left: 0px;
+    width: 50px;
+    height:6px;
+    background-color: black;
+    border-radius: 20px;
+    background-color: var(--primary-color);
+    opacity: 0.4;
+  }
+.customer-content {
+    width: 574px;
+    height: 314px;
+    position: relative;
+}
+.ava-customer {
+    position: absolute;
+    top: 56%;
+    left: 5%;
+}
+
+.customer-content-feedback__img {
+    width: 594px;
+}
+
+
+.receive-email {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1200px;
+    height: 600px;
+    margin: 100px 400px 0 400px;
+    background-image: url("./img/Intersect.png");
+}
+.receive-email-content {
+    background-image: url("./img/sign-up-container.png")  ;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.receive-input-container {
+    margin-bottom: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:white;
+    border-radius: 20px;
+    width: 400px;
+    height: 50px;
+    padding: 4px 16px;
+}
+.receive-input-container > input {
+    border: none;
+    width: 400px;
+    height: 35px;
+    
+}
+
+.receive-input-container >input:focus {
+    outline: none;
+}
+.receive-input-container > button {
+    padding: 0;
+}
+.sign-up-container-backGround {
+
+
+}
+.sign-up-container-backGround2 {
+    width: fit-content;
+}
+.receive-email-heading {
+    color: var(--third-color);
+    margin: 0;
+    font-size: 40px;
+}
+.receive-email-title{
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+.receive-btn-container {
+    width: 50px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.receive-btn {
+    background-color: var(--primary-color);
+    height: 40px;
+    width: 45px;
+    background-image: url("./img/receive-input.png");
+    background-repeat: no-repeat;
+    border: none;
+    border-radius: 10px;
+}
+
+.receive-btn:hover {
+    cursor: pointer;
+    opacity: 0.7    ;
+}
+
+.footer {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.footer-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-logo-container {
+    width: 200px;
+    display: flex;
+    height: 40px;
+}
+
+.left-logo-container > p {
+    width: fit-content;
+    color: var(--primary-color);
+    font-weight: 700;
+    
+}
+
+.left-logo-container > img {
+    background-color: var(--second-colorx);
+}
+
+.left-text{
+    padding-right: 50px;
+    margin-top: 10px;
+    width: 150px;
+    opacity: 0.8;
+}
+.left-icon-container {
+    padding-right: 70px;
+}
+
+.left-icon-container > img{
+    margin: 10px;
+}
+
+
+.footer-right {
+    display: flex;
+    
+}
+
+.footer-right-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 250px;
+}
+
+.footer-right-heading {
+    color: var(--third-color);
+}
+
+.footer-right-detail {
+    text-decoration: none;
+    color: black;
+    opacity: 0.8;
+    font-size: 16px;
+    padding: 5px;
+}
+.margin-bottom-55 {
+    margin-bottom: 55px;
+}

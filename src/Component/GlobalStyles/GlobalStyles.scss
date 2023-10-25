@@ -4,6 +4,7 @@
 :root {
     --primary-color: #F66F4D;
     --second-color: #FAF8ED;
+    --third-color:#2B9BA7;
 }
 
 html {
@@ -13,11 +14,19 @@ html {
 
 body {
     font-family: 'Inter', sans-serif;
-font-family: 'Montserrat', sans-serif;
+    //font-family: 'Montserrat', sans-serif;
     font-size: 1.6rem;
     line-height: 1.5;
     text-rendering: optimizeSpeed;
     margin: 0;
     padding: 0;
    
+}
+
+.font {
+    font-family: 'Inter', sans-serif;
+}
+
+.reset-link {
+    text-decoration: none;
 }

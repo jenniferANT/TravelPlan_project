@@ -162,6 +162,9 @@
     outline: none;
     padding-left: 32px;
 }
+.login-form-btns {
+    
+}
 .login-form-btn {
     background-color:var(--primary-color);
     width: 100px;
@@ -172,7 +175,7 @@
     font-size: 20px;
     justify-content: center;
     align-items: center;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 .login-form-btn:hover {
     cursor: pointer;
@@ -187,4 +190,16 @@
     font-weight: 100;
     text-decoration: none;
     
+}
+
+.to-sign-up {
+    
+}
+.link-log-in {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+.link-log-in:hover {
+    cursor: pointer;
+    opacity: 0.6;
 }

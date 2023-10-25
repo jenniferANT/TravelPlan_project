@@ -97,12 +97,12 @@ function Regis() {
             <h1 className='body-up__sub-text'>Your Travel Planning</h1>
         </div>
         <div className="body-down">
-            <img alt='' className='icon icon-robot' src={iconRobot}></img>
-            <img className='icon icon-mobile' src={iconMobile}></img>
-            <img className='icon icon-drone' src={iconDrone}></img>
-            <img className='icon icon-book' src={iconBook}></img>
-            <img className='icon icon-science' src={iconScience}></img>
-            <img className='icon qr-code' src={qrCode}/>
+            <img alt='icon-robot' className='icon icon-robot' src={iconRobot}></img>
+            <img alt='icon-mobile' className='icon icon-mobile' src={iconMobile}></img>
+            <img alt='icon-drone' className='icon icon-drone' src={iconDrone}></img>
+            <img alt='icon-book' className='icon icon-book' src={iconBook}></img>
+            <img alt='icon-science' className='icon icon-science' src={iconScience}></img>
+            <img alt='qrCode' className='icon qr-code' src={qrCode}/>
             <p className='text-download'>Scan to download app</p>
         </div>
         <div className='body-img__container'>
@@ -131,6 +131,11 @@ function Regis() {
                     <input value={password}  type='password' onChange={(e) => setPassword(e.target.value)} required placeholder='Password:' />
                 </div>
                 <button onClick={handleSubmit} className='regis-form-btn'>Sign up</button>
+                <div className="to-log-in">
+                    <p>Bạn đã có tài khoản?
+                        <Link to='/login' className="link-log-in">Log in</Link>
+                    </p>
+                </div>
             </div>
         </div>
     {/* <Routes>

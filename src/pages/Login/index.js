@@ -1,6 +1,6 @@
 import {iconRobot, iconDrone, iconBook, iconMobile, iconScience, qrCode, earthImg} from "../Regis"
 import { Routes, Route ,Link } from 'react-router-dom'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 import axios from 'axios'
 import './login.scss'
@@ -20,7 +20,7 @@ function Login() {
 
 
 
-  //  const history = useHistory()
+    const navigate = useNavigate()
     const api = axios.create({
         baseURL: 'http://localhost:8081/api/v1'
     });
@@ -44,10 +44,9 @@ function Login() {
         try {
             const response = await api.post('/auth/login', {userName,password});
             if (response.status === 200 && response.data.success) {
-                // Đăng nhập thành công, thực hiện chuyển hướng
-               // history.push('/home'); // Sử dụng history từ react-router-dom để chuyển hướng
+                navigate('/home')
               } else {
-                // Xử lý lỗi đăng nhập
+                alert('eror login');
               }
         }catch (error) {
 
@@ -113,6 +112,11 @@ function Login() {
                     <Link className="reset-pass">Forget password ?</Link>
                 </div>
                 <button onClick={handleSubmit} className='login-form-btn'>Log in </button>
+                <div className="to-sign-up">
+                    <p>Bạn chưa có tài khoản?
+                        <Link to='/regis' className="link-sign-up">Sign up</Link>
+                    </p>
+                </div>
             </div>
         </div>
     {/* <Routes>

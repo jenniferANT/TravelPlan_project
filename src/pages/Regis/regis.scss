@@ -179,3 +179,11 @@
     opacity: 0.8;
 }
 
+.link-sign-up {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+.link-sign-up:hover {
+    cursor: pointer;
+    opacity: 0.6;
+}
