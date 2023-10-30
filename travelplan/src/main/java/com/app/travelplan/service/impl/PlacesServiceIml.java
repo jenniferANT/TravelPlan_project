@@ -45,18 +45,26 @@ public class PlacesServiceIml implements PlacesService {
         Places places = placesRepository.findById(id)
                 .orElseThrow(()->
                         new NotFoundException("Places not found with id " + id));
-        places.getUser().getPlaces().remove(places);
-        placesRepository.delete(places);
+
+        if(places.getUser().getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
+            places.getUser().getPlaces().remove(places);
+            placesRepository.delete(places);
+        }
+        throw new IllegalArgumentException("Delete places not permit");
     }
 
     @Override
     public PlacesDto update(PlacesForm placesForm, long id) {
-        if(placesRepository.existsById(id)) {
-            Places places = toEntity(placesForm);
-            places.setId(id);
-            return PlacesDto.toDto(placesRepository.save(places));
+        Places places = placesRepository.findById(id)
+                .orElseThrow(()->
+                        new NotFoundException("Places not found with id " + id));
+
+        if(places.getUser().getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
+            Places p = toEntity(placesForm);
+            p.setId(id);
+            return PlacesDto.toDto(placesRepository.save(p));
         }
-        throw new NotFoundException("Places not found with id " + id);
+        throw new IllegalArgumentException("Update places not permit");
     }
 
     @Override
@@ -67,6 +75,10 @@ public class PlacesServiceIml implements PlacesService {
     }
 
     private Places toEntity(PlacesForm placesForm) {
+        if(placesForm.getBeginDay().isAfter(placesForm.getEndDay())) {
+            throw new IllegalArgumentException("Begin day must be before end day");
+        }
+
         List<Image> images = new ArrayList<Image>();
 
         List<Long> temp = placesForm.getImageId();

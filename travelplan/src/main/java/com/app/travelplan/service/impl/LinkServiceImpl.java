@@ -5,6 +5,7 @@ import com.app.travelplan.model.entity.Link;
 import com.app.travelplan.model.form.LinkForm;
 import com.app.travelplan.repository.LinkRepository;
 import com.app.travelplan.service.LinkService;
+import com.app.travelplan.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -38,12 +39,17 @@ public class LinkServiceImpl implements LinkService {
 
     @Override
     public LinkDto update(LinkForm linkForm, long id) {
-        if(linkRepository.existsById(id)) {
-            Link link = toEntity(linkForm);
-            link.setId(id);
-            return LinkDto.toDto(linkRepository.save(link));
+
+        Link link = linkRepository.findById(id)
+                .orElseThrow(()->
+                        new NotFoundException("Link not found with id " + id));
+
+        if(link.getPlaces().getUser().getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
+            Link l = toEntity(linkForm);
+            l.setId(id);
+            return LinkDto.toDto(linkRepository.save(l));
         }
-        throw new NotFoundException("Link not found with id " + id);
+        throw new IllegalArgumentException("Update places not permit");
     }
 
     @Override

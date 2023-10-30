@@ -20,6 +20,11 @@ public class UserController {
         return new ResponseEntity(userService.getMyInfor(), HttpStatus.OK);
     }
 
+    @GetMapping("/my-role")
+    public ResponseEntity getMyRole() {
+        return new ResponseEntity(SecurityUtils.getRoleOfPrincipal(), HttpStatus.OK);
+    }
+
     @PutMapping("/avatar")
     public ResponseEntity updateAvatar(@RequestParam("id") Long avatarId) {
         return new ResponseEntity(userService.updateAvatar(avatarId), HttpStatus.OK);

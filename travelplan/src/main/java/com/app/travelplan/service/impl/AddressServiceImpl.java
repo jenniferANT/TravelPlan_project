@@ -9,6 +9,7 @@ import com.app.travelplan.model.form.AddressForm;
 import com.app.travelplan.repository.AddressRepository;
 import com.app.travelplan.repository.LinkRepository;
 import com.app.travelplan.service.AddressService;
+import com.app.travelplan.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -42,12 +43,15 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressDto update(AddressForm addressForm, long id) {
-        if(addressRepository.existsById(id)) {
-            Address address = toEntity(addressForm);
-            address.setId(id);
-            return AddressDto.toDto(addressRepository.save(address));
+        Address address = addressRepository.findById(id)
+                .orElseThrow(()->
+                        new NotFoundException("Link not found with id " + id));
+        if(address.getPlaces().getUser().getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
+            Address a = toEntity(addressForm);
+            a.setId(id);
+            return AddressDto.toDto(addressRepository.save(a));
         }
-        throw new NotFoundException("Link not found with id " + id);
+        throw new IllegalArgumentException("Update link not permit");
     }
 
     @Override
