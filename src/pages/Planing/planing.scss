@@ -1,0 +1,415 @@
+@import "../../Component/GlobalStyles/GlobalStyles.scss";
+
+.planing {
+  background-color: var(--second-color);
+  position: relative;
+}
+.planing-content {
+  overflow: hidden;
+}
+.planing-border-right {
+  border-right: 1px solid #333;
+}
+.planing-option {
+  position: relative;
+}
+.planing-option-heading {
+  font-size: 30px;
+  color: var(--third-color);
+  margin-top: 80px;
+  margin-bottom: 0;
+}
+.planing-option-container {
+  background-color: white;
+  width: 80%;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-left: 60px;
+  border-radius: 30px;
+}
+
+.planing-option-location {
+  width: 70%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #333;
+  border-radius: 30px;
+  position: relative;
+}
+.planing-btn {
+  width: 120px;
+  border: none;
+  background-color: inherit;
+  opacity: 0.7;
+  padding: 1px 0;
+  position: relative;
+  outline: none;
+  border: none;
+}
+.planing-btn:hover {
+  cursor: pointer;
+}
+.option-lable {
+  width: 150px;
+  font-size: 16px;
+}
+.option-location__start {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  font-weight: 500;
+  font-size: 20px;
+  margin-left: 60px;
+}
+
+.option-location__start button:hover {
+  cursor: pointer;
+}
+.option-location__end {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  font-weight: 500;
+  font-size: 20px;
+  margin-left: 40px;
+}
+
+.option-location__end button:hover {
+  cursor: pointer;
+}
+
+.option-location__end-select {
+  outline: none;
+  border: none;
+  appearance: none;
+}
+.option-location__end-select:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.option-date__start {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  font-weight: 500;
+  font-size: 20px;
+  margin-left: 40px;
+}
+.option-date__start button:hover {
+  cursor: pointer;
+}
+
+.option-date__start button:hover {
+  cursor: pointer;
+}
+.option-date__end {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  font-weight: 500;
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.option-date__end button:hover {
+  cursor: pointer;
+}
+
+.planing-img {
+  width: 15px;
+}
+.planing-img-location {
+  position: absolute;
+  top: 53%;
+  left: 22%;
+}
+.planing-img-destination {
+  position: absolute;
+  top: 53%;
+  left: 48%;
+}
+.planing-img-start {
+  position: absolute;
+  top: 53%;
+  left: 74%;
+}
+
+.planing-img-end {
+  position: absolute;
+  top: 54%;
+  left: 97%;
+}
+.planing-option-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%;
+
+  height: 65px;
+}
+.option-people-container,
+.option-price-container,
+.option-trans-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #333;
+  width: 30%;
+  height: 100%;
+  border-radius: 30px;
+}
+.option-people-container img,
+.option-price-container img,
+.option-trans-container img {
+  margin-left: 40px;
+}
+.option-people-container select,
+.option-price-container select,
+.option-trans-container select {
+  margin-left: 10px;
+  border: none;
+  width: 70%;
+  height: 60%;
+  outline: none;
+}
+.option-people-container {
+  border: 1px solid #333;
+}
+.option-price-container {
+  position: relative;
+}
+.option-price-lable {
+  position: absolute;
+  opacity: 0.8;
+  font-size: 10px;
+  left: 70%;
+}
+.option-trans-container {
+}
+.planing-input-box {
+  margin-left: 430px;
+  width: 100%;
+  height: 65px;
+  padding-bottom: 80px;
+}
+.planing-input {
+  height: 100%;
+  border-radius: 30px;
+  width: 70%;
+  border: 1px solid #333;
+}
+
+.planing-img-map {
+  position: absolute;
+  top: 10%;
+  left: 78%;
+}
+.planing-img-earth {
+  position: absolute;
+  top: 58%;
+  left: 86%;
+}
+.planing-search-btn {
+  background-color: var(--primary-color);
+  color: white;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 30px;
+  height: 40px;
+  margin-left: 100px;
+  margin-top: 50px;
+}
+
+.planing-search-btn:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.react-datepicker {
+  width: 200px;
+}
+
+.react-datepicker__month-container {
+  width: 100%;
+}
+.react-datepicker__day {
+  font-size: 12px; /* Điều chỉnh kích thước của số trong bảng chọn ngày */
+}
+
+.react-datepicker__day--outside-month {
+  color: #ccc;
+}
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  font-size: 12px; /* Điều chỉnh kích thước của kí tự ngày và tháng trong bảng chọn ngày */
+}
+
+.react-datepicker__input-container input {
+  caret-color: transparent; /* Ẩn con trỏ */
+  cursor: pointer;
+}
+
+.planing-form {
+  width: 100%;
+  margin: 0 50px;
+  margin: 0;
+}
+.planing-form-heading {
+  color: var(--third-color);
+  margin-left: 100px;
+  width: 180px;
+}
+.planing-form-item {
+  margin: 0 200px;
+}
+.form-choose-content-plan {
+  margin-bottom: 100px;
+}
+
+.form-choose-map__container {
+  padding-top: 10px;
+}
+.form-choose-map__container > img {
+  height: 465px;
+}
+.content-plan-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+}
+.form-choose-content-map__container {
+}
+.content-row-details-activity {
+  display: flex;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 30px;
+  width: 900px;
+  height: 403px;
+  padding: 30px;
+}
+.row-details-activity-items {
+  width: 80%;
+  border-right: 2px dotted #333;
+}
+.row-details-activity-item {
+  display: flex;
+  height: 10%;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.content-row-1,
+.content-plan-startDay,
+.content-plan-startDay-main {
+  width: fit-content;
+}
+.form-choose-content-info {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+}
+.info-price {
+  display: flex;
+  justify-content: center;
+}
+.info-price > img {
+  width: 20px;
+  height: 20px;
+  padding-top: 18px;
+}
+.info-weight {
+  display: flex;
+  justify-content: center;
+}
+.info-weight > img {
+  width: 20px;
+  height: 20px;
+  padding-left: 8px;
+  padding-top: 18px;
+}
+.content-row-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 12px 10px 10px;
+  margin: 10px;
+  border-radius: 50%;
+  color: white;
+  background-color: var(--primary-color);
+  width: 12px;
+  height: 12px;
+}
+.content-plan-day-container {
+  margin-top: 10px;
+  margin-left: 105px;
+  width: fit-content;
+  position: relative;
+  z-index: 2;
+}
+.content-row-day {
+  font-size: 20px;
+  font-weight: 600;
+
+  position: relative;
+  z-index: 10;
+}
+.content-row-1 {
+}
+.content-plan-startDay {
+  margin: 0;
+}
+.content-plan-startDay-main {
+}
+
+.row-btn-container {
+  margin-top: 30px;
+  margin-left: 1000px;
+}
+
+.row-btn-container > button {
+  border: none;
+  font-size: 20px;
+  padding: 0 30px;
+}
+.row-btn-container > button:first-child {
+  background-color: var(--second-color);
+  color: var(--third-color);
+}
+.row-btn-container > button:first-child:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.row-btn-container > button:last-child {
+  
+  justify-content: center;
+  align-items: center;
+  background-color: var(--third-color);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 30px;
+}
+
+.row-btn-container > button:last-child:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+.row-btn-container > button:last-child > img {
+  
+  padding-left: 8px;
+}
+
+
+.content-plan-row-img {
+  position:absolute;
+  top: 50%;
+  left: 20%;
+}
