@@ -4,6 +4,10 @@ import com.app.travelplan.model.dto.ImageDto;
 import com.app.travelplan.model.entity.Image;
 import com.app.travelplan.repository.ImageRepository;
 import com.app.travelplan.utils.ImageUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Encoding;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +27,7 @@ public class ImageController {
         this.imageRepository = imageRepository;
     }
 
-    @PostMapping("/api/v1/image")
+    @PostMapping(value = "/api/v1/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity uploadImage(@RequestParam("image") MultipartFile file)
             throws IOException {
         Image image = imageRepository.save(Image.builder()
@@ -43,15 +47,16 @@ public class ImageController {
     }
 
     @PostMapping("/api/v1/admin/image/clear")
-    public void clearImage() {
+    public ResponseEntity clearImage() {
         List<Image> images = imageRepository.findAll();
         for (Image i :
                 images) {
-            if (i.getUser() != null){
+            if (i.getUser() != null || i.getPlaces() != null){
                 continue;
             }
             imageRepository.delete(i);
         }
+        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
     @GetMapping("/api/v1/admin/image/get-all")

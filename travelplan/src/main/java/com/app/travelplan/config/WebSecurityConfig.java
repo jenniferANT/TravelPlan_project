@@ -45,7 +45,8 @@ public class WebSecurityConfig {
                                         "/api/v1/auth/register" ,
                                         "/error",
                                         "/api/v1/image/get/**",
-                                        "/api/v1/category/**").permitAll()
+                                        "/api/v1/category/**",
+                                        "/api/v1/places/get-all").permitAll()
                                 .requestMatchers("/v3/api-docs/**").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
                                 .requestMatchers("/swagger-resources/**").permitAll()

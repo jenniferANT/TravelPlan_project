@@ -4,7 +4,6 @@ import com.app.travelplan.model.entity.Category;
 import com.app.travelplan.model.entity.Role;
 import com.app.travelplan.model.entity.User;
 import com.app.travelplan.repository.CategoryRepository;
-import com.app.travelplan.repository.ImageRepository;
 import com.app.travelplan.repository.RoleRepository;
 import com.app.travelplan.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -65,4 +64,5 @@ public class AppConfig {
             categoryRepository.save(area);
         }
     }
+
 }

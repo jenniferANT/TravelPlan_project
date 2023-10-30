@@ -34,6 +34,9 @@ public class User extends BaseEntity implements UserDetails {
     @JoinColumn(name = "avatar_id", referencedColumnName = "id")
     private Image avatar;
 
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    private List<Places> places;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.getName()));
