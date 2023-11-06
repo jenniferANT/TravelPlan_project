@@ -1,0 +1,254 @@
+@import '../../GlobalStyles.scss';
+
+
+
+
+.top-destination {
+    margin-top: 200px;
+    
+}
+
+.header-top-destination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.header-top-destination > h2 {
+    color: var(--third-color);
+    font-size: 70px;
+    margin: 0;
+}
+.header-top-destination > p {
+    opacity: 0.4;
+    
+}
+.content-top-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: column;
+   
+}
+
+.destination-btn-item {
+    margin: 0 12px;
+    color: var(--third-color);
+    border: var(--third-color) 1px solid;
+    border-radius: 10px;
+    background-color: var(--second-color);
+    padding: 4px 10px;
+    font-size: 20px;
+}
+
+.destination-btn-item:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.content-top-destination {
+    display: flex;
+    position: relative;
+    background-color: var(--second-color);
+    height: 600px;
+    margin: 52px 140px;
+    
+}
+.destination-item {
+    margin-left: 60px;
+    text-decoration: none;
+
+}
+
+.item0, .item1, .item2, .item3, .item4, .item5, .item6, .item7 {
+    position: absolute;
+    
+}
+.item0 {
+    left: -200%;
+
+}
+.item1 {
+    top: 45%;
+    left: -200%;
+}
+.item2 {
+    left: -120%;
+}
+
+.item3 {
+    left: 40.5%;
+}
+.item4 {
+    left: 40.5%;
+    top: 45%;
+}
+.item5 {
+    left: 95%;
+    top: 45%;
+}
+.item6 {
+    left: 202%;
+
+}
+.item7 {
+    left: 202%;
+    top: 45%;
+}
+.item0 > img {
+    width: 240px;
+    height: 245px;
+}
+.item1 > img {
+    width: 240px;
+    height: 245px;
+}
+.item2 > img {
+    width: 500px;
+    height: 520px;
+}
+.item3 > img {
+    
+    width: 500px;
+    height: 245px;
+}
+.item4 > img {
+    width: 160px;
+    height: 245px;
+}
+.item5 > img {
+    width: 320px;
+    height: 245px;
+}
+.item6 > img {
+    width: 240px;
+    height: 245px;
+}
+.item7 > img {
+    width: 240px;
+    height: 245px;
+}
+.item8 > img {
+    width: 240px;
+    height: 245px;
+}
+
+.item0 > h3 {
+    position: absolute;
+    top: 58%;
+    left: 10%;
+    color: white;
+}
+.item1 > h3 {
+    position: absolute;
+    left: 10%;
+    color: white;
+    top: 60%;
+}
+.item2 > h3 {
+    position: absolute;
+    color: white;
+    top: 75%;
+    left: 6%;
+}
+
+.item3 > h3 {
+    color: white;
+    position: absolute;
+    top: 58%;
+    left: 6%;
+}
+
+.item4 > h3 {
+    color: white;
+    position: absolute;
+    top: 55%;
+    left: 10%;
+}
+
+.item5 > h3 {
+    color: white;
+    position: absolute;
+    top: 55%;
+    left: 6%;
+}
+
+.item6 > h3 {
+    color: white;
+    position: absolute;
+    top: 58%;
+    left: 10%;
+}
+.item7> h3 {
+    color: white;
+    position: absolute;
+    top: 55%;
+    left:10%;
+}
+
+.item0 > p:nth-child(1) {
+    position: absolute;
+    background-color: white;
+    color: black;
+    top: 50%;
+    
+}
+
+.item1 > p:nth-child(1) {
+    position: absolute;
+    background-color: white;
+    color: black;
+    top: 50%;
+    left: 0%;
+}
+
+.top-left-p {
+    position: absolute;
+    top: 5%;
+    left: 10%;
+    margin: 10px;
+    background-color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .item2 > p {
+    top: 2%;
+    left: 6%;
+  }
+
+  .item3 > p {
+    left: 6%;
+  }
+
+  .item4 >p {
+    left: 10%;
+  }
+
+  .item5 > p {
+    left: 6%;
+  }
+  .item6 > p {
+    left: 10%;
+  }
+  .item7 > p {
+    left: 10%;
+  }
+
+.bottom-left-p {
+    position: absolute;
+    bottom: 5%;
+    left: 10%;
+    color: white;
+    margin: 0;
+}
+
+.item2 > p:nth-child(4) {
+    top: 90%;
+}
+
+.item0:hover,.item1:hover,.item2:hover,.item3:hover,.item4:hover,.item5:hover,.item6:hover,.item7:hover   {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
