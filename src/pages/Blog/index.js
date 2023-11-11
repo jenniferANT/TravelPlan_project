@@ -9,6 +9,9 @@ import bangkok from "./img/pic2.png";
 import map from "./img/Map.png";
 import airplane from "./img/Airplane.png";
 import comment from "./img/Frame 12.png"
+
+import PostReview from "../../Component/GlobalStyles/Layout/PostReview";
+
 const blogFav = ["nghi duong", "kham pha", "vui choi"];
 const blogDestinations = [
   {
@@ -379,7 +382,8 @@ function Blog() {
         <img className="map-img" src={map}/>
       </div>
       <div className="comment-container">
-        <img src={comment} className="comment-img"/>
+        <PostReview/>
+        
       </div>
       <Footer />
     </div>

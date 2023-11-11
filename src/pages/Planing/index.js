@@ -34,11 +34,7 @@ function Planing() {
   const [endDate, setEndDate] = useState(currentDate);
 
   //show form planing item
-<<<<<<< HEAD
   const [showForm, setShowForm] = useState(true);
-=======
-  const [showForm, setShowForm] = useState(false);
->>>>>>> 062b74f5846dd7cc9d5c50abb6f0d5a82ccaa7e5
 
   const plans = [
     {
@@ -54,11 +50,8 @@ function Planing() {
 
   function getPostition(position) {
     const { latitude, longitude } = position.coords;
-<<<<<<< HEAD
     console.log(latitude);
     console.log(longitude);
-=======
->>>>>>> 062b74f5846dd7cc9d5c50abb6f0d5a82ccaa7e5
   }
 
   function getLocation() {
@@ -223,13 +216,9 @@ function Planing() {
                           </div>
                           <div className="row-details-activity-item">
                             <p className="content-row-day">Ngày</p>
-<<<<<<< HEAD
                             <div className="content-row-label-container">
                               <label className="content-row-1">1</label>
                             </div>
-=======
-                            <label className="content-row-1">1</label>
->>>>>>> 062b74f5846dd7cc9d5c50abb6f0d5a82ccaa7e5
 
                             <h2 className="content-plan-startDay-main">
                               TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
@@ -242,13 +231,9 @@ function Planing() {
                           </div>
                           <div className="row-details-activity-item">
                             <p className="content-row-day">Ngày</p>
-<<<<<<< HEAD
                             <div className="content-row-label-container">
                               <label className="content-row-1">2</label>
                             </div>
-=======
-                            <label className="content-row-1">1</label>
->>>>>>> 062b74f5846dd7cc9d5c50abb6f0d5a82ccaa7e5
 
                             <h2 className="content-plan-startDay-main">
                               TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
@@ -261,7 +246,6 @@ function Planing() {
                           </div>
                           <div className="row-details-activity-item">
                             <p className="content-row-day">Ngày</p>
-<<<<<<< HEAD
                             <div className="content-row-label-container">
                               <label className="content-row-1">3</label>
                             </div>
@@ -295,9 +279,6 @@ function Planing() {
                             <div className="content-row-label-container">
                               <label className="content-row-1">1</label>
                             </div>
-=======
-                            <label className="content-row-1">1</label>
->>>>>>> 062b74f5846dd7cc9d5c50abb6f0d5a82ccaa7e5
 
                             <h2 className="content-plan-startDay-main">
                               TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
@@ -316,7 +297,6 @@ function Planing() {
                         </div>
                       </div>
                     </div>
-<<<<<<< HEAD
                     <img src={airPlane} className="content-plan-row-img" />
                   </div>
                   <div className="row-btn-container">
@@ -324,14 +304,6 @@ function Planing() {
                     <button>
                       Apply this trip
                       <img src={applyImg} />
-=======
-                    <img src={airPlane} className="content-plan-row-img"/>
-                  </div>
-                  <div className="row-btn-container">
-                    <button>More Detail</button>
-                    <button>Apply this trip
-                      <img src={applyImg}/>
->>>>>>> 062b74f5846dd7cc9d5c50abb6f0d5a82ccaa7e5
                     </button>
                   </div>
                 </div>
@@ -363,11 +335,7 @@ function Planing() {
                           </div>
                           <div className="row-details-activity-item">
                             <p className="content-row-day">Ngày</p>
-<<<<<<< HEAD
                             <label className="content-row-1">2</label>
-=======
-                            <label className="content-row-1">1</label>
->>>>>>> 062b74f5846dd7cc9d5c50abb6f0d5a82ccaa7e5
 
                             <h2 className="content-plan-startDay-main">
                               TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
@@ -380,11 +348,7 @@ function Planing() {
                           </div>
                           <div className="row-details-activity-item">
                             <p className="content-row-day">Ngày</p>
-<<<<<<< HEAD
                             <label className="content-row-1">3</label>
-=======
-                            <label className="content-row-1">1</label>
->>>>>>> 062b74f5846dd7cc9d5c50abb6f0d5a82ccaa7e5
 
                             <h2 className="content-plan-startDay-main">
                               TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
@@ -403,22 +367,13 @@ function Planing() {
                         </div>
                       </div>
                     </div>
-<<<<<<< HEAD
                     <img src={airPlane} className="content-plan-row-img" />
                   </div>
                   <div className="row-btn-container">
-                    <Link to="/planing-detail">More Detail</Link>
+                    <Link className="row-btn-link" to="/planing-detail">More Detail</Link>
                     <button>
                       Apply this trip
                       <img src={applyImg} />
-=======
-                    <img src={airPlane} className="content-plan-row-img"/>
-                  </div>
-                  <div className="row-btn-container">
-                    <button>More Detail</button>
-                    <button>Apply this trip
-                      <img src={applyImg}/>
->>>>>>> 062b74f5846dd7cc9d5c50abb6f0d5a82ccaa7e5
                     </button>
                   </div>
                 </div>
