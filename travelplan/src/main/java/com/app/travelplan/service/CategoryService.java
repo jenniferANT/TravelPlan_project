@@ -14,4 +14,6 @@ public interface CategoryService {
     List<CategoryDto> getAll();
     List<CategoryDto> getAllByCategoryId(long id);
     List<CategoryDto> getAllByCategoryName(String name);
+
+    CategoryDto updateName(long id, String name);
 }

@@ -18,6 +18,7 @@ public class AddressDto {
     private String addressString;
     private String addressLinkMap;
     private String addressPlusCode;
+    private String embeddedAddress;
     protected LocalDateTime createdAt;
     protected LocalDateTime updatedAt;
 
@@ -31,6 +32,7 @@ public class AddressDto {
                 .addressPlusCode(address.getAddressPlusCode())
                 .createdAt(address.getCreatedAt())
                 .updatedAt(address.getUpdatedAt())
+                .embeddedAddress(address.getEmbeddedAddress())
                 .build();
     }
 }

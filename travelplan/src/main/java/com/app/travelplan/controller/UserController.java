@@ -25,13 +25,13 @@ public class UserController {
         return new ResponseEntity(SecurityUtils.getRoleOfPrincipal(), HttpStatus.OK);
     }
 
-    @PutMapping("/avatar")
+    @PatchMapping("/avatar")
     public ResponseEntity updateAvatar(@RequestParam("id") Long avatarId) {
         return new ResponseEntity(userService.updateAvatar(avatarId), HttpStatus.OK);
     }
 
-    @PutMapping("/name")
-    public ResponseEntity updateAvatar(@RequestParam("name") String name) {
+    @PatchMapping("/name")
+    public ResponseEntity updateName(@RequestParam("name") String name) {
         return new ResponseEntity(userService.updateName(name), HttpStatus.OK);
     }
 

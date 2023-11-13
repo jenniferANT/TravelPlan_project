@@ -30,9 +30,11 @@ public class Image extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
-
     @ManyToOne
     private Places places;
+    @ManyToOne
+    private Review review;
+
 
     public String getUrlImage() {
         return AppUtils.getBaseUrl() + "/api/v1/image/get/" + this.id;

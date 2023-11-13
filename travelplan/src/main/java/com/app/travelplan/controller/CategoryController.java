@@ -21,6 +21,11 @@ public class CategoryController {
         return new ResponseEntity(categoryService.save(categoryForm), HttpStatus.OK);
     }
 
+    @PutMapping("/api/v1/admin/category/{id}")
+    public ResponseEntity updateName(@PathVariable("id") long id,@RequestParam String name) {
+        return new ResponseEntity(categoryService.updateName(id, name), HttpStatus.OK);
+    }
+
     @GetMapping("/api/v1/category/name")
     public ResponseEntity getByName(@RequestParam("name") String name) {
         return new ResponseEntity(categoryService.getByName(name), HttpStatus.OK);

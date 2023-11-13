@@ -4,13 +4,16 @@ import com.app.travelplan.model.dto.PlacesDto;
 import com.app.travelplan.model.entity.*;
 import com.app.travelplan.model.form.PlacesForm;
 import com.app.travelplan.repository.*;
+import com.app.travelplan.service.GeneralService;
 import com.app.travelplan.service.PlacesService;
 import com.app.travelplan.utils.SecurityUtils;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,10 +27,14 @@ public class PlacesServiceIml implements PlacesService {
     private final PlacesRepository placesRepository;
     private final AddressRepository addressRepository;
     private final LinkRepository linkRepository;
+    private final FollowRepository followRepository;
+
+    private final GeneralService generalService;
 
     @Override
     public PlacesDto save(PlacesForm placesForm) {
         Places places = toEntity(placesForm);
+
         places.getUser().getPlaces().add(places);
         return PlacesDto.toDto(placesRepository.save(places));
     }
@@ -49,6 +56,7 @@ public class PlacesServiceIml implements PlacesService {
         if(places.getUser().getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
             places.getUser().getPlaces().remove(places);
             placesRepository.delete(places);
+            return;
         }
         throw new IllegalArgumentException("Delete places not permit");
     }
@@ -74,31 +82,35 @@ public class PlacesServiceIml implements PlacesService {
                         new NotFoundException("Places not found with id " + id)));
     }
 
+    @Override
+    public List<PlacesDto> getMyFollow() {
+        Follow follow = followRepository.findByUser_Username(SecurityUtils.getUsernameOfPrincipal())
+                .orElseThrow(()->
+                        new NotFoundException("Follow not found with username " + SecurityUtils.getUsernameOfPrincipal()));
+        return follow.getPlaces()
+                .stream()
+                .map(PlacesDto::toDto)
+                .collect(Collectors.toList());
+    }
+
     private Places toEntity(PlacesForm placesForm) {
         if(placesForm.getBeginDay().isAfter(placesForm.getEndDay())) {
             throw new IllegalArgumentException("Begin day must be before end day");
         }
-
-        List<Image> images = new ArrayList<Image>();
-
-        List<Long> temp = placesForm.getImageId();
-        for (long i : temp) {
-            images.add(
-                    imageRepository.findById(i)
-                            .orElseThrow(()->
-                                    new NotFoundException("Image not fount with id "+i))
-            );
+        List<Image> images = generalService.getAllImageByArrayId(placesForm.getImageId());
+        List<Category> categories = generalService.getAllCategoryByArrayId(placesForm.getCategoryId());
+        //du lịch lớn hơn 4tr/ng:
+        String s = "";
+        if(placesForm.getCost().compareTo(BigDecimal.valueOf(500000)) >= 0) {
+            s="Cao cấp";
+        } else if(placesForm.getCost().compareTo(BigDecimal.valueOf(150000)) >= 0) {
+            s="Cao";
+        } else if(placesForm.getCost().compareTo(BigDecimal.valueOf(50000)) >= 0) {
+            s="Vừa";
+        } else {
+            s="Bình dân";
         }
-
-        List<Category> categories = new ArrayList<Category>();
-        temp = placesForm.getCategoryId();
-        for (long i : temp) {
-            categories.add(
-                    categoryRepository.findById(i)
-                            .orElseThrow(()->
-                                    new NotFoundException("Category not fount with id "+i))
-            );
-        }
+        categories.add(categoryRepository.findByName(s).get());
 
         User user = userRepository.findByUsername(SecurityUtils.getUsernameOfPrincipal())
                 .orElseThrow(()->
@@ -117,10 +129,13 @@ public class PlacesServiceIml implements PlacesService {
                 .phoneNumber(placesForm.getPhoneNumber())
                 .cost(placesForm.getCost())
                 .point(0)
+                .description(placesForm.getDescription())
+                .timePlaces(placesForm.getTimePlaces())
                 .user(user)
                 .categories(categories)
                 .images(images)
                 .link(link)
+                .timePlaces(placesForm.getTimePlaces())
                 .address(address)
                 .isFull(placesForm.isFull())
                 .beginDay(placesForm.getBeginDay())
@@ -131,4 +146,5 @@ public class PlacesServiceIml implements PlacesService {
 
         return places;
     }
+
 }

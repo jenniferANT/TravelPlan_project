@@ -11,8 +11,8 @@ spring:
   jpa:
     generate-ddl: true
     hibernate:
-      dll-auto: update
-    show-sql: true
+      ddl-auto: update
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -31,4 +31,3 @@ app:
       auth-header: "Authorization"
       access-secret: access
       refresh-secret: refresh
-

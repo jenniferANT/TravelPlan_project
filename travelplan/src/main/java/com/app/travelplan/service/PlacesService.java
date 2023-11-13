@@ -11,4 +11,5 @@ public interface PlacesService {
     void deleteById(long id);
     PlacesDto update(PlacesForm placesForm, long id);
     PlacesDto getById(long id);
+    List<PlacesDto> getMyFollow();
 }

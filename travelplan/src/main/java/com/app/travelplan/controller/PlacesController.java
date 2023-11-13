@@ -38,4 +38,9 @@ public class PlacesController {
         placesService.deleteById(id);
         return new ResponseEntity("Success", HttpStatus.OK);
     }
+
+    @GetMapping("/api/v1/places/my-follow")
+    public ResponseEntity getMyFollow() {
+        return new ResponseEntity(placesService.getMyFollow(), HttpStatus.OK);
+    }
 }

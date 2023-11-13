@@ -27,11 +27,14 @@ public class Address extends BaseEntity{
     @Column(name = "address_string")
     private String addressString;
 
-    @Column(name = "address_link_map")
+    @Column(name = "address_link_map", length = 2048)
     private String addressLinkMap;
 
-    @Column(name = "address_plus_code")
+    @Column(name = "address_plus_code", length = 2048)
     private String addressPlusCode;
+
+    @Column(name = "embedded_address", length = 2048)
+    private String embeddedAddress;
 
     @OneToOne(mappedBy = "address")
     private Places places;

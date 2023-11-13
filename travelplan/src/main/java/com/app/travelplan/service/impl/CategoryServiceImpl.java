@@ -109,4 +109,13 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(CategoryDto::toDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public CategoryDto updateName(long id, String name) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(()->
+                        new NotFoundException("Category not found with id " + id));
+        category.setName(name);
+        return CategoryDto.toDto(categoryRepository.save(category));
+    }
 }

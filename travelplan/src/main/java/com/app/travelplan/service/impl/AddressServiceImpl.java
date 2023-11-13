@@ -10,6 +10,7 @@ import com.app.travelplan.repository.AddressRepository;
 import com.app.travelplan.repository.LinkRepository;
 import com.app.travelplan.service.AddressService;
 import com.app.travelplan.utils.SecurityUtils;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -68,6 +69,7 @@ public class AddressServiceImpl implements AddressService {
                 .addressString(addressForm.getAddressString())
                 .addressLinkMap(addressForm.getAddressLinkMap())
                 .addressPlusCode(addressForm.getAddressPlusCode())
+                .embeddedAddress(addressForm.getEmbeddedAddress())
                 .build();
     }
 }

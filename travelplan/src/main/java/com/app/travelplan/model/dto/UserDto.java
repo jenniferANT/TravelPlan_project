@@ -13,7 +13,7 @@ public class UserDto {
     private String username;
     private String role;
     private String name;
-    private String avatar; //image
+    private String avatar; // image
     private String email;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -25,7 +25,7 @@ public class UserDto {
                 .username(user.getUsername())
                 .role(user.getRole().getName())
                 .name(user.getName())
-                .avatar(user.getAvatar()==null
+                .avatar(user.getAvatar() == null
                         ? "https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcTmMSk4EUfCgAqlsjDNmFpgRYSfv7Ms_hubGzPvdLwpzNw3cS_fZX-IiLZHXwPCwTFc"
                         : user.getAvatar().getUrlImage())
                 .email(user.getEmail())

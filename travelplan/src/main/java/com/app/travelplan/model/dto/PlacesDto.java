@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class PlacesDto {
     private long id;
     private String title;
+    private String description;
     private String phoneNumber;
     private float point;
     private String[] imageUrl;
@@ -26,6 +27,7 @@ public class PlacesDto {
     private LinkDto link;
     private UserDto user;
     private boolean isFull;
+    private long timePlaces;
     private LocalTime beginDay;
     private LocalTime endDay;
 
@@ -45,11 +47,13 @@ public class PlacesDto {
         return PlacesDto.builder()
                 .id(places.getId())
                 .title(places.getTitle())
+                .description(places.getDescription())
                 .phoneNumber(places.getPhoneNumber())
                 .point(places.getPoint())
                 .imageUrl(imageUrl)
                 .cost(places.getCost())
-                //.count()
+                .timePlaces(places.getTimePlaces())
+                .count(places.getReviews()!=null ? places.getReviews().size() : 0)
                 .addressDto(AddressDto.toDto(places.getAddress()))
                 .category(places.getCategories()
                         .stream()

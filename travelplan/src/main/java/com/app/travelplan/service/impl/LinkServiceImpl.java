@@ -6,6 +6,7 @@ import com.app.travelplan.model.form.LinkForm;
 import com.app.travelplan.repository.LinkRepository;
 import com.app.travelplan.service.LinkService;
 import com.app.travelplan.utils.SecurityUtils;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
