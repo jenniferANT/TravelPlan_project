@@ -1,0 +1,81 @@
+@import "/src/Component/GlobalStyles/GlobalStyles.scss";
+.User {
+    background-color: var(--second-color);
+    min-height: 1200px;
+    max-width: 2000px;
+}
+
+.user-app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.user-app-profile {
+    background-color: white;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    width: 50%;
+    height: 250px;
+    border-radius: 30px;
+    padding: 60px;
+    display: flex;
+    justify-content: space-between;
+   position: relative;
+    .user-app-profile-info {
+        display: flex;
+        justify-content: space-around;
+        .user-app-profile-avt {
+            width: 150px;
+            height: 150px;
+            margin-right: 40px;
+            img{
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+            }
+        }
+        .user-app-profile-name {
+            .profile-name__full {
+                font-size: 26px;
+                margin:20px 0 0 0;
+                color: black;
+            }
+            .profile-name__nick {
+                font-size: 14px;
+                color: black;
+            }
+        }
+        .user-app-profile-icon {
+            position: relative;
+            
+        }
+    }
+    
+}
+.profile-icon1 {
+    position: absolute;
+    top: 70%;
+    left: 20%;
+}
+.profile-icon2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+.profile-icon3 {
+    position: absolute;
+    top: 60%;
+    left: 80%;
+}
+
+
+.user-app-blog {
+    width: 50%;
+    min-height: 500px;
+    padding: 60px;
+    margin-right: 120px;
+}
+
+
+
