@@ -2,6 +2,7 @@ package com.app.travelplan.model.dto;
 
 import com.app.travelplan.model.entity.Address;
 import com.app.travelplan.model.entity.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,9 @@ public class AddressDto {
     private String addressLinkMap;
     private String addressPlusCode;
     private String embeddedAddress;
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
     protected LocalDateTime createdAt;
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
     protected LocalDateTime updatedAt;
 
     public static AddressDto toDto(Address address) {

@@ -34,12 +34,15 @@ public class PlanServiceImpl implements PlanService {
     private final UserRepository userRepository;
     private final PlanRepository planRepository;
     private final ShareRepository shareRepository;
+    private final CartRepository cartRepository;
 
     @Override
     public String delete(long id) {
         Plan plan = planRepository.findById(id)
                 .orElseThrow(() ->
                         new IllegalArgumentException("Plan not found with id " + id));
+
+        //TODO: xóa plan trong cart
 
         shareRepository.deleteAllByPlan(plan);
         planRepository.deleteById(id);
@@ -372,7 +375,7 @@ public class PlanServiceImpl implements PlanService {
                 .longitude(planForm.getLocationLongitude())
                 .build());
         plan.setDestination(planForm.getDestination());
-        plan.setBeginDate(newBeginDate);
+        plan.setBeginDate(planForm.getBeginDate());
         plan.setEndDate(newEndDate);
         plan.setNumberPeople(planForm.getNumberPeople());
         plan.setDistance(distance);

@@ -1,5 +1,6 @@
 package com.app.travelplan.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class PlanItem extends BaseEntity{
     private Long id;
     @Column(length = 2048)
     private String imageUrl;
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
     private LocalDateTime startTime;
     private String title;
     @Column(length = 2048)

@@ -2,6 +2,7 @@ package com.app.travelplan.model.dto;
 
 import com.app.travelplan.model.entity.Image;
 import com.app.travelplan.model.entity.Places;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Data;
@@ -32,10 +33,14 @@ public class PlacesDto {
     private long minTimePlaces; //thời gian trung bình dành cho địa điểm này
     private long maxTimePlaces; //thời gian trung bình dành cho địa điểm này
 
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime beginDay;
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime endDay;
 
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
     private LocalDateTime createdAt;
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
     private LocalDateTime updatedAt;
 
     public static PlacesDto toDto(Places places) {

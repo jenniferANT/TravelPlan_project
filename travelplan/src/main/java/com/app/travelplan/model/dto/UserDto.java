@@ -1,6 +1,7 @@
 package com.app.travelplan.model.dto;
 
 import com.app.travelplan.model.entity.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,7 +16,9 @@ public class UserDto {
     private String name;
     private String avatar; // image
     private String email;
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
     private LocalDateTime createdAt;
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
     private LocalDateTime updatedAt;
 
     public static UserDto toDto(User user) {

@@ -1,8 +1,11 @@
 package com.app.travelplan.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class ErrorDetails {
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
     private Date timestamp;
     private int status;
     private String error;

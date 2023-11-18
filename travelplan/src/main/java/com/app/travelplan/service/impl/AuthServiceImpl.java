@@ -32,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
     public AuthDto login(LoginForm form) {
         User user = userRepository.findByUsername(form.getUsername())
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Username not found"));
+                        new IllegalArgumentException("Username not found with username " + form.getUsername()));
         if(!passwordEncoder.matches(form.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Password valid");
         }

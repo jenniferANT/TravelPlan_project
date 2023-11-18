@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class ReviewController {
     private final ReviewService reviewService;
 

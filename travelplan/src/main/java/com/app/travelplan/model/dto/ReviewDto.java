@@ -2,6 +2,7 @@ package com.app.travelplan.model.dto;
 
 import com.app.travelplan.model.entity.Image;
 import com.app.travelplan.model.entity.Review;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,7 +18,9 @@ public class ReviewDto {
     private String[] imageUrl;
     private long placeId;
     private UserDto userDto;
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
     private LocalDateTime createdAt;
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
     private LocalDateTime updatedAt;
 
     public static ReviewDto toDto(Review review) {

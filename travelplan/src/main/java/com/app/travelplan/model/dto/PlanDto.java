@@ -1,6 +1,7 @@
 package com.app.travelplan.model.dto;
 
 import com.app.travelplan.model.entity.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,7 +19,9 @@ public class PlanDto {
     private String title;
     private AddressDto location;
     private String destination;
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
     private LocalDateTime beginDate;
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
     private LocalDateTime endDate;
     private int numberPeople;
 
@@ -33,6 +36,11 @@ public class PlanDto {
     private UserDto user;
     private List<CategoryDto> categories;
     private Vehicle vehicle;
+
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
+    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
+    private LocalDateTime updatedAt;
 
     public static PlanDto toDto(Plan plan) {
         List<PlanItem> planItems1 = plan.getPlanItems();
@@ -59,6 +67,8 @@ public class PlanDto {
                         .map(CategoryDto::toDto)
                         .collect(Collectors.toList()))
                 .vehicle(plan.getVehicle())
+                .createdAt(plan.getCreatedAt())
+                .updatedAt(plan.getUpdatedAt())
                 .build();
     }
 }

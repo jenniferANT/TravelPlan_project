@@ -30,6 +30,9 @@ public class Category extends BaseEntity{
     @OneToMany(fetch = FetchType.EAGER)
     private List<Category> categories;
 
+    @Column(name = "image_category")
+    private String imageCategory;
+
     public Category(long l, String area, Category o) {
         super();
         this.id = l;

@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api/v1/auth")
+@CrossOrigin("*")
 public class AuthController {
     private final AuthService authService;
 
@@ -19,17 +19,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginForm form){
+    public ResponseEntity login(@RequestBody LoginForm form) {
         return new ResponseEntity(authService.login(form), HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity login(@RequestBody RegisterForm form){
+    public ResponseEntity login(@RequestBody RegisterForm form) {
         return new ResponseEntity(authService.register(form), HttpStatus.OK);
     }
 
     @GetMapping("/refresh")
-    public ResponseEntity refreshToken(@RequestHeader("X-Refresh-Token") String refreshToken){
+    public ResponseEntity refreshToken(@RequestHeader("X-Refresh-Token") String refreshToken) {
         return new ResponseEntity(authService.refreshJWT(refreshToken), HttpStatus.OK);
     }
 }
