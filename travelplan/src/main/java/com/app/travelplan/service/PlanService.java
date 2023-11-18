@@ -9,7 +9,7 @@ import java.util.List;
 public interface PlanService {
     PlanDto generatePlan(PlanForm planForm);
 
-    void delete(long id);
+    String delete(long id);
 
     //lấy lịch sử
     List<PlanDto> getAllHistory();

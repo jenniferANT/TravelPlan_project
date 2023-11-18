@@ -34,8 +34,11 @@ public class Places extends BaseEntity {  //chọn giờ mở cửa
     private LocalTime beginDay; //giờ mở cửa
     @Column(name = "end_day", nullable = true)
     private LocalTime endDay; //giờ đóng cửa
-    @Column(name = "time_places")
-    private long timePlaces; //thời gian trung bình dành cho địa điểm này
+
+    @Column(name = "min_time_places")
+    private long minTimePlaces; //thời gian trung bình dành cho địa điểm này
+    @Column(name = "max_time_places")
+    private long maxTimePlaces; //thời gian trung bình dành cho địa điểm này
 
     @Transient
     private int value; //dùng cho logic sau này

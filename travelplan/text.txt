@@ -1,0 +1,439 @@
+package com.app.travelplan.config;
+
+import com.app.travelplan.model.entity.Category;
+import com.app.travelplan.model.entity.Role;
+import com.app.travelplan.model.entity.User;
+import com.app.travelplan.model.form.AddressForm;
+import com.app.travelplan.model.form.LinkForm;
+import com.app.travelplan.model.form.PlacesForm;
+import com.app.travelplan.repository.CategoryRepository;
+import com.app.travelplan.repository.RoleRepository;
+import com.app.travelplan.repository.UserRepository;
+import com.app.travelplan.service.AddressService;
+import com.app.travelplan.service.LinkService;
+import com.app.travelplan.service.PlacesService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.time.LocalTime;
+import java.util.List;
+
+@Component
+@RequiredArgsConstructor
+public class AppConfig implements ApplicationRunner {
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CategoryRepository categoryRepository;
+    private final AddressService addressService;
+    private final LinkService linkService;
+    private final PlacesService placesService;
+
+    @Override
+    public void run(ApplicationArguments args) {
+        var userRole = Role.builder()
+                .id(1l)
+                .name("ROLE_USER" )
+                .build();
+        var adminRole = Role.builder()
+                .id(2l)
+                .name("ROLE_ADMIN" )
+                .build();
+        roleRepository.saveAll(List.of(userRole, adminRole));
+
+        var admin = User.builder()
+                .id(1l)
+                .name("Admin" )
+                .username("admin" )
+                .password(passwordEncoder.encode("admin" ))
+                .email("admin@gmail.com" )
+                .role(roleRepository.findByName("ROLE_ADMIN" ).get())
+                .build();
+        userRepository.save(admin);
+
+//44 - 52 
+
+        //category
+        Category like = new Category(1L, "like", null);
+        long llike = categoryRepository.save(like).getId();
+        Category area = new Category(2L, "area", null);
+        long larea = categoryRepository.save(area).getId();
+        Category var = new Category(13L, "Khám phá", like);
+        long lvar = categoryRepository.save(var).getId();
+        Category var1 = new Category(14L, "Trải nghiệm", like);
+        long lvar1 = categoryRepository.save(var1).getId();
+        Category var2 = new Category(15L, "Thư giãn", like);
+        long lvar2 = categoryRepository.save(var2).getId();
+        Category var4 = new Category(17L, "Mạo hiểm", like);
+        long lvar4 = categoryRepository.save(var4).getId();
+        Category var5 = new Category(18L, "Leo núi", like);
+        long lvar5 = categoryRepository.save(var5).getId();
+        Category var6 = new Category(19L, "Bãi biển", like);
+        long lvar6 = categoryRepository.save(var6).getId();
+        Category var7 = new Category(20L, "Thiên nhiên", like);
+        long lvar7 = categoryRepository.save(var7).getId();
+        Category var8 = new Category(21L, "Tín ngưỡng", like);
+        long lvar8 = categoryRepository.save(var8).getId();
+        Category var9 = new Category(22L, "Bảo tàng", like);
+        long lvar9 = categoryRepository.save(var9).getId();
+        Category var10 = new Category(23L, "Sang trọng", like);
+        long lvar10 = categoryRepository.save(var10).getId();
+        Category var11 = new Category(24L, "Cổ kính", like);
+        long lvar11 = categoryRepository.save(var11).getId();
+        Category var12 = new Category(55L, "Lịch sử", like);
+
+        long lvar12 = categoryRepository.save(var12).getId();
+        Category var13 = new Category(25L, "Tiết kiệm", null);
+        long lvar13 = categoryRepository.save(var13).getId();
+        Category var14 = new Category(26L, "Bình dân", null);
+        long lvar14 = categoryRepository.save(var14).getId();
+        Category var15 = new Category(27L, "Vừa", null);
+        long lvar15 = categoryRepository.save(var15).getId();
+        Category var16 = new Category(28L, "Cao", null);
+        long lvar16 = categoryRepository.save(var16).getId();
+        Category var17 = new Category(29L, "Cao cấp", null);
+
+        long lvar17 = categoryRepository.save(var17).getId();
+        Category var18 = new Category(3L, "Ẩm thực", like);
+        long lvar18 = categoryRepository.save(var18).getId();
+        Category var19 = new Category(4L, "Quán ăn", var18);
+        long lvar19 = categoryRepository.save(var19).getId();
+        Category var20 = new Category(30L, "Cơm", var19);
+        long lvar20 = categoryRepository.save(var20).getId();
+        Category var21 = new Category(31L, "Cơm tấm", var19);
+        long lvar21 = categoryRepository.save(var21).getId();
+        Category var22 = new Category(32L, "Cơm gà", var19);
+        long lvar22 = categoryRepository.save(var22).getId();
+        Category var23 = new Category(33L, "Cơm chọn món", var19);
+        long lvar23 = categoryRepository.save(var23).getId();
+        Category var24 = new Category(34L, "Lẩu", var19);
+        long lvar24 = categoryRepository.save(var24).getId();
+        Category var25 = new Category(35L, "Lẩu bò", var19);
+        long lvar25 = categoryRepository.save(var25).getId();
+        Category var26 = new Category(36L, "Lẩu dê", var19);
+        long lvar26 = categoryRepository.save(var26).getId();
+        Category var27 = new Category(37L, "Lẩu gà", var19);
+        long lvar27 = categoryRepository.save(var27).getId();
+        Category var28 = new Category(38L, "Chay", var19);
+        long lvar28 = categoryRepository.save(var28).getId();
+        Category var29 = new Category(39L, "Bún", var19);
+        long lvar29 = categoryRepository.save(var29).getId();
+        Category var30 = new Category(40L, "Phở", var19);
+        long lvar30 = categoryRepository.save(var30).getId();
+        Category var31 = new Category(42L, "Hủ tiếu", var19);
+        long lvar31 = categoryRepository.save(var31).getId();
+        Category var32 = new Category(43L, "Bánh canh", var19);
+        long lvar32 = categoryRepository.save(var32).getId();
+        Category var33 = new Category(44L, "Hải sản", var19);
+        long lvar33 = categoryRepository.save(var33).getId();
+        Category var34 = new Category(45L, "Lẩu hải sản", var19);
+        long lvar34 = categoryRepository.save(var34).getId();
+        Category var35 = new Category(51L, "Quán nướng", var19);
+        long lvar35 = categoryRepository.save(var35).getId();
+        Category var36 = new Category(53L, "Nhà hàng", var19);
+        long lvar36 = categoryRepository.save(var36).getId();
+        Category var37 = new Category(54L, "Quán bánh", var19);
+
+        long lvar37 = categoryRepository.save(var37).getId();
+        Category var38 = new Category(5L, "Quán nước", var18);
+        long lvar38 = categoryRepository.save(var38).getId();
+        Category var39 = new Category(46L, "Cà phê", var38);
+        long lvar39 = categoryRepository.save(var39).getId();
+        Category var40 = new Category(47L, "Trà sữa", var38);
+        long lvar40 = categoryRepository.save(var40).getId();
+        Category var41 = new Category(48L, "Trà đá", var38);
+        long lvar41 = categoryRepository.save(var41).getId();
+        Category var42 = new Category(49L, "Chè", var38);
+        long lvar42 = categoryRepository.save(var42).getId();
+        Category var43 = new Category(50L, "Sinh tố", var38);
+        long lvar43 = categoryRepository.save(var43).getId();
+        Category var44 = new Category(52L, "Kem", var38);
+        long lvar44 = categoryRepository.save(var44).getId();
+        Category var45 = new Category(2L, "area", null);
+        long lvar45 = categoryRepository.save(var45).getId();
+        Category var46 = new Category(6L, "TP Hồ Chí Minh", area);
+        long lvar46 = categoryRepository.save(var46).getId();
+        Category var47 = new Category(7L, "Vũng Tàu", area);
+        long lvar47 = categoryRepository.save(var47).getId();
+        Category var48 = new Category(8L, "Đà Lạt", area);
+        long lvar48 = categoryRepository.save(var48).getId();
+        Category var49 = new Category(9L, "Huế", area);
+        long lvar49 = categoryRepository.save(var49).getId();
+        Category var50 = new Category(10L, "Đà Nẵng", area);
+        long lvar50 = categoryRepository.save(var50).getId();
+        Category var51 = new Category(11L, "Vịnh Hạ Long", area);
+        long lvar51 = categoryRepository.save(var51).getId();
+        Category var52 = new Category(12L, "Hà Nội", area);
+        long lvar52 = categoryRepository.save(var52).getId();
+
+        //80 place
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+        linkService.save(new LinkForm("Travel Plan", "travelplan.com" ));
+
+
+        //place play
+        //Mũi Nghinh Phong
+        addressService.save(new AddressForm(0, 0, "Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/4JkgkAhUp77wRwmb7", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1774.4146363029035!2d107.0823501575645!3d10.322124305079603!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756544a05a779d%3A0x8be1eab135ba4174!2sMui%20Nghinh%20Phong!5e0!3m2!1svi!2s!4v1699761060139!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Tượng Chúa Giêsu Kitô Vua
+        addressService.save(new AddressForm(0, 0, "01, Bà Rịa, Vũng Tàu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/8EFQjnDQZ1YxWF8s8", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15700.770565068155!2d107.07423475033224!3d10.32646294698442!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175655b99e2ee9f%3A0x43bb3d544ec80b01!2zVMaw4bujbmcgxJHDoGkgQ2jDumEgS2l0w7Q!5e0!3m2!1svi!2s!4v1699761138530!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Đồi Cừu Suối Nghệ
+        addressService.save(new AddressForm(0, 0, "249 Đường số 14, Suối Nghệ, Châu Đức, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/838st7UyPZU7H6Hi7", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31374.380383552678!2d107.19723096919085!3d10.59499598260942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317509e526a5f8f9%3A0x9216f3017d2b032f!2zxJDhu5NpIEPhu6t1IFN14buRaSBOZ2jhu4c!5e0!3m2!1svi!2s!4v1699761288340!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        // Bãi trước Vũng Tàu
+        addressService.save(new AddressForm(0, 0, "Vũng Tàu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/DP9oabv4y77PLs1WA", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15699.92239632143!2d107.06383090033474!3d10.343436145587418!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f8e1b01b871%3A0x1d67823392eb0d91!2zQsOjaSBUcsaw4bubYw!5e0!3m2!1svi!2s!4v1699761361262!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Đồi con heo
+        addressService.save(new AddressForm(0, 0, "83HP+2G Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/5c2hT7X8TpARfneA8", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.1792610482207!2d107.08636759999999!3d10.327534799999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317565d2fb839c0d%3A0xbcb13a18114925fd!2zxJDhu5NpIENvbiBIZW8!5e0!3m2!1svi!2s!4v1699761414748!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Hồ Đá Xanh
+        addressService.save(new AddressForm(0, 0, "G45W+FV5, Unnamed Road, Tân Thành, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/mBHbtbBSTk9LYK4u7", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3922.898722789623!2d107.14722409999999!3d10.5086427!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31750d5a4a7c558b%3A0xb148b65dbf38d6f!2zSOG7kyDEkMOhIFhhbmggQsOgIFLhu4th!5e0!3m2!1svi!2s!4v1699761867591!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Bãi tắm sau Vũng Tàu
+        addressService.save(new AddressForm(0, 0, "Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/QTcRQFc3LUeLGXuz7", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15699.824374086978!2d107.10001344999999!3d10.345395949999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756fe297e51efd%3A0xbb3c2fb0da0c83bf!2zQsOjaSBTYXU!5e0!3m2!1svi!2s!4v1699761758017!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Ngọn Hải Đăng Vũng Tàu
+        addressService.save(new AddressForm(0, 0, "01, Phường 2, Bà Rịa, Việt Nam", "https://maps.app.goo.gl/FJwWEnF3YSe4PiF6A", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.0975370587066!2d107.0776647!3d10.334079100000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756552a003a9b9%3A0x32769656e2f73fb9!2zSOG6o2kgxJDEg25nIFbFqW5nIFTDoHU!5e0!3m2!1svi!2s!4v1699761971330!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Zenna Pool Camp
+        addressService.save(new AddressForm(0, 0, "C53Q+5HW, Phước Tỉnh, Long Điền, Bà Rịa - Vũng Tàu 78000, Việt Nam", "https://maps.app.goo.gl/jtaL12UWs7fEDTS46", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.2260107489215!2d107.1889971!3d10.403616000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175714e119aa1b1%3A0xfa8b33a47a4d4821!2sPi%20glamping!5e0!3m2!1svi!2s!4v1699762051033!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //hòn bà
+        addressService.save(new AddressForm(0, 0, "Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/iaqnPiyp2W3S7mpb8", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1004857.0684576102!2d106.52889246562499!3d10.324036699999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175655aa7530835%3A0x243ba5d7f8c1f373!2zSMOybiBCw6A!5e0!3m2!1svi!2s!4v1699762128408!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Nhà úp ngược Vũng Tàu
+        addressService.save(new AddressForm(0, 0, "66 Cô Giang, Phường 4, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/YtPb2kJYGiq15Jro8", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48658.08229447103!2d107.04825756809986!3d10.376759452538861!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f95531c75a5%3A0x545bba012f5976d7!2zUXXDoW4gY8OgIHBow6ogTmhhzIAgVcyBcCBuZ8awxqHMo2M!5e0!3m2!1svi!2s!4v1699762198529!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //khu vui chơi giải trí thỏ trắng vũng tàu
+        addressService.save(new AddressForm(0, 0, "83WW+5GP, Thùy Vân, Phường Thắng Tam, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/Cdaq9cizgryvr7JLA", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.955123735594!2d107.09632839999998!3d10.345473500000008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f85bd1a7c4d%3A0x6215bdd590d296f4!2zQ8O0bmcgdmnDqm4gVGjhu48gVHLhuq9uZw!5e0!3m2!1svi!2s!4v1699762254889!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Đèo Nước Ngọt
+        addressService.save(new AddressForm(0, 0, "Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/PsXfYgnZGue82kEp9", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.5187563454406!2d107.25461580000002!3d10.380309949999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175765ab58ff03f%3A0x45263d08fa8dd33d!2zxJBlzIBvIE7GsMahzIFjIE5nb8yjdA!5e0!3m2!1svi!2s!4v1699762341091!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Niết Bàn Tịnh xá
+        addressService.save(new AddressForm(0, 0, "83JG+7P6, Phường 2, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/MX9EkEAc21H45CLu8", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62802.24185038577!2d107.04176107910155!3d10.330670000000023!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756560976d4597%3A0xf187fd8b18415911!2zTmnhur90IELDoG4gVOG7i25oIHjDoQ!5e0!3m2!1svi!2s!4v1699762487843!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Bạch dinh
+        addressService.save(new AddressForm(0, 0, "4 Trần Phú, Phường 1, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/dxWMmru6wBQSS2TN8", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125596.43130466367!2d106.99854725820312!3d10.350801500000019!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f4ec075d9df%3A0xd30bc2e22f6d2ff4!2sB%E1%BA%A1ch%20Dinh%20(White%20Palace%20Historical%20Cultural%20Relic)!5e0!3m2!1svi!2s!4v1699762567203!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Hẻm Đường Trần Phú
+        addressService.save(new AddressForm(0, 0, "109 đường Trần Phú, phường 5", "https://maps.app.goo.gl/TESbXYTmhM7Kf9UM8", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62790.60956450434!2d107.0628744985014!3d10.388727598775773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756e50d6eea639%3A0xe2b265b806480275!2zMTA5IFRy4bqnbiBQaMO6LCBQaMaw4budbmcgNSwgVGjDoG5oIHBo4buRIFbFqW5nIFThuqd1LCBCw6AgUuG7i2EgLSBWxaluZyBUw6B1LCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1699762715230!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //BẾN THUYỀN VŨNG TÀU MARINA
+        addressService.save(new AddressForm(0, 0, "Vũng Tàu, Bà Rịa - Vũng Tàu 790000, Việt Nam", "https://maps.app.goo.gl/tNnq8swhkPAYcy8b7", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.148067695814!2d107.11293749999997!3d10.409812500000012!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317571f79ea4a9c9%3A0x3313721619f7ad9!2zQsOKzIFOIFRIVVnhu4BOIFbFqE5HIFTDgFUgTUFSSU5B!5e0!3m2!1svi!2s!4v1699762767600!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        // Đức Mẹ Bãi Dâu Vũng Tàu
+        addressService.save(new AddressForm(0, 0, "140A Trần Phú, Phường 5, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/pJCxJgGrnJ5HFLeL6", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.633081958935!2d107.0622475!3d10.371194200000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756faef38389e3%3A0x60b83316113c26b4!2zxJDhu4FuIFRow6FuaCDEkOG7qWMgTeG6uSBCw6NpIETDonU!5e0!3m2!1svi!2s!4v1699762819064!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Cổng Hoa Giấy Check in Vũng Tàu
+        addressService.save(new AddressForm(0, 0, "Mạc Thanh Đạm, Phường 8, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu 790000, Việt Nam", "https://maps.app.goo.gl/DAPGrT2itNsUWkrf9", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31398.83666714762!2d107.08361553955079!3d10.353510199999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f3a7048899d%3A0xdbcc5a7fb9aed60d!2zQ-G7lW5nIEhvYSBHaeG6pXkgQ2hlY2sgaW4gVsWpbmcgVMOgdQ!5e0!3m2!1svi!2s!4v1699762902912!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Nhà thờ Chánh Tòa Bà Rịa
+        addressService.save(new AddressForm(0, 0, "227 Cách Mạng Tháng Tám, Phước Hiệp, Bà Rịa, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/8x2GAXK6cfmCgTrZ8", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.0500924360367!2d107.17022359999999!3d10.496717500000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175733675f5ba1b%3A0x35ceb96536126683!2zTmjDoCBUaOG7nSBDaMOhbmggVMOyYSBHacOhbyBQaOG6rW4gQsOgIFLhu4th!5e0!3m2!1svi!2s!4v1699762986035!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Lens studio “Thị trấn Nhật Bản" thu nhỏ
+        addressService.save(new AddressForm(0, 0, "02 Phạm Ngọc Thạch, Phường 9, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu 78000, Việt Nam", "https://maps.app.goo.gl/gCqXHz9iHfdBsGex9", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.6771602648764!2d107.0863796!3d10.3676775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756ff11cabd923%3A0x111f43b74370d551!2sLens%20Studio!5e0!3m2!1svi!2s!4v1699763178197!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Núi Lớn Vũng Tàu
+        addressService.save(new AddressForm(0, 0, "Vũng Tàu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/snmXajrBXRSo5v3R9", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31397.37355492309!2d107.06501839999999!3d10.368113649999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756fbb47737b07%3A0x6e4c656745ff0651!2zTsO6aSBM4bubbg!5e0!3m2!1svi!2s!4v1699763241568!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Thích Ca Phật Đài
+        addressService.save(new AddressForm(0, 0, "608 Trần Phú, Phường 5, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/WBahFPQXxcLMQjgJA", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.5925214238073!2d107.07066770000002!3d10.374429200000007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756fb38ba27c71%3A0xa395adebef3476f!2zQ2jDuWEgSOG7mSBQaMOhcA!5e0!3m2!1svi!2s!4v1699763321433!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Bãi dứa
+        addressService.save(new AddressForm(0, 0, "Vũng Tàu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/cGjuDW7Y75VsyPmw9", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15700.56736139334!2d107.06687950163241!3d10.330531886677024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756560a1e0b197%3A0xf81958e8863cf9d2!2zQsOjaSBE4bupYQ!5e0!3m2!1svi!2s!4v1699763524681!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Tượng Đài Liệt Sỹ
+        addressService.save(new AddressForm(0, 0, "83XV+H3C, 3 Tháng 2, Phường Thắng Tam, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/XyZiVLXbvQcufHkBA", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7849.823831693425!2d107.09264476184745!3d10.348928082331879!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756fe683debe43%3A0x73d97f258c1bee98!2zVMaw4bujbmcgxJDDoGkgTGnhu4d0IFPhu7k!5e0!3m2!1svi!2s!4v1699763694030!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+
+        //Lẩu cá đuối Hoàng Minh
+        addressService.save(new AddressForm(0, 0, "44 Trương Công Định, Phường 3, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/s11MnxaorFX9x6As7", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.9690414474935!2d107.0793599!3d10.344360499999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756ff290b0989f%3A0x8e3c179ac7d1fe2a!2zTOG6qXUgQ8OhIMSQdeG7kWkgSG_DoG5nIE1pbmggKENow61uaCBIaeG7h3UpIDQ0IFRyxrDGoW5nIEPDtG5nIMSQ4buLbmg!5e0!3m2!1svi!2s!4v1699764793166!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Lẩu cá đuối Út Mười
+        addressService.save(new AddressForm(0, 0, "10 Trương Công Định, Phường 1, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu 790000, Việt Nam", "https://maps.app.goo.gl/gMX3LjYcNAaxoYpw9", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25933.661211328585!2d107.0619251995988!3d10.340847544584696!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f8d2cf3946b%3A0x43a54c868899e538!2zTOG6qXUgQ8OhIMSQdeG7kWkgw5p0IE3GsOG7nWk!5e0!3m2!1svi!2s!4v1699764861886!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Bánh Mì Xíu Mại Hàng Quyên (Chi Nhánh 2)
+        addressService.save(new AddressForm(0, 0, "268 Trương Công Định, Phường 3, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/B5A7XhWVXpAEmQME6", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.8471029902516!2d107.0846362!3d10.354107900000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756fc022667ef7%3A0x52b68c61cb07ba23!2zQsOhbmggTcOsIFjDrXUgTeG6oWkgSMOgbmcgUXV5w6puIChDaGkgTmjDoW5oIDIp!5e0!3m2!1svi!2s!4v1699764929902!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Quán ăn Vườn Xoài
+        addressService.save(new AddressForm(0, 0, "34 Đ. Hoàng Hoa Thám, Phường 2, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/rC9dzQBtGKoAczt67", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.0267785002006!2d107.0797473!3d10.339742!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756ff363327505%3A0xa69712274cf63bab!2zUXXDoW4gxINuIFbGsOG7nW4gWG_DoGk!5e0!3m2!1svi!2s!4v1699765011868!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Bánh canh ghẹ Bà Ba
+        addressService.save(new AddressForm(0, 0, "19 Phan Bội Châu, Phường 2, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu 790000, Việt Nam", "https://maps.app.goo.gl/5HxFk4FNJ2sFKAPL7", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.0158581084206!2d107.07368261744384!3d10.340615700000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f99753c6bc9%3A0x8db10d65915b4ec6!2zQsOhbmggY2FuaCBnaOG6uSBCw6AgQmEgLSBxdcOhbiBiw6FuaCBjYW5oIGdo4bq5IG5nb24sIGNo4bqldCBsxrDhu6NuZyB04bqhaSBWxaluZyBUw6B1!5e0!3m2!1svi!2s!4v1699765073593!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Bánh canh ghẹ Anh Vy
+        addressService.save(new AddressForm(0, 0, "109 Võ Thị Sáu, Phường 2, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu 79000, Việt Nam", "https://maps.app.goo.gl/u6yNHfid95snWw9r6", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.0901105171397!2d107.08358151744383!3d10.334673600000022!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756ff62fa98811%3A0x76f4db24ca4a9182!2zQsOhbmggY2FuaCBnaOG6uSBBbmggVnk!5e0!3m2!1svi!2s!4v1699765113668!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Bún chả cá - Bún sứa
+        addressService.save(new AddressForm(0, 0, "84 Cô Giang, Phường 4, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/ZBpZ3XxieJPDcDp38", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7849.65279836544!2d107.07244373488768!3d10.355762000000015!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f97ab7098f3%3A0x9147b7c1ee9291f7!2zQsO6biBjaOG6oyBjw6EgLSBCw7puIHPhu6lh!5e0!3m2!1svi!2s!4v1699765173771!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Bún sứa Vũng Tàu ( Quán 79 Nha Trang )
+        addressService.save(new AddressForm(0, 0, "44C Bà Triệu, Phường 1, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/rVQnWG6GZ5VbnAKb9", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d18168.352951858895!2d107.09847342548075!3d10.348134996955267!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f94b870a761%3A0x474ac963653373ff!2zQsO6biBz4bupYSBWxaluZyBUw6B1ICggUXXDoW4gNzkgTmhhIFRyYW5nICk!5e0!3m2!1svi!2s!4v1699765241197!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Ốc Thiên Nhiên - Bãi Sau
+        addressService.save(new AddressForm(0, 0, "60 Võ Thị Sáu, Phường 2, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/jJ7kSpE8EWcHuaVj7", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6783.456000728388!2d107.08249477270623!3d10.33761063370502!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756fd754a854d5%3A0x919512222811c351!2z4buQYyBUaGnDqm4gTmhpw6puIC0gQsOjaSBTYXU!5e0!3m2!1svi!2s!4v1699765315362!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Bún ốc cá cô Hằng 46 Cao Xuân Dục
+        addressService.save(new AddressForm(0, 0, "46 Cao Xuân Dục, Phường 7, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/PEhVJfbz4MuQKxLP7", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31400.57441186451!2d107.04911964452845!3d10.33613910688546!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756ff5819d59dd%3A0xae6c4ff6d3cbfcb0!2zQsO6biDhu5FjIGPDoSBjw7QgSOG6sW5nIDQ2IENhbyBYdcOibiBE4bulYw!5e0!3m2!1svi!2s!4v1699765408398!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Lẩu tôm 5 Ri (chi nhánh Vũng Tàu)
+        addressService.save(new AddressForm(0, 0, "166 Trương Công Định, Phường 3, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/fz9RvAiVhBmLKNoR6", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4296.485287860469!2d107.08175573447082!3d10.350354488529831!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f278bfaa08d%3A0x48343c77e4161ec8!2zTOG6qXUgdMO0bSA1IFJpIChjaGkgbmjDoW5oIFbFqW5nIFTDoHUp!5e0!3m2!1svi!2s!4v1699765500134!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Bánh Khọt Gốc Vú Sữa
+        addressService.save(new AddressForm(0, 0, "14 Nguyễn Trường Tộ, Phường 3, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/4jpHo7LBqVNaKWxN9", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.0194454271677!2d107.07882439999999!3d10.340328700000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f075038598d%3A0x7b83f3773aba362c!2zQsOhbmggS2jhu410IEfhu5FjIFbDuiBT4buvYQ!5e0!3m2!1svi!2s!4v1699773145129!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Bánh Khọt Cô Ba
+        addressService.save(new AddressForm(0, 0, "1 Đ. Hoàng Hoa Thám, Phường 3, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/6AkzFTH8RGezauwc9", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15700.04287049662!2d107.06804805033441!3d10.341026945785838!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f3574b531cf%3A0x93afef3306b19cef!2zQsOhbmggS2jhu410IEPDtCBCYQ!5e0!3m2!1svi!2s!4v1699773231689!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Bánh khọt Miền đông Ck
+        addressService.save(new AddressForm(0, 0, "59 Bà Triệu, Phường 4, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/yjPGXkv6i6Sm17XF7", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.857742130451!2d107.07568490000003!3d10.353257800000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f2fd475a923%3A0x28064ad1792f8dbb!2zQsOhbmgga2jhu410IE1p4buBbiDEkcO0bmcgQ2s!5e0!3m2!1svi!2s!4v1699773293002!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Nhà hàng Gành Hào 1
+        addressService.save(new AddressForm(0, 0, "03 Trần Phú, Phường 5, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/iEnKjAp8Rg1qkY469", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.7729016064673!2d107.05808351744385!3d10.360034900000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756febf0656077%3A0xf390596a3075a7df!2zTmjDoCBow6BuZyBHw6BuaCBIw6BvIDE!5e0!3m2!1svi!2s!4v1699773500649!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Quán Cơm Huy Cường
+        addressService.save(new AddressForm(0, 0, "57 Trần Phú, Phường 5, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/6E7wM54CELQB5c5PA", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62794.99087626416!2d107.06273739999999!3d10.3668979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756fa582abf195%3A0x9925c16c2a19c45a!2zUXXDoW4gQ8ahbSBIdXkgQ8aw4budbmc!5e0!3m2!1svi!2s!4v1699773571267!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Quán Cơm Tấm Hướng Dương
+        addressService.save(new AddressForm(0, 0, "142 Nam Kỳ Khởi Nghĩa, Phường Thắng Tam, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu, Việt Nam", "https://maps.app.goo.gl/N89ki3suH8WYesNb6", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62796.34897794246!2d107.01945863650894!3d10.360121979905069!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756fee8afc44b1%3A0x52640d0a22d2a774!2zUXXDoW4gQ8ahbSBU4bqlbSBIxrDhu5tuZyBExrDGoW5nICggQ8ahbSBNYSApIC0gS2jDtG5nIEPDsyBDaGkgTmjDoW5o!5e0!3m2!1svi!2s!4v1699773610948!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+        //Cơm niêu Rau Tập Tàng Vũng Tàu
+        addressService.save(new AddressForm(0, 0, "14 Trần Hưng Đạo, Phường 1, Thành phố Vũng Tầu, Bà Rịa - Vũng Tàu 790000, Việt Nam", "https://maps.app.goo.gl/xQJzkbCPtnJQtD6i9", "address plus code", "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62799.70505794994!2d107.07725210000001!3d10.3433588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31756f8d33dfc635%3A0xe73e23c068b4f6a0!2zQ8ahbSBuacOqdSBSYXUgVOG6rXAgVMOgbmcgVsWpbmcgVMOgdQ!5e0!3m2!1svi!2s!4v1699773719514!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>" ));
+
+        placesService.save(
+                new PlacesForm("Mũi nginh phong", BigDecimal.valueOf(0), true, LocalTime.of(0, 0), LocalTime.of(0, 0), 15, List.of(lvar47, lvar), 1, 1, "Mũi Nghinh Phong là một mũi đất dài nhô ra biển, nằm ở phía Nam bán đảo Vũng Tàu, tỉnh Bà Rịa – Vũng Tàu. Nơi đây sở hữu cảnh quanh đắc địa với trước mặt là biển, sau lưng là núi” cực kỳ thơ mộng và hoang sơ, từ lâu Nghinh Phong đã trở thành địa điểm du lịch được nhiều du khách ghé thăm, đặc biệt là các bạn trẻ."
+                ));
+        placesService.save(
+                new PlacesForm("Tượng Chúa Giêsu Kitô Vua", BigDecimal.valueOf(0), false, LocalTime.of(6, 30), LocalTime.of(17, 0), 60, List.of(lvar47, lvar8, lvar5), 2, 2, "Tượng Chúa Giêsu Kitô Vua là một bức tượng Chúa Giêsu được đặt trên đỉnh Núi Nhỏ của thành phố Vũng Tàu, tỉnh Bà Rịa – Vũng Tàu. Tượng được xây dựng từ năm 1974 và được khánh thành vào năm 1994. Tượng Chúa Giêsu Kitô Vua được công nhận là di tích lịch sử-văn hóa cấp quốc gia và được Trung tâm sách Kỷ lục Việt Nam và Công ty Văn hóa Đầm Sen trao cho kỷ lục Tượng Chúa Giêsu lớn nhất Việt Nam"
+                ));
+        placesService.save(
+                new PlacesForm("Đồi Cừu Suối Nghệ", BigDecimal.valueOf(0), false, LocalTime.of(7, 0), LocalTime.of(19, 0), 30, List.of(lvar47, lvar, lvar7), 3, 3, "Đồi cừu Suối Nghệ là một cánh đồng rộng lớn với những đàn cừu được chăn thả tự nhiên. Những chú cừu ở đây có nhiều màu sắc khác nhau, như trắng, đen, nâu, xám,... Chúng có bộ lông dày, mềm mại và vô cùng thân thiện."
+                ));
+        placesService.save(
+                new PlacesForm("Bãi trước Vũng Tàu", BigDecimal.valueOf(0), true, LocalTime.of(0, 0), LocalTime.of(0, 0), 30, List.of(lvar47, lvar, lvar6), 4, 4, "Bãi Trước Vũng Tàu là một trong những bãi biển nổi tiếng nhất của thành phố Vũng Tàu. Bãi biển này nằm giữa Núi Lớn và Núi Nhỏ, là một vịnh nhỏ lặng sóng. "
+                ));
+        placesService.save(
+                new PlacesForm("Đồi con heo", BigDecimal.valueOf(0), false, LocalTime.of(5, 0), LocalTime.of(19, 0), 30, List.of(lvar47, lvar1, lvar5), 5, 5, "Đồi Con Heo là một ngọn đồi nhỏ nhô ra từ vách núi, nằm ở khu vực bãi Sau, thành phố Vũng Tàu. Tên gọi Đồi Con Heo bắt nguồn từ hình dáng của ngọn đồi khi nhìn từ xa, trông giống như một đàn heo đang nằm phơi nắng. "
+                ));
+        placesService.save(
+                new PlacesForm("Hồ Đá Xanh", BigDecimal.valueOf(20000), false, LocalTime.of(8, 0), LocalTime.of(18, 0), 45, List.of(lvar47, lvar1), 6, 6, "Hồ Đá Xanh Vũng Tàu là một địa điểm du lịch nổi tiếng, thu hút đông đảo du khách đến tham quan, đặc biệt là các bạn trẻ. Hồ nằm ở huyện Tân Thành, cách trung tâm thành phố Vũng Tàu khoảng 16 km"
+                ));
+        placesService.save(
+                new PlacesForm("Bãi tắm sau Vũng Tàu", BigDecimal.valueOf(0), true, LocalTime.of(0, 0), LocalTime.of(0, 0), 30, List.of(lvar47, lvar, lvar6), 7, 7, "Bãi Sau, còn được gọi là bãi Thùy Vân, là một bãi biển nằm ở phía Đông Nam của thành phố Vũng Tàu, tỉnh Bà Rịa – Vũng Tàu. Bãi tắm có chiều dài khoảng 8km, kéo dài từ chân Núi Nhỏ đến khu vực Chí Linh."
+                ));
+        placesService.save(
+                new PlacesForm("Ngọn Hải Đăng Vũng Tàu", BigDecimal.valueOf(0), false, LocalTime.of(7, 0), LocalTime.of(20, 0), 45, List.of(lvar47, lvar, lvar5), 8, 8, "Ngọn Hải Đăng Vũng Tàu là một ngọn hải đăng nằm trên đỉnh núi Nhỏ, thuộc thành phố Vũng Tàu, tỉnh Bà Rịa – Vũng Tàu, Việt Nam. Ngọn hải đăng được người Pháp xây dựng vào năm 1862 nhằm mục đích chỉ đường, báo hiệu cho các tàu thuyền qua lại, nằm ở độ cao là 149m so với mực nước biển."
+                ));
+        placesService.save(
+                new PlacesForm("Zenna Pool Camp", BigDecimal.valueOf(0), false, LocalTime.of(7, 0), LocalTime.of(22, 0), 90, List.of(lvar47, lvar1), 9, 9, "Zenna Pool Camp là một khu du lịch sinh thái nằm ở xã Phước Tỉnh, huyện Long Điền, tỉnh Bà Rịa – Vũng Tàu. Nơi đây cách trung tâm thành phố Hồ Chí Minh khoảng 120km, mất khoảng 2-3 giờ di chuyển. "
+                ));
+        placesService.save(
+                new PlacesForm("Hòn bà", BigDecimal.valueOf(0), false, LocalTime.of(7, 0), LocalTime.of(8, 0), 15, List.of(lvar47, lvar5, lvar8), 10, 10, "Hòn Bà là một đảo nhỏ nằm ở gần bờ biển của phường 2, thành phố Vũng Tàu, tỉnh Bà Rịa – Vũng Tàu, Việt Nam. Đảo Hòn Bà cách bờ khoảng 220 m, diện tích 5.450 m². Trên đảo có một ngôi miếu, gọi là Miếu Hòn Bà."
+                ));
+        placesService.save(
+                new PlacesForm("Nhà úp ngược Vũng Tàu", BigDecimal.valueOf(50000), false, LocalTime.of(8, 0), LocalTime.of(22, 0), 30, List.of(lvar47, lvar), 11, 11, "Nhà úp ngược Vũng Tàu là một địa điểm du lịch nổi tiếng, thu hút đông đảo du khách đến tham quan, đặc biệt là các bạn trẻ. Nhà úp ngược Vũng Tàu là một ngôi nhà được xây dựng theo kiểu úp ngược, với tất cả đồ nội thất, vật dụng trong nhà đều được treo lên trần nhà. Điều này tạo ra một không gian vô cùng độc đáo và lạ mắt, khiến du khách như lạc vào một thế giới khác. "
+                ));
+        placesService.save(
+                new PlacesForm("Khu vui chơi giải trí thỏ trắng", BigDecimal.valueOf(100000), false, LocalTime.of(8, 0), LocalTime.of(23, 0), 30, List.of(lvar47, lvar1), 12, 12, "Khu vui chơi giải trí Thỏ Trắng Vũng Tàu là một trong những khu vui chơi giải trí nổi tiếng nhất tại thành phố biển xinh đẹp này. Nơi đây thu hút đông đảo du khách, đặc biệt là các bạn trẻ, bởi hệ thống trò chơi đa dạng, phong phú và không gian rộng lớn, thoáng mát."
+                ));
+        placesService.save(
+                new PlacesForm("Đèo Nước Ngọt", BigDecimal.valueOf(0), true, LocalTime.of(0, 0), LocalTime.of(0, 0), 15, List.of(lvar47, lvar1), 13, 13, "Đèo Nước Ngọt là một cung đường đèo ngắn, uốn mình nối hai vùng đất là huyện Long Điền và huyện Đất Đỏ, tỉnh Bà Rịa – Vũng Tàu. Đèo cách Vũng Tàu chừng 25km và cách biển Long Hải 2km. "
+                ));
+        placesService.save(
+                new PlacesForm("Niết Bàn Tịnh xá", BigDecimal.valueOf(0), false, LocalTime.of(7, 0), LocalTime.of(18, 0), 15, List.of(lvar47, lvar8), 14, 14, "Niết Bàn Tịnh xá Vũng Tàu là một ngôi chùa Phật giáo lớn ở thành phố Vũng Tàu, tỉnh Bà Rịa – Vũng Tàu. Chùa được xây dựng trên triền núi Nhỏ, hướng mặt ra biển, mang đậm kiến trúc Phật giáo hiện đại."
+                ));
+        placesService.save(
+                new PlacesForm("Bạch dinh", BigDecimal.valueOf(15000), true, LocalTime.of(0, 0), LocalTime.of(0, 0), 15, List.of(lvar47, lvar11, lvar12), 15, 15, "Bạch Dinh (tiếng Pháp: Villa Blanche) là một dinh thự có kiến trúc châu Âu cuối thế kỷ 19, nằm bên sườn núi Lớn của thành phố Vũng Tàu. Nơi đây từng được dùng làm nơi nghỉ mát cho Toàn quyền Đông Dương, Hoàng đế Bảo Đại và các đời Tổng thống Việt Nam Cộng hòa."
+                ));
+        placesService.save(
+                new PlacesForm("Hẻm Đường Trần Phú", BigDecimal.valueOf(0), false, LocalTime.of(6, 0), LocalTime.of(18, 0), 15, List.of(lvar47, lvar), 16, 16, "Hẻm đường Trần Phú Vũng Tàu là một con hẻm nhỏ nằm ở giữa hai căn nhà số 107 và 109 trên đường Trần Phú, thuộc phường 5, thành phố Vũng Tàu. Hẻm này chỉ dài khoảng 100 mét nhưng lại rất nổi tiếng, đặc biệt là đối với giới trẻ. "
+                ));
+        placesService.save(
+                new PlacesForm("BẾN THUYỀN VŨNG TÀU MARINA", BigDecimal.valueOf(30000), true, LocalTime.of(0, 0), LocalTime.of(0, 0), 15, List.of(lvar47, lvar1), 17, 17, "Bến thuyền Vũng Tàu Marina là một điểm du lịch mới nổi ở Vũng Tàu. Tọa lạc trên vịnh Sông Dinh, bến thuyền mang đến cho du khách một khung cảnh thiên nhiên tuyệt đẹp, với những cánh buồm Catamaran đầy màu sắc, những dãy núi hùng vĩ và biển cả bao la. "
+                ));
+        placesService.save(
+                new PlacesForm("Đức Mẹ Bãi Dâu Vũng Tàu", BigDecimal.valueOf(0), false, LocalTime.of(4, 0), LocalTime.of(21, 30), 15, List.of(lvar47, lvar8), 18, 18, "Đức Mẹ Bãi Dâu là một tổ hợp công trình đền thánh và tượng đài Đức Mẹ Maria, tọa lạc trên sườn Núi Lớn, thành phố Vũng Tàu, Việt Nam. Đây là một địa điểm du lịch tâm linh nổi tiếng ở Vũng Tàu, thu hút du khách từ khắp nơi trên cả nước."
+                ));
+        placesService.save(
+                new PlacesForm("Cổng Hoa Giấy Check in Vũng Tàu", BigDecimal.valueOf(0), false, LocalTime.of(6, 0), LocalTime.of(18, 0), 15, List.of(lvar47, lvar7), 19, 19, "Cổng hoa giấy check-in Vũng Tàu là một địa điểm chụp ảnh nổi tiếng ở thành phố biển xinh đẹp này. Cổng hoa giấy nằm trên đường Thùy Vân, gần biển Thùy Vân. Cổng hoa giấy được làm từ những bông hoa giấy rực rỡ, với nhiều màu sắc khác nhau như đỏ, vàng, hồng,... Cổng hoa giấy được thiết kế với hình vòng cung, tạo nên một khung cảnh vô cùng thơ mộng và lãng mạn."
+                ));
+        placesService.save(
+                new PlacesForm("Nhà thờ Chánh Tòa Bà Rịa", BigDecimal.valueOf(0), false, LocalTime.of(4, 30), LocalTime.of(21, 0), 15, List.of(lvar47, lvar8), 20, 20, "Nhà thờ Chánh Tòa Bà Rịa hay còn gọi là nhà thờ Thánh Giacôbê và Thánh Philípphê là một nhà thờ Công giáo được xây dựng tại thành phố Bà Rịa, tỉnh Bà Rịa – Vũng Tàu. Đây là nhà thờ chính tòa của Giáo phận Bà Rịa. "
+                ));
+        placesService.save(
+                new PlacesForm("Lens studio Thị trấn Nhật Bản thu nhỏ", BigDecimal.valueOf(40000), false, LocalTime.of(7, 0), LocalTime.of(22, 30), 15, List.of(lvar47, lvar, lvar1), 21, 21, "Lens Studio là một quán cà phê nổi tiếng ở thành phố Vũng Tàu, được ví như “thị trấn Nhật Bản” thu nhỏ.Quán được thiết kế theo phong cách Nhật Bản, với những con hẻm nhỏ, những ngôi nhà gỗ, những chiếc đèn lồng đỏ và những cây hoa anh đào."
+                ));
+        placesService.save(
+                new PlacesForm("Núi Lớn Vũng Tàu", BigDecimal.valueOf(0), false, LocalTime.of(4, 0), LocalTime.of(19, 0), 45, List.of(lvar47, lvar5), 22, 22, "Núi Lớn Vũng Tàu là một ngọn núi nằm ở thành phố Vũng Tàu, tỉnh Bà Rịa - Vũng Tàu. Đây là một trong hai ngọn núi lớn của thành phố biển, ngọn còn lại là Núi Nhỏ. Núi Lớn có diện tích khoảng 400 ha, cao 254 mét so với mực nước biển. "
+                ));
+        placesService.save(
+                new PlacesForm("Thích Ca Phật Đài", BigDecimal.valueOf(0), false, LocalTime.of(5, 0), LocalTime.of(22, 0), 15, List.of(lvar47, lvar8), 23, 23, "Thích Ca Phật Đài là một quần thể kiến trúc Phật giáo lớn, nằm trên sườn phía Bắc của Núi Lớn, thành phố Vũng Tàu, tỉnh Bà Rịa – Vũng Tàu. Nơi đây là một điểm tham quan du lịch và tín ngưỡng nổi tiếng, thu hút hàng triệu lượt khách đến tham quan mỗi năm. "
+                ));
+        placesService.save(
+                new PlacesForm("Bãi dứa", BigDecimal.valueOf(0), true, LocalTime.of(0, 0), LocalTime.of(0, 0), 15, List.of(lvar47, lvar, lvar6), 24, 24, "Bãi Dứa là một bãi biển đẹp và hoang sơ, nằm ở phía Tây núi Nhỏ, gần mũi Nghinh Phong, thành phố Vũng Tàu. Bãi biển có hình dáng uốn lượn, nước biển trong xanh, bãi cát trắng mịn, sóng biển êm đềm, thích hợp cho các hoạt động vui chơi, tắm biển, nghỉ dưỡng. "
+                ));
+        placesService.save(
+                new PlacesForm("Tượng Đài Liệt Sỹ", BigDecimal.valueOf(0), true, LocalTime.of(0, 0), LocalTime.of(0, 0), 15, List.of(lvar47, lvar12), 25, 25, "Tượng đài liệt sĩ Vũng Tàu là một công trình kiến trúc mang ý nghĩa lịch sử, văn hóa và là địa chỉ tham quan du lịch nổi tiếng của thành phố Vũng Tàu. Tượng đài tọa lạc trên đường Thùy Vân, thuộc phường Thắng Tam, thành phố Vũng Tàu. "
+
+                ));
+        placesService.save(
+                new PlacesForm("Lẩu cá đuối Hoàng Minh", BigDecimal.valueOf(70000), false, LocalTime.of(9, 0), LocalTime.of(23, 59), 15, List.of(lvar47, lvar33), 26, 26, ""
+                ));
+        placesService.save(
+                new PlacesForm("Lẩu cá đuối Út Mười", BigDecimal.valueOf(70000), true, LocalTime.of(0, 0), LocalTime.of(0, 0), 15, List.of(lvar47, lvar33), 27, 27, ""
+                ));
+        placesService.save(
+                new PlacesForm("Bánh Mì Xíu Mại Hàng Quyên (Chi Nhánh 2)", BigDecimal.valueOf(30000), false, LocalTime.of(6, 0), LocalTime.of(21, 0), 15, List.of(lvar47, lvar37), 28, 28, ""
+                ));
+        placesService.save(
+                new PlacesForm("Quán ăn Vườn Xoài", BigDecimal.valueOf(50000), false, LocalTime.of(10, 30), LocalTime.of(22, 0), 15, List.of(lvar47, lvar20), 29, 29, ""
+                ));
+        placesService.save(
+                new PlacesForm("Bánh canh ghẹ Bà Ba", BigDecimal.valueOf(50000), false, LocalTime.of(7, 0), LocalTime.of(21, 0), 15, List.of(lvar47, lvar33), 30, 30, ""
+                ));
+        placesService.save(
+                new PlacesForm("Bánh canh ghẹ Anh Vy", BigDecimal.valueOf(50000), false, LocalTime.of(6, 0), LocalTime.of(23, 30), 15, List.of(lvar47, lvar33), 31, 31, ""
+                ));
+        placesService.save(
+                new PlacesForm("Bún chả cá - Bún sứa", BigDecimal.valueOf(50000), false, LocalTime.of(15, 0), LocalTime.of(21, 0), 15, List.of(lvar47, lvar29), 32, 32, ""
+                ));
+        placesService.save(
+                new PlacesForm("Bún sứa Vũng Tàu ( Quán 79 Nha Trang )", BigDecimal.valueOf(70000), false, LocalTime.of(6, 0), LocalTime.of(21, 0), 15, List.of(lvar47, lvar29), 33, 33, ""
+                ));
+        placesService.save(
+                new PlacesForm("Ốc Thiên Nhiên - Bãi Sau", BigDecimal.valueOf(100000), false, LocalTime.of(10, 0), LocalTime.of(23, 59), 15, List.of(lvar47, lvar33), 34, 34, ""
+                ));
+        placesService.save(
+                new PlacesForm("Bún ốc cá cô Hằng 46 Cao Xuân Dục", BigDecimal.valueOf(40000), false, LocalTime.of(5, 0), LocalTime.of(23, 0), 15, List.of(lvar47, lvar29), 35, 35, ""
+                ));
+        placesService.save(
+                new PlacesForm("Lẩu tôm 5 Ri (chi nhánh Vũng Tàu)", BigDecimal.valueOf(100000), false, LocalTime.of(8, 0), LocalTime.of(22, 0), 15, List.of(lvar47, lvar33), 36, 36, ""
+                ));
+        placesService.save(
+                new PlacesForm("Bánh Khọt Gốc Vú Sữa", BigDecimal.valueOf(30000), false, LocalTime.of(7, 0), LocalTime.of(15, 30), 15, List.of(lvar47, lvar37), 37, 37, ""
+                ));
+        placesService.save(
+                new PlacesForm("Bánh Khọt Cô Ba", BigDecimal.valueOf(70), false, LocalTime.of(6, 30), LocalTime.of(22, 0), 15, List.of(lvar47, lvar37), 38, 38, ""
+                ));
+        placesService.save(
+                new PlacesForm("Bánh khọt Miền đông Ck", BigDecimal.valueOf(35000), false, LocalTime.of(6, 0), LocalTime.of(21, 0), 15, List.of(lvar47, lvar37), 39, 39, ""
+                ));
+        placesService.save(
+                new PlacesForm("Nhà hàng Gành Hào 1", BigDecimal.valueOf(150000), false, LocalTime.of(10, 0), LocalTime.of(21, 30), 15, List.of(lvar47, lvar33, lvar36), 40, 40, ""
+                ));
+        placesService.save(
+                new PlacesForm("Quán Cơm Huy Cường", BigDecimal.valueOf(70000), false, LocalTime.of(8, 0), LocalTime.of(21, 0), 15, List.of(lvar47, lvar20), 41, 41, ""
+                ));
+        placesService.save(
+                new PlacesForm("Quán Cơm Tấm Hướng Dương ", BigDecimal.valueOf(30000), false, LocalTime.of(6, 0), LocalTime.of(22, 0), 15, List.of(lvar47, lvar20), 42, 42, ""
+                ));
+        placesService.save(
+                new PlacesForm("Cơm niêu Rau Tập Tàng Vũng Tàu", BigDecimal.valueOf(70000), true, LocalTime.of(0, 0), LocalTime.of(0, 0), 15, List.of(lvar47, lvar20), 43, 43, ""
+                ));
+    }
+}

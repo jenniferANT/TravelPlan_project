@@ -9,6 +9,7 @@ import com.app.travelplan.service.GeneralService;
 import com.app.travelplan.service.PlanService;
 import com.app.travelplan.utils.AppUtils;
 import com.app.travelplan.utils.SecurityUtils;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PlanServiceImpl implements PlanService {
     private final VehicleRepository vehicleRepository;
     private final PlacesRepository placesRepository;
@@ -31,277 +33,17 @@ public class PlanServiceImpl implements PlanService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final PlanRepository planRepository;
+    private final ShareRepository shareRepository;
 
     @Override
-    public PlanDto generatePlan(PlanForm planForm) {
+    public String delete(long id) {
+        Plan plan = planRepository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Plan not found with id " + id));
 
-        if (planForm.getBeginDate().isAfter(planForm.getEndDate())) {
-            throw new IllegalArgumentException("Begin date must before end date");
-        }
-        BigDecimal expense = new BigDecimal(0);
-
-        long distance = 200; //Quãng đường du lịch = km_đi + km_về + km_chơi tại đó
-        long estimatedTotalDistance = distance * 2 + 60L; //chênh lêhcj 60km
-        Vehicle vehicle = vehicleRepository.findById(planForm.getVehicleId())
-                .orElseThrow();
-        long timeGo = (long) (((double) distance / vehicle.getAverageSpeed()) * 60); //tổng thời gian di chuyển đến nơi du lịch: đơn vị phút
-        long travelTimeMinutes = planForm.getBeginDate().until(planForm.getEndDate(), ChronoUnit.MINUTES); //lấy số phút
-
-
-        //xét số xe du lịch
-        int numberVehicle = (planForm.getNumberPeople() + vehicle.getSeats() - 1) / vehicle.getSeats();
-        BigDecimal costVehicle = vehicle.getCost()
-                .multiply(BigDecimal
-                        .valueOf(estimatedTotalDistance))
-                .multiply(BigDecimal
-                        .valueOf(numberVehicle))
-                .divide(BigDecimal.valueOf(planForm.getNumberPeople()), 0, RoundingMode.HALF_UP);
-        BigDecimal cost = planForm.getExpense().subtract(costVehicle);
-        if (cost.compareTo(BigDecimal.valueOf(200)) < 0) { //nếu chi phí trên người ít hon 200 thì sẽ tự tăng tiền lên new = 200
-            cost = BigDecimal.valueOf(200);
-        }
-
-        //thêm tiền chi tiêu trên người
-        expense = expense.add(costVehicle);
-
-        final LocalDateTime newEndDate;
-        if (travelTimeMinutes - timeGo < 240L) {
-            newEndDate = planForm.getBeginDate().plusMinutes(timeGo + 240L); //nếu thời gian du lịch nhỏ hơn 2 tiếng thì tự động cộng thành 2 tiếng
-        } else {
-            newEndDate = planForm.getEndDate();
-        }
-
-        final LocalDateTime newBeginDate = planForm.getBeginDate().plusMinutes(timeGo);//tính thời gian tới và bắt đầu chơi
-
-        List<Places> placesListArea = placesRepository.findAllByCategories_Name(planForm.getDestination());//lấy tất cả địa điểm tại nơi du lịch
-        // đêm - ăn sáng - buổi sáng - buổi trưa - buổi chiều - ăn tối - tắm rửa - buổi tối
-        List<Sessions> sessions = this.countSessions(newBeginDate, newEndDate); //dếm số buổi khi đi chơi
-        List<Places> placesEatList = this.filterByCategoryParent(placesListArea, categoryRepository.findByName("Quán ăn")
-                .orElseThrow(() -> new NotFoundException("Category not found with name " + "Quán ăn")));//lọc quán ăn
-        for (Places s :
-                placesEatList) {
-        }
-        List<Places> placesDrinkList = this.filterByCategoryParent(placesListArea, categoryRepository.findByName("Quán nước")
-                .orElseThrow(() -> new NotFoundException("Category not found with name " + "Quán nuoc")));//lọc quán uống
-        BigDecimal costEat = new BigDecimal(0);
-        BigDecimal costPlay = new BigDecimal(0);
-        List<Category> categories = new ArrayList<>();
-
-        Plan plan = new Plan();
-        //-------------------------------chuẩn bị đã xong bắt đầu generate -----------------------------------------------------------
-        List<PlanItem> planItems = new ArrayList<>(); //List item plan được chọn
-        List<Places> placesReservation = new ArrayList<>(); //List places đã được chọn
-        if (planForm.getCategoryId().isEmpty()) {
-            //TODO: SAU
-        } else {
-            Category amThuc = categoryRepository.findByName("Ẩm thực")
-                    .orElseThrow(() -> new NotFoundException("Category not found with name " + "Am Thuc"));
-            categories = generalService.getAllCategoryByArrayId(planForm.getCategoryId());
-            boolean isEat = categories.contains(amThuc); //xem danh mục có ẩm thực
-            if (isEat) {
-                categories.remove(amThuc);
-            }
-            //lọc địa điểm: sắp xếp từ lớn đến bé chỉ số yêu thích
-            List<Places> placesList = this.filterByListCategories(placesListArea, categories);
-            int median = placesList.size() / 2; //trung vị
-
-            //lọc địa điểm ăn
-            BigDecimal costAvg = cost.divide(BigDecimal.valueOf(sessions.size()), 0, RoundingMode.HALF_UP);
-
-            int phanLoai = 0;
-            if (costAvg.compareTo(BigDecimal.valueOf(500000)) >= 0) {
-                phanLoai = 3;
-            } else if (costAvg.compareTo(BigDecimal.valueOf(150000)) >= 0) {
-                phanLoai = 2;
-            } else if (costAvg.compareTo(BigDecimal.valueOf(100000)) >= 0) {
-                phanLoai = 1;
-            }
-
-            for (Sessions s :
-                    sessions) {
-            }
-
-            for (Sessions s :
-                    sessions) {
-
-                if (s.getIndex() == 1 || s.getIndex() == 3 || s.getIndex() == 6) {
-
-                    LocalDateTime start = newBeginDate.plusMinutes(s.getTimeMinutesBegin());
-                    List<Places> placesEatListCopy = this.filterPlacesListGenerate(placesEatList, phanLoai);
-
-                    int length;
-
-                    while (true) {
-                        length = placesEatListCopy.size();
-                        if (length == 0) throw new IllegalArgumentException("Sorry, cost or data limited");
-                        Random random = new Random();
-                        int indexRandom = random.nextInt(length);
-                        Places places = placesEatListCopy.get(indexRandom);
-
-                        if (!placesReservation.contains(places) && (places.isFull() || (start.toLocalTime().isAfter(places.getBeginDay()) && start.toLocalTime().isBefore(places.getEndDay())))) {
-
-                            if (s.isOptional()) {
-                                placesReservation.add(places);
-                                planItems.add(PlanItem.builder()
-                                        .imageUrl(!places.getImages().isEmpty() ? places.getImages().stream().findFirst().get().getUrlImage() : "https://www.google.com/url?sa=i&url=https%3A%2F%2F3gwifi.net%2Ftravel-la-gi%2F&psig=AOvVaw2oAnTpl2Cc_oltXbBJHLJb&ust=1699943380832000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCUlt2swIIDFQAAAAAdAAAAABAE")
-                                        .startTime(start)
-                                        .title(places.getTitle())
-                                        .content(places.getDescription())
-                                        .money(places.getCost())
-                                        .note("")
-                                        .isOptional(s.isOptional())
-                                        .index(s.getIndex())
-                                        .placesId(places.getId())
-                                        .plan(plan)
-                                        .build()
-                                );
-                                break;
-                            } else {
-                                if (cost.compareTo(places.getCost()) >= 0) {
-
-                                    cost = cost.subtract(places.getCost()); //trừ cost
-                                    expense = expense.add(places.getCost()); //thêm tiền đã dùng
-                                    costEat = costEat.add(places.getCost());
-                                    placesReservation.add(places);
-
-                                    planItems.add(PlanItem.builder()
-                                            .imageUrl(!places.getImages().isEmpty() ? places.getImages().stream().findFirst().get().getUrlImage() : "https://www.google.com/url?sa=i&url=https%3A%2F%2F3gwifi.net%2Ftravel-la-gi%2F&psig=AOvVaw2oAnTpl2Cc_oltXbBJHLJb&ust=1699943380832000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCUlt2swIIDFQAAAAAdAAAAABAE")
-                                            .startTime(start)
-                                            .title(places.getTitle())
-                                            .content(places.getDescription())
-                                            .money(places.getCost())
-                                            .note("")
-                                            .isOptional(s.isOptional())
-                                            .index(s.getIndex())
-                                            .placesId(places.getId())
-                                            .plan(plan)
-                                            .build()
-                                    );
-                                    break;
-                                } else {
-                                    placesEatListCopy.remove(places);
-                                }
-                            }
-                        } else {
-                            placesEatListCopy.remove(places);
-                        }
-                    }
-
-                }
-            }
-
-
-            //list sessions for đêm
-            //list sessions for đi chơi
-
-            //lọc qua từng sessions
-            for (Sessions s :
-                    sessions) {
-
-                //xử lý từng session
-                if (s.getIndex() == 2 || s.getIndex() == 4 || s.getIndex() == 7) {
-                    //giờ bắt đầu session
-                    LocalDateTime start = newBeginDate.plusMinutes(s.getTimeMinutesBegin());
-                    long numberTimeMinutes = s.getNumberTimeMinutes();
-
-                    List<Places> placesEatListCopy = this.filterPlacesListGenerate(placesList, phanLoai);
-                    int length;
-                    Random random = new Random();
-
-                    while (true) {
-                        length = placesEatListCopy.size();
-                        if (length == 0) break;
-
-                        Places places = placesEatListCopy.get(random.nextInt(length));
-
-                        if (!placesReservation.contains(places)
-                                && numberTimeMinutes >= places.getTimePlaces()
-                                && (places.isFull() || (start.toLocalTime().isAfter(places.getBeginDay()) && start.toLocalTime().isBefore(places.getEndDay())))) {
-                            if (s.isOptional()) {
-                                placesReservation.add(places);
-                                planItems.add(PlanItem.builder()
-                                        .imageUrl(!places.getImages().isEmpty() ? places.getImages().stream().findFirst().get().getUrlImage() : "https://www.google.com/url?sa=i&url=https%3A%2F%2F3gwifi.net%2Ftravel-la-gi%2F&psig=AOvVaw2oAnTpl2Cc_oltXbBJHLJb&ust=1699943380832000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCUlt2swIIDFQAAAAAdAAAAABAE")
-                                        .startTime(start)
-                                        .title(places.getTitle())
-                                        .content(places.getDescription())
-                                        .money(places.getCost())
-                                        .note("")
-                                        .isOptional(s.isOptional())
-                                        .index(s.getIndex())
-                                        .placesId(places.getId())
-                                        .plan(plan)
-                                        .build()
-                                );
-                                //khi chọn được địa điểm r thì trừ numberTimeMinutes -= (place.gettime +15ph)
-                                start = start.plusMinutes(places.getTimePlaces() + 15);
-                                numberTimeMinutes = numberTimeMinutes - (places.getTimePlaces() + 15);
-                            } else {
-                                if (cost.compareTo(places.getCost()) >= 0) {
-                                    cost = cost.subtract(places.getCost()); //trừ cost
-                                    expense = expense.add(places.getCost()); //thêm tiền đã dùng
-                                    costPlay = costPlay.add(places.getCost());
-                                    placesReservation.add(places);
-                                    planItems.add(PlanItem.builder()
-                                            .imageUrl(!places.getImages().isEmpty() ? places.getImages().stream().findFirst().get().getUrlImage() : "https://www.google.com/url?sa=i&url=https%3A%2F%2F3gwifi.net%2Ftravel-la-gi%2F&psig=AOvVaw2oAnTpl2Cc_oltXbBJHLJb&ust=1699943380832000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCUlt2swIIDFQAAAAAdAAAAABAE")
-                                            .startTime(start)
-                                            .title(places.getTitle())
-                                            .content(places.getDescription())
-                                            .money(places.getCost())
-                                            .note("")
-                                            .isOptional(s.isOptional())
-                                            .index(s.getIndex())
-                                            .placesId(places.getId())
-                                            .plan(plan)
-                                            .build()
-                                    );
-                                    start = start.plusMinutes(places.getTimePlaces() + 15);
-                                    numberTimeMinutes = numberTimeMinutes - (places.getTimePlaces() + 15);
-                                } else {
-                                    placesEatListCopy.remove(places);
-                                }
-                            }
-                        } else {
-                            placesEatListCopy.remove(places);
-                        }
-                    }
-
-                }
-            }
-            //xét địa điểm cuối cùng có trùng free buỏi chiều k
-        }
-
-        String username = SecurityUtils.getUsernameOfPrincipal();
-        if (username == null) {
-            username = "admin";
-        }
-
-        plan.setTitle(planForm.getDestination());
-        plan.setLocation(Address.builder()
-                .latitude(planForm.getLocationLatitude())
-                .longitude(planForm.getLocationLongitude())
-                .build());
-        plan.setDestination(planForm.getDestination());
-        plan.setBeginDate(newBeginDate);
-        plan.setEndDate(newEndDate);
-        plan.setNumberPeople(planForm.getNumberPeople());
-        plan.setDistance(distance);
-        plan.setEstimatedTotalDistance(estimatedTotalDistance);
-        plan.setNumberVehicle(numberVehicle);
-        plan.setExpense(expense);
-        plan.setCostVehicle(costVehicle);
-        plan.setCostEat(costEat);
-        plan.setCostPlay(costPlay);
-        plan.setPlanItems(planItems);
-        plan.setUser(userRepository.findByUsername(username)
-                .orElseThrow());
-        plan.setCategories(categories);
-        plan.setVehicle(vehicle);
-        return PlanDto.toDto(planRepository.save(plan));
-    }
-
-    @Override
-    public void delete(long id) {
+        shareRepository.deleteAllByPlan(plan);
         planRepository.deleteById(id);
+        return "Success";
     }
 
     @Override
@@ -319,7 +61,7 @@ public class PlanServiceImpl implements PlanService {
     public List<PlanDto> getAllCart() {
         User user = userRepository.findByUsername(SecurityUtils.getUsernameOfPrincipal())
                 .orElseThrow();
-        if(user.getCart()==null) {
+        if (user.getCart() == null) {
             return null;
         }
         return user.getCart()
@@ -341,7 +83,8 @@ public class PlanServiceImpl implements PlanService {
     public PlanDto getById(long id) {
         return PlanDto.toDto(
                 planRepository.findById(id)
-                        .orElseThrow()
+                        .orElseThrow(() ->
+                                new IllegalArgumentException("Plan not found with id " + id))
         );
     }
 
@@ -353,14 +96,448 @@ public class PlanServiceImpl implements PlanService {
         return null;
     }
 
+    @Override
+    public PlanDto generatePlan(PlanForm planForm) {
+        if (planForm.getBeginDate().isAfter(planForm.getEndDate())) {
+            throw new IllegalArgumentException("Begin date must before end date");
+        }
+
+        BigDecimal expenseOnePeople, cost;
+        long distance, numberDate, estimatedTotalDistance, timeGo, numberVehicle, travelTimeMinutes;
+        LocalDateTime newBeginDate, newEndDate;
+
+        expenseOnePeople = new BigDecimal(0); //chi phí đã dùng trên 1 người
+        cost = planForm.getExpense(); //chi phi input trên người
+
+        Vehicle vehicle = vehicleRepository.findById(planForm.getVehicleId())
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Vehicle not found with id " + planForm.getVehicleId()));
+
+        distance = 100; //khoảng cách du lịch
+        numberDate = planForm.getBeginDate().until(planForm.getEndDate(), ChronoUnit.DAYS) + 1;
+        estimatedTotalDistance = distance * 2 * 130 / 100 + 50 * numberDate; //trung binh 50km/ngay
+        timeGo = (long) (((double) distance / vehicle.getAverageSpeed()) * 1.3 * 60.0); //thời gian du lịch đến đó: độ trễ là 1.3 lần
+        numberVehicle = (planForm.getNumberPeople() + vehicle.getSeats() - 1) / vehicle.getSeats();
+
+        BigDecimal costVehicle = vehicle.getCost() //chi phí phương tiện trên người
+                .multiply(BigDecimal
+                        .valueOf(estimatedTotalDistance))
+                .multiply(BigDecimal
+                        .valueOf(numberVehicle))
+                .divide(BigDecimal.valueOf(planForm.getNumberPeople()), 0, RoundingMode.HALF_UP);
+        expenseOnePeople = expenseOnePeople.add(costVehicle);
+
+        //kiểm tra chi phí
+        cost = cost.subtract(costVehicle);
+        if (cost.compareTo(BigDecimal.valueOf(200)) < 0) {
+            cost = BigDecimal.valueOf(200);
+        }
+
+        newBeginDate = planForm.getBeginDate().plusMinutes(timeGo); //thời gian bắt đầu chơi = input + thời gian di chuyển
+        newEndDate = planForm.getEndDate();
+        travelTimeMinutes = newBeginDate.until(newEndDate, ChronoUnit.MINUTES); //thời gian du lịch
+        if (travelTimeMinutes < 240L) { //thời gian du lịch luôn lớn hơn 4 tiếng
+            newEndDate = newBeginDate.plusMinutes(240L);
+        }
+
+        //lấy tất cả địa điểm tại nơi du lịch: Vũng Tàu
+        List<Places> placesListArea = placesRepository.findAllByCategories_Name(planForm.getDestination());
+
+        List<Places> placesEatList = filterByCategoryParent(placesListArea, categoryRepository.findByName("Quán ăn")
+                .orElseThrow(() -> new NotFoundException("Category not found with name " + "Quán ăn")));
+        BigDecimal costEat = new BigDecimal(0);
+        BigDecimal costPlay = new BigDecimal(0);
+
+        List<Sessions> sessions = countSessionsUpdate(newBeginDate, travelTimeMinutes);
+        Plan plan = new Plan();
+
+        //-------------------------------chuẩn bị đã xong bắt đầu generate -----------------------------------------------------------
+        List<Category> categories = null;
+        if (!planForm.getCategoryId().isEmpty()) {
+            Category amThuc = categoryRepository.findByName("Ẩm thực")
+                    .orElseThrow(() -> new NotFoundException("Category not found with name " + "Am Thuc"));
+            categories = generalService.getAllCategoryByArrayId(planForm.getCategoryId());
+            boolean isEat = categories.contains(amThuc); //xem danh mục có ẩm thực
+            if (isEat) {
+                categories.remove(amThuc);
+            }
+
+            placesListArea = filterByListCategories(placesListArea, categories);
+        }
+
+        //lọc địa điểm ăn
+        BigDecimal costAvg = cost.divide(BigDecimal.valueOf(sessions.size()), 0, RoundingMode.HALF_UP);
+
+        String[] phanLoaiArray = new String[]{"Tiết kiệm", "Bình dân", "Vừa", "Cao", "Cao cấp"};
+        int phanLoai;
+        if (costAvg.compareTo(BigDecimal.valueOf(300000)) >= 0) {
+            phanLoai = 4;
+        } else if (costAvg.compareTo(BigDecimal.valueOf(100000)) >= 0) {
+            phanLoai = 3;
+        } else if (costAvg.compareTo(BigDecimal.valueOf(30000)) >= 0) {
+            phanLoai = 2;
+        } else if (costAvg.compareTo(BigDecimal.valueOf(20000)) >= 0) {
+            phanLoai = 1;
+        } else {
+            phanLoai = 0;
+        }
+
+        //List item plan được chọn
+        List<PlanItem> planItems = new ArrayList<>();
+        placesEatList = this.filterPlacesListGenerate(placesEatList, phanLoai);
+        for (Sessions s :
+                sessions) {
+            if (s.getIndex() == 1 || s.getIndex() == 3 || s.getIndex() == 6) {
+
+                LocalDateTime start = newBeginDate.plusMinutes(s.getTimeMinutesBegin());
+                List<Places> placesEatListCopy = new ArrayList<Places>(placesEatList);
+                int length;
+
+                while (true) {
+                    length = placesEatListCopy.size();
+                    if (length == 0) throw new IllegalArgumentException("Sorry, cost or data limited");
+                    Random random = new Random();
+                    Places places = placesEatListCopy.get(random.nextInt(length));
+
+                    if (places.isFull() ||
+                            (start.toLocalTime().isAfter(places.getBeginDay()) && start.toLocalTime().isBefore(places.getEndDay()))) {
+
+                        if (s.isOptional()) {
+                            planItems.add(PlanItem.builder()
+                                    .imageUrl(!places.getImages().isEmpty()
+                                            ? places.getImages().stream().findFirst().get().getUrlImage()
+                                            : "https://www.google.com/url?sa=i&url=https%3A%2F%2F3gwifi.net%2Ftravel-la-gi%2F&psig=AOvVaw2oAnTpl2Cc_oltXbBJHLJb&ust=1699943380832000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCUlt2swIIDFQAAAAAdAAAAABAE")
+                                    .startTime(start)
+                                    .title(places.getTitle())
+                                    .content(places.getDescription())
+                                    .money(places.getCost())
+                                    .note("")
+                                    .isOptional(s.isOptional())
+                                    .index(s.getIndex())
+                                    .placesId(places.getId())
+                                    .plan(plan)
+                                    .timeGoTwoPlaces(0)
+                                    .build()
+                            );
+                            placesEatList.remove(places);
+                            break;
+                        } else {
+                            if (cost.compareTo(places.getCost()) >= 0) {
+
+                                cost = cost.subtract(places.getCost()); //trừ cost
+                                expenseOnePeople = expenseOnePeople.add(places.getCost()); //thêm tiền đã dùng
+                                costEat = costEat.add(places.getCost());
+
+                                planItems.add(PlanItem.builder()
+                                        .imageUrl(!places.getImages().isEmpty() ? places.getImages().stream().findFirst().get().getUrlImage() : "https://www.google.com/url?sa=i&url=https%3A%2F%2F3gwifi.net%2Ftravel-la-gi%2F&psig=AOvVaw2oAnTpl2Cc_oltXbBJHLJb&ust=1699943380832000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCUlt2swIIDFQAAAAAdAAAAABAE")
+                                        .startTime(start)
+                                        .title(places.getTitle())
+                                        .content(places.getDescription())
+                                        .money(places.getCost())
+                                        .note("")
+                                        .isOptional(s.isOptional())
+                                        .index(s.getIndex())
+                                        .placesId(places.getId())
+                                        .plan(plan)
+                                        .timeGoTwoPlaces(0)
+                                        .build()
+                                );
+                                placesEatList.remove(places);
+                                break;
+                            } else {
+                                placesEatListCopy.remove(places);
+                            }
+                        }
+                    } else {
+                        placesEatListCopy.remove(places);
+                    }
+                }
+
+            }
+        }
+
+        placesListArea = filterPlacesListGenerate(placesListArea, phanLoai);
+        for (Sessions s :
+                sessions) {
+            Places placesBefore = null;
+
+            if (s.getIndex() == 2 || s.getIndex() == 4 || s.getIndex() == 7 || (s.getIndex() == 5 && s.isOptional())) {
+                LocalDateTime start = newBeginDate.plusMinutes(s.getTimeMinutesBegin());
+                long numberTimeMinutes = s.getNumberTimeMinutes();
+
+                List<Places> placesListAreaCopy = new ArrayList<Places>(placesListArea);
+                int length;
+
+                while (true) {
+                    length = placesListAreaCopy.size();
+                    if (length == 0) break;
+
+                    Random random = new Random();
+                    Places places = placesListAreaCopy.get(random.nextInt(length));
+
+                    long timeGoTwoPlaces = 0;
+                    if (placesBefore != null)
+                        timeGoTwoPlaces = calculatorTimeGo(placesBefore, places, vehicle);
+
+                    if (numberTimeMinutes >= (places.getMinTimePlaces() + timeGoTwoPlaces)
+                            && (places.isFull() || (start.toLocalTime().isAfter(places.getBeginDay()) && start.toLocalTime().isBefore(places.getEndDay())))) {
+
+                        long numberTimeMinutesForPlace = places.getMaxTimePlaces();
+                        if (numberTimeMinutes < (places.getMaxTimePlaces() + timeGoTwoPlaces)) {
+                            numberTimeMinutesForPlace = numberTimeMinutes - timeGoTwoPlaces;
+                        }
+
+                        if (s.isOptional()) {
+                            planItems.add(PlanItem.builder()
+                                    .imageUrl(!places.getImages().isEmpty() ? places.getImages().stream().findFirst().get().getUrlImage() : "https://www.google.com/url?sa=i&url=https%3A%2F%2F3gwifi.net%2Ftravel-la-gi%2F&psig=AOvVaw2oAnTpl2Cc_oltXbBJHLJb&ust=1699943380832000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCUlt2swIIDFQAAAAAdAAAAABAE")
+                                    .startTime(start.plusMinutes(timeGoTwoPlaces))
+                                    .title(places.getTitle())
+                                    .content(places.getDescription())
+                                    .money(places.getCost())
+                                    .note("")
+                                    .isOptional(s.isOptional())
+                                    .index(s.getIndex())
+                                    .placesId(places.getId())
+                                    .plan(plan)
+                                    .timeGoTwoPlaces(timeGoTwoPlaces)
+                                    .build()
+                            );
+
+                            placesListArea.remove(places);
+                            placesListAreaCopy.remove(places);
+
+                            //khi chọn được địa điểm r thì trừ numberTimeMinutes -= (place.gettime +time go)
+                            placesBefore = places;
+                            start = start.plusMinutes(numberTimeMinutesForPlace + timeGoTwoPlaces);
+                            numberTimeMinutes = numberTimeMinutes - (numberTimeMinutesForPlace + timeGoTwoPlaces);
+                        } else {
+                            if (cost.compareTo(places.getCost()) >= 0) {
+                                planItems.add(PlanItem.builder()
+                                        .imageUrl(!places.getImages().isEmpty() ? places.getImages().stream().findFirst().get().getUrlImage() : "https://www.google.com/url?sa=i&url=https%3A%2F%2F3gwifi.net%2Ftravel-la-gi%2F&psig=AOvVaw2oAnTpl2Cc_oltXbBJHLJb&ust=1699943380832000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOCUlt2swIIDFQAAAAAdAAAAABAE")
+                                        .startTime(start.plusMinutes(timeGoTwoPlaces))
+                                        .title(places.getTitle())
+                                        .content(places.getDescription())
+                                        .money(places.getCost())
+                                        .note("")
+                                        .isOptional(s.isOptional())
+                                        .index(s.getIndex())
+                                        .placesId(places.getId())
+                                        .plan(plan)
+                                        .timeGoTwoPlaces(timeGoTwoPlaces)
+                                        .build()
+                                );
+
+                                cost = cost.subtract(places.getCost()); //trừ cost
+                                expenseOnePeople = expenseOnePeople.add(places.getCost()); //thêm tiền đã dùng
+                                costPlay = costPlay.add(places.getCost());
+
+                                placesListArea.remove(places);
+                                placesListAreaCopy.remove(places);
+
+                                //khi chọn được địa điểm r thì trừ numberTimeMinutes -= (place.gettime +time go)
+                                placesBefore = places;
+                                start = start.plusMinutes(numberTimeMinutesForPlace + timeGoTwoPlaces);
+                                numberTimeMinutes = numberTimeMinutes - (numberTimeMinutesForPlace + timeGoTwoPlaces);
+                            } else {
+                                placesListAreaCopy.remove(places);
+                            }
+                        }
+                    } else {
+                        placesListAreaCopy.remove(places);
+                    }
+                }
+
+            }
+        }
+
+        String username = SecurityUtils.getUsernameOfPrincipal();
+        if (username == null) {
+            username = "admin";
+        }
+
+        categories.add(categoryRepository.findByName(phanLoaiArray[phanLoai])
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Category not found with name " + phanLoaiArray[phanLoai]))
+        );
+
+        //sắp xếp
+        // sắp xếp từ be đến lon start time
+        Collections.sort(planItems, Comparator.comparing(PlanItem::getStartTime));
+        //tìm khoảng cách - va thoi gian giữa các plan item
+        calculatorDistancePlanItems(planItems, vehicle);
+
+        plan.setTitle("Chuyến du lịch " + planForm.getDestination());
+        plan.setLocation(Address.builder()
+                .latitude(planForm.getLocationLatitude())
+                .longitude(planForm.getLocationLongitude())
+                .build());
+        plan.setDestination(planForm.getDestination());
+        plan.setBeginDate(newBeginDate);
+        plan.setEndDate(newEndDate);
+        plan.setNumberPeople(planForm.getNumberPeople());
+        plan.setDistance(distance);
+        plan.setEstimatedTotalDistance(estimatedTotalDistance);
+        plan.setNumberVehicle((int) numberVehicle);
+        plan.setExpense(expenseOnePeople);
+        plan.setCostVehicle(costVehicle);
+        plan.setCostEat(costEat);
+        plan.setCostPlay(costPlay);
+        plan.setPlanItems(planItems);
+        plan.setUser(userRepository.findByUsername(username)
+                .orElseThrow());
+        plan.setCategories(categories);
+        plan.setVehicle(vehicle);
+        return PlanDto.toDto(planRepository.save(plan));
+    }
+
+    private void calculatorDistancePlanItems(List<PlanItem> planItems, Vehicle vehicle) {
+        int length = planItems.size();
+
+        for (int i = 0; i < length-1 ; i++) {
+            int finalI = i;
+            Places places1 = placesRepository.findById(planItems.get(i).getPlacesId())
+                    .orElseThrow(()->
+                            new NotFoundException("Places not found with id " + planItems.get(finalI).getPlacesId()));
+            Places places2 = placesRepository.findById(planItems.get(i+1).getPlacesId())
+                    .orElseThrow(()->
+                            new NotFoundException("Places not found with id " + planItems.get(finalI+1).getPlacesId()));
+            double km = AppUtils.getGoTwoPlace(places1, places2);
+            long time = (long) ((km / vehicle.getAverageSpeed()) * 1.3 * 60.0);
+
+            planItems.get(finalI).setDistanceGoTwoPlaces(km);
+            planItems.get(finalI).setTimeGoTwoPlaces(time);
+        }
+        planItems.get(length-1).setDistanceGoTwoPlaces(0.0);
+        planItems.get(length-1).setTimeGoTwoPlaces(0);
+    }
+
+
+    private List<Sessions> countSessionsUpdate(LocalDateTime newBeginDate, long travelTimeMinutes) {
+        List<Sessions> sessionsList = new ArrayList<>();
+        long timeMinutesBegin = 0;
+        Sessions sessions;
+        int index = determineTime(newBeginDate);
+
+        for (int i = index; i < 8; i++) {
+            if (i == 0) {
+                // index, start time, thời gian tối đa chơi tiếp, hạn tối đa bắt đầu chơi, thời gian lố qua session khác
+                sessions = createSession(i, newBeginDate, timeMinutesBegin, travelTimeMinutes, 60, 60, 0);
+            } else if (i == 1) {
+                sessions = createSession(i, newBeginDate, timeMinutesBegin, travelTimeMinutes, 0, 15, 30);
+            } else if (i == 2) {
+                sessions = createSession(i, newBeginDate, timeMinutesBegin, travelTimeMinutes, 45, 20, 30);
+            } else if (i == 3) {
+                sessions = createSession(i, newBeginDate, timeMinutesBegin, travelTimeMinutes, 0, 20, 30);
+            } else if (i == 4) {
+                sessions = createSession(i, newBeginDate, timeMinutesBegin, travelTimeMinutes, 45, 20, 30);
+            } else if (i == 5) {
+                sessions = createSession(i, newBeginDate, timeMinutesBegin, travelTimeMinutes, 45, 20, 30);
+            } else if (i == 6) {
+                sessions = createSession(i, newBeginDate, timeMinutesBegin, travelTimeMinutes, 0, 20, 30);
+            } else {
+                sessions = createSession(i, newBeginDate, timeMinutesBegin, travelTimeMinutes, 45, 60, 1);
+                sessions.setNumberTimeMinutes(sessions.getNumberTimeMinutes() + 2);
+            }
+
+            sessionsList.add(sessions);
+            if (sessions.isEnd()) {
+                break;
+            }
+
+            //gắn lại thời gian bắt đầu
+            newBeginDate = newBeginDate.plusMinutes(sessions.getNumberTimeMinutes());
+            timeMinutesBegin += sessions.getNumberTimeMinutes();
+            //trừ thời gian còn lại
+            travelTimeMinutes -= sessions.getNumberTimeMinutes();
+
+            if (i == 7) i = -1;
+        }
+
+        return sessionsList;
+    }
+
+    private Sessions createSession(int index,
+                                   LocalDateTime startTime,
+                                   long timeMinutesBegin,
+                                   long travelTimeMinutes,
+                                   long maxTimeContinue,
+                                   long maxStartTime,
+                                   long expiredTime) {
+        //thời gian từ lúc bắt đầu đến cuối giai đoạn
+        long xToEndPhase = Duration.between(startTime.toLocalTime(), AppUtils.getTimeInit()[index + 1]).toMinutes();
+
+        if (xToEndPhase >= travelTimeMinutes) { //hết thời gian du lịch
+            if (travelTimeMinutes >= maxTimeContinue) { //nhưng nếu còn lớn hơn x phút thì vân đi chơi tiếp
+                if (maxTimeContinue == 0) { //nếu x phút = 0 thì nới giờ lên thành 60 ph và là gợi ý
+                    return Sessions.builder()
+                            .timeMinutesBegin(timeMinutesBegin)
+                            .numberTimeMinutes(60)
+                            .index(index)
+                            .isOptional(true)
+                            .isEnd(true)
+                            .isEnable(true)
+                            .build();
+                }
+                return Sessions.builder()
+                        .timeMinutesBegin(timeMinutesBegin)
+                        .numberTimeMinutes(travelTimeMinutes)
+                        .index(index)
+                        .isOptional(false)
+                        .isEnd(true)
+                        .isEnable(true)
+                        .build();
+            } else { //nếu bé hơn thì gợi ý
+                return Sessions.builder()
+                        .timeMinutesBegin(timeMinutesBegin)
+                        .numberTimeMinutes(60)
+                        .index(index)
+                        .isOptional(true)
+                        .isEnd(true)
+                        .isEnable(true)
+                        .build();
+            }
+            //bắt đầu thời gian du lịch nhưng nếu bé hơn x phút thì vân đi chơi tiếp và chấp nhận lố
+        } else if (xToEndPhase < maxStartTime && xToEndPhase < maxStartTime + expiredTime) {
+            if (expiredTime == 0) { //nếu k cho lố thì k kích hoạt
+                return Sessions.builder()
+                        .timeMinutesBegin(timeMinutesBegin)
+                        .numberTimeMinutes(xToEndPhase)
+                        .index(index)
+                        .isOptional(true)
+                        .isEnd(false)
+                        .isEnable(false)
+                        .build();
+            }
+            return Sessions.builder()
+                    .timeMinutesBegin(timeMinutesBegin)
+                    .numberTimeMinutes(maxStartTime + expiredTime)
+                    .index(index)
+                    .isOptional(false)
+                    .isEnd(false)
+                    .isEnable(true)
+                    .build();
+        } else { //trường hợp còn lại
+            return Sessions.builder()
+                    .timeMinutesBegin(timeMinutesBegin)
+                    .numberTimeMinutes(xToEndPhase)
+                    .index(index)
+                    .isOptional(false)
+                    .isEnd(false)
+                    .isEnable(true)
+                    .build();
+        }
+    }
 
     //phân loại địa điểm theo cấp độ
     private List<Places> filterPlacesListGenerate(List<Places> places, int s) {
-        String[] phanLoaiArray = new String[]{"Bình dân", "Trung bình", "Cao", "Cao cấp"};
+        String[] phanLoaiArray = new String[]{"Tiết kiệm", "Bình dân", "Vừa", "Cao", "Cao cấp"};
         List<Places> placesList = new ArrayList<>();
 
         for (int i = 0; i <= s; i++) {
-            Category category = categoryRepository.findByName(phanLoaiArray[i]).get();
+            int finalI = i;
+            Category category = categoryRepository.findByName(phanLoaiArray[i])
+                    .orElseThrow(() ->
+                            new IllegalArgumentException("Category not found with name " + phanLoaiArray[finalI]));
             for (Places p :
                     places) {
                 if (p.getCategories().contains(category)) {
@@ -406,13 +583,11 @@ public class PlanServiceImpl implements PlanService {
                 place.setValue(value);
             }
         }
-        // sắp xếp từ lớn đến bé chỉ số yêu thích
-        Collections.sort(placesList, Comparator.comparing(Places::getValue).reversed());
         return placesList;
     }
 
     //Lọc tất cả địa điểm 1 theo danh mục có danh mục nhất định
-    private List<Places> filterByCategoryParent(List<Places> places, Category categoryParent) { //category ẩm thực là parent
+    private List<Places> filterByCategoryParent(List<Places> places, Category categoryParent) {
         List<Places> placesList = new ArrayList<>();
         boolean flag;
         long idParent;
@@ -438,223 +613,6 @@ public class PlanServiceImpl implements PlanService {
         return placesList;
     }
 
-    private List<Sessions> countSessions(LocalDateTime beginDate, LocalDateTime endDate) {
-        // đêm - ăn sáng - buổi sáng - buổi trưa - buổi chiều - ăn tối - tắm rửa/free - buổi tối
-        List<Sessions> sessions = new ArrayList<>();
-        int indexStart = determineTime(beginDate);
-        long newTravelTimeMinutes = beginDate.until(endDate, ChronoUnit.MINUTES); //lấy tổng số phút
-        LocalTime x = beginDate.toLocalTime();
-        long timeMinutesBegin = 0;
-        long xToEndPhase;
-
-        for (int i = indexStart; i <= 7; i++) {
-            xToEndPhase = Duration.between(x, AppUtils.getTimeInit()[i + 1]).toMinutes();
-            if (i == 7) {
-                xToEndPhase += 1;
-            }
-
-            if (i == 0) {
-                //TODO: free
-                if (xToEndPhase >= newTravelTimeMinutes) { //hết thời gian du lịch nhưng nếu còn hơn 120 phút thì vẫn qua đêm
-                    this.xToEndPhaseMoreThanTravelTimeMinutes(sessions, newTravelTimeMinutes, 120L, xToEndPhase, i, timeMinutesBegin);
-                    break;
-                } else if (xToEndPhase < 120) {  //bắt đầu thời gian du lịch nhưng nếu còn hơn 120 phút thì vân đi chơi tiếp
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                } else { //120 -> max
-                    sessions.add(Sessions.builder()
-                            .timeMinutesBegin(timeMinutesBegin)
-                            .numberTimeMinutes(xToEndPhase)
-                            .index(i)
-                            .isOptional(false)
-                            .build());
-
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                }
-            } else if (i == 1) {
-                //TODO: ăn sáng
-                if (xToEndPhase >= newTravelTimeMinutes) { //optional ăn nếu còn hạn
-                    sessions.add(Sessions.builder()
-                            .timeMinutesBegin(timeMinutesBegin)
-                            .numberTimeMinutes(30)
-                            .index(i)
-                            .isOptional(true)
-                            .build());
-                    break;
-                } else if (xToEndPhase < 10) {
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                } else { //10 -> max
-                    sessions.add(Sessions.builder()
-                            .timeMinutesBegin(timeMinutesBegin)
-                            .numberTimeMinutes(xToEndPhase)
-                            .index(i)
-                            .isOptional(false)
-                            .build());
-
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                }
-            } else if (i == 2) {
-                //TODO: buổi sáng
-                if (xToEndPhase >= newTravelTimeMinutes) { //hết thời gian du lịch nhưng nếu còn hơn 20 phút thì vân đi chơi tiếp
-                    this.xToEndPhaseMoreThanTravelTimeMinutes(sessions, newTravelTimeMinutes, 20L, 30L, i, timeMinutesBegin);
-
-                    break;
-                } else if (xToEndPhase < 20) { //bắt đầu thời gian du lịch nhưng nếu còn hơn 20 phút thì vân đi chơi tiếp
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                } else { //20 -> max
-                    sessions.add(Sessions.builder()
-                            .timeMinutesBegin(timeMinutesBegin)
-                            .numberTimeMinutes(xToEndPhase)
-                            .index(i)
-                            .isOptional(false)
-                            .build());
-
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                }
-            } else if (i == 3) {
-                //TODO: buổi trưa
-                if (xToEndPhase >= newTravelTimeMinutes) { //hết thời gian du lịch nhưng nếu còn hơn 15 phút thì vân đi đi ăn
-                    this.xToEndPhaseMoreThanTravelTimeMinutes(sessions, newTravelTimeMinutes, 15L, 30L, i, timeMinutesBegin);
-                    break;
-                } else if (xToEndPhase < 15) { //bắt đầu thời gian du lịch nhưng nếu còn hơn 15 phút thì vân đi ăn
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                } else { //15 -> max
-                    sessions.add(Sessions.builder()
-                            .timeMinutesBegin(timeMinutesBegin)
-                            .numberTimeMinutes(xToEndPhase)
-                            .index(i)
-                            .isOptional(false)
-                            .build());
-
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                }
-            } else if (i == 4) {
-                //TODO: buổi chiều
-                if (xToEndPhase >= newTravelTimeMinutes) { //hết thời gian du lịch nhưng nếu còn hơn 20 phút thì vân đi chơi tiếp
-                    this.xToEndPhaseMoreThanTravelTimeMinutes(sessions, newTravelTimeMinutes, 20L, 30L, i, timeMinutesBegin);
-
-                    break;
-                } else if (xToEndPhase < 20) { //bắt đầu thời gian du lịch nhưng nếu còn hơn 20 phút thì vân đi chơi tiếp
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                } else { //20 -> max
-                    sessions.add(Sessions.builder()
-                            .timeMinutesBegin(timeMinutesBegin)
-                            .numberTimeMinutes(xToEndPhase)
-                            .index(i)
-                            .isOptional(false)
-                            .build());
-
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                }
-            } else if (i == 5) {
-                //TODO: tắm rửa / free
-                if (xToEndPhase >= newTravelTimeMinutes) {
-                    if (newTravelTimeMinutes >= 45) {
-                        sessions.add(Sessions.builder()
-                                .timeMinutesBegin(timeMinutesBegin)
-                                .numberTimeMinutes(newTravelTimeMinutes)
-                                .index(i)
-                                .isOptional(false)
-                                .build());
-
-                    } else if (newTravelTimeMinutes >= 15) {
-                        sessions.add(Sessions.builder()
-                                .timeMinutesBegin(timeMinutesBegin)
-                                .numberTimeMinutes(newTravelTimeMinutes)
-                                .index(i)
-                                .isOptional(true)
-                                .build());
-
-                    } else {
-                        break;
-                    }
-                } else {
-                    sessions.add(Sessions.builder()
-                            .timeMinutesBegin(timeMinutesBegin)
-                            .numberTimeMinutes(xToEndPhase)
-                            .index(i)
-                            .isOptional(false)
-                            .build());
-
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                }
-            } else if (i == 6) {
-                //TODO: ăn tối
-                if (xToEndPhase >= newTravelTimeMinutes) { //hết thời gian du lịch nhưng nếu còn hơn 30 phút thì vân đi đi ăn
-                    this.xToEndPhaseMoreThanTravelTimeMinutes(sessions, newTravelTimeMinutes, 30L, 30L, i, timeMinutesBegin);
-                    break;
-                } else if (xToEndPhase < 15) { //bắt đầu thời gian du lịch nhưng nếu còn hơn 15 phút thì vân đi ăn
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                } else { //15 -> max
-                    sessions.add(Sessions.builder()
-                            .timeMinutesBegin(timeMinutesBegin)
-                            .numberTimeMinutes(xToEndPhase)
-                            .index(i)
-                            .isOptional(false)
-                            .build());
-
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                }
-            } else {
-                //TODO: buổi tối
-                if (xToEndPhase >= newTravelTimeMinutes) { //hết thời gian du lịch nhưng nếu còn hơn 30 phút thì vân đi đi ăn
-                    this.xToEndPhaseMoreThanTravelTimeMinutes(sessions, newTravelTimeMinutes, 30L, 30, i, timeMinutesBegin);
-
-                    break;
-                } else if (xToEndPhase < 60) { //bắt đầu thời gian du lịch nhưng nếu còn hơn 15 phút thì vân đi ăn
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                } else { //60 -> max
-                    sessions.add(Sessions.builder()
-                            .timeMinutesBegin(timeMinutesBegin)
-                            .numberTimeMinutes(xToEndPhase)
-                            .index(i)
-                            .isOptional(false)
-                            .build());
-
-                    timeMinutesBegin += xToEndPhase;
-                    newTravelTimeMinutes -= xToEndPhase;
-                }
-
-                x = AppUtils.getTimeInit()[0];
-                i = -1;
-                continue;
-            }
-
-            x = AppUtils.getTimeInit()[i + 1];
-        }
-        return sessions;
-    }
-
-    private void xToEndPhaseMoreThanTravelTimeMinutes(List<Sessions> sessions, long newTravelTimeMinutes, long min, long optionalMinutes, int i, long timeMinutesBegin) {
-        if (newTravelTimeMinutes >= min) { //30 -> max
-            sessions.add(Sessions.builder()
-                    .timeMinutesBegin(timeMinutesBegin)
-                    .numberTimeMinutes(newTravelTimeMinutes)
-                    .index(i)
-                    .isOptional(false)
-                    .build());
-        } else {
-            sessions.add(Sessions.builder()
-                    .timeMinutesBegin(timeMinutesBegin)
-                    .numberTimeMinutes(optionalMinutes)
-                    .index(i)
-                    .isOptional(true)
-                    .build());
-        }
-    }
 
     //xác định lúc đến là thuộc buổi nào
     private int determineTime(LocalDateTime time) {
@@ -676,5 +634,10 @@ public class PlanServiceImpl implements PlanService {
         } else {
             return 7;
         }
+    }
+
+    private long calculatorTimeGo(Places places1, Places places2, Vehicle vehicle) {
+        double km = AppUtils.getGoTwoPlace(places1, places2);
+        return (long) ((km / vehicle.getAverageSpeed()) * 1.3 * 60.0); //sai so 1.3
     }
 }

@@ -67,4 +67,7 @@ public class Plan extends BaseEntity{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Share> shares;
 }

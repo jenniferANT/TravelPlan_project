@@ -1,7 +1,5 @@
 package com.app.travelplan.model.form;
 
-import com.app.travelplan.model.entity.Category;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -29,13 +27,13 @@ public class PlanForm {
   "locationLatitude": 0,
   "locationLongitude": 0,
   "destination": "Vũng Tàu",
-  "beginDate": "2023-11-10T05:03:52.548Z",
-  "endDate": "2023-11-10T05:03:52.548Z",
-  "numberPeople": 2,
+  "beginDate": "2023-11-18T05:00:52.548Z",
+  "endDate": "2023-11-18T16:00:52.548Z",
+  "numberPeople": 4,
   "expense": 500000,
   "vehicleId": 1,
   "categoryId": [
-    6, 7
+    13, 19, 21
   ]
 }
  */

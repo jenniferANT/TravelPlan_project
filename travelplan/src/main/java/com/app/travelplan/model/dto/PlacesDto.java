@@ -2,6 +2,7 @@ package com.app.travelplan.model.dto;
 
 import com.app.travelplan.model.entity.Image;
 import com.app.travelplan.model.entity.Places;
+import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Data;
 
@@ -27,7 +28,10 @@ public class PlacesDto {
     private LinkDto link;
     private UserDto user;
     private boolean isFull;
-    private long timePlaces;
+
+    private long minTimePlaces; //thời gian trung bình dành cho địa điểm này
+    private long maxTimePlaces; //thời gian trung bình dành cho địa điểm này
+
     private LocalTime beginDay;
     private LocalTime endDay;
 
@@ -52,7 +56,8 @@ public class PlacesDto {
                 .point(places.getPoint())
                 .imageUrl(imageUrl)
                 .cost(places.getCost())
-                .timePlaces(places.getTimePlaces())
+                .minTimePlaces(places.getMinTimePlaces())
+                .maxTimePlaces(places.getMaxTimePlaces())
                 .count(places.getReviews()!=null ? places.getReviews().size() : 0)
                 .addressDto(AddressDto.toDto(places.getAddress()))
                 .category(places.getCategories()

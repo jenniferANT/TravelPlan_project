@@ -1,5 +1,6 @@
 package com.app.travelplan.controller;
 
+import com.app.travelplan.model.dto.PlacesDto;
 import com.app.travelplan.model.form.PlacesForm;
 import com.app.travelplan.service.PlacesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,5 +43,15 @@ public class PlacesController {
     @GetMapping("/api/v1/places/my-follow")
     public ResponseEntity getMyFollow() {
         return new ResponseEntity(placesService.getMyFollow(), HttpStatus.OK);
+    }
+
+    @PatchMapping("/api/v1/places/{id}/add-category")
+    public ResponseEntity addCategoryToPlace(@PathVariable("id") long placeId, @RequestParam(value = "categories[]") long[] ids) {
+        return new ResponseEntity(placesService.addCategoryToPlace(placeId, ids), HttpStatus.OK);
+    }
+
+    @PatchMapping("/api/v1/places/{id}/remove-category")
+    public ResponseEntity delCategoryToPlace(@PathVariable("id") long placeId, @RequestParam(value = "categories[]") long[] ids) {
+        return new ResponseEntity(placesService.delCategoryToPlace(placeId, ids), HttpStatus.OK);
     }
 }

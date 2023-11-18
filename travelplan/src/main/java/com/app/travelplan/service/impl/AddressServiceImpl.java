@@ -9,6 +9,7 @@ import com.app.travelplan.model.form.AddressForm;
 import com.app.travelplan.repository.AddressRepository;
 import com.app.travelplan.repository.LinkRepository;
 import com.app.travelplan.service.AddressService;
+import com.app.travelplan.utils.AppUtils;
 import com.app.travelplan.utils.SecurityUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -62,10 +63,24 @@ public class AddressServiceImpl implements AddressService {
                         new NotFoundException("Link not found with id " + id)));
     }
 
+    @Override
+    public void setLongLa() {
+        List<Address> addresses = addressRepository.findAll();
+
+        for (Address a:
+             addresses) {
+            Double[] x = AppUtils.getLatitudeAndLongitude(a.getAddressLinkMap());
+            a.setLatitude(x[0]);
+            a.setLongitude(x[1]);
+        }
+        addressRepository.saveAll(addresses);
+    }
+
     private Address toEntity(AddressForm addressForm) {
+        Double[] x = AppUtils.getLatitudeAndLongitude(addressForm.getAddressLinkMap());
         return Address.builder()
-                .latitude(addressForm.getLatitude())
-                .longitude(addressForm.getLongitude())
+                .latitude(x[0])
+                .longitude(x[1])
                 .addressString(addressForm.getAddressString())
                 .addressLinkMap(addressForm.getAddressLinkMap())
                 .addressPlusCode(addressForm.getAddressPlusCode())

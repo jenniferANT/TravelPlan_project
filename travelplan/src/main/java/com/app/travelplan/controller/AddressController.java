@@ -39,4 +39,10 @@ public class AddressController {
         addressService.deleteById(id);
         return new ResponseEntity("Success", HttpStatus.OK);
     }
+
+
+    public ResponseEntity setLongLa() {
+        addressService.setLongLa();
+        return new ResponseEntity("Success", HttpStatus.OK);
+    }
 }

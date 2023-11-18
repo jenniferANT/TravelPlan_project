@@ -35,7 +35,8 @@ public class PlanDto {
     private Vehicle vehicle;
 
     public static PlanDto toDto(Plan plan) {
-        Collections.sort(plan.getPlanItems(), Comparator.comparing(PlanItem::getStartTime));
+        List<PlanItem> planItems1 = plan.getPlanItems();
+        planItems1.sort(Comparator.comparing(PlanItem::getStartTime));
         return PlanDto.builder()
                 .id(plan.getId())
                 .title(plan.getTitle())
@@ -51,9 +52,7 @@ public class PlanDto {
                 .costVehicle(plan.getCostVehicle())
                 .costEat(plan.getCostEat())
                 .costPlay(plan.getCostPlay())
-                .planItems(
-                        plan.getPlanItems()
-                )
+                .planItems(planItems1)
                 .user(UserDto.toDto(plan.getUser()))
                 .categories(plan.getCategories()
                         .stream()

@@ -39,7 +39,6 @@ public class PlanController {
 
     @DeleteMapping("/api/v1/plan")
     public ResponseEntity deleteById(@RequestParam long id) {
-        planService.delete(id);
-        return new ResponseEntity<>("Success", HttpStatus.OK);
+        return new ResponseEntity<>(planService.delete(id), HttpStatus.OK);
     }
 }

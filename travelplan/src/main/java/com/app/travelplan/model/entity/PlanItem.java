@@ -34,6 +34,11 @@ public class PlanItem extends BaseEntity{
     //0: đêm - 1: ăn sáng - 2: buổi sáng - 3: buổi trưa - 4: buổi chiều - 5: tắm rửa - 6: ăn tối - 7: buổi tối
     private int index;
 
+    @Column(name = "distance_go_two_places")
+    private double distanceGoTwoPlaces;
+    @Column(name = "time_go_two_places")
+    private long timeGoTwoPlaces;
+
     @Column(name = "place_id")
     private long placesId;
     @ManyToOne(fetch = FetchType.LAZY)

@@ -21,6 +21,8 @@ public class GeneralServiceImpl implements GeneralService {
     @Override
     public List<Category> getAllCategoryByArrayId(List<Long> temp) {
         List<Category> categories = new ArrayList<Category>();
+        if(temp.isEmpty()) return categories;
+
         for (long i : temp) {
             categories.add(
                     categoryRepository.findById(i)

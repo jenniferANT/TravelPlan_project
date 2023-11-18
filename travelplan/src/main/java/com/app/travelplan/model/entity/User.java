@@ -44,6 +44,11 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Plan> planList;
 
+    @OneToMany(mappedBy = "remitter")
+    private List<Share> shared;
+    @ManyToMany(mappedBy = "receiver")
+    private List<Share> toShared;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.getName()));

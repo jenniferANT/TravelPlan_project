@@ -12,4 +12,8 @@ public interface PlacesService {
     PlacesDto update(PlacesForm placesForm, long id);
     PlacesDto getById(long id);
     List<PlacesDto> getMyFollow();
+
+    PlacesDto addCategoryToPlace(long placeId, long[] ids);
+
+    PlacesDto delCategoryToPlace(long placeId, long[] ids);
 }

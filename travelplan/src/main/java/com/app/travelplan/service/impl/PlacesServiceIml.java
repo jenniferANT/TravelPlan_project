@@ -93,6 +93,56 @@ public class PlacesServiceIml implements PlacesService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public PlacesDto addCategoryToPlace(long placeId, long[] ids) {
+        Places places = placesRepository.findById(placeId)
+                .orElseThrow(()->
+                        new NotFoundException("Places not found with id " + placeId));
+
+        for (long id:
+             ids) {
+            if (!this.arrayCategoryContains(id, places.getCategories())) {
+                Category category = categoryRepository.findById(id)
+                        .orElseThrow(()->
+                                new NotFoundException("Category not found with id " + id));
+
+                places.getCategories().add(category);
+            }
+        }
+        return PlacesDto.toDto(
+                placesRepository.save(places));
+    }
+
+    @Override
+    public PlacesDto delCategoryToPlace(long placeId, long[] ids) {
+        Places places = placesRepository.findById(placeId)
+                .orElseThrow(()->
+                        new NotFoundException("Places not found with id " + placeId));
+
+        for (long id:
+                ids) {
+            if (this.arrayCategoryContains(id, places.getCategories())) {
+                Category category = categoryRepository.findById(id)
+                        .orElseThrow(()->
+                                new NotFoundException("Category not found with id " + id));
+
+                places.getCategories().remove(category);
+            }
+        }
+        return PlacesDto.toDto(
+                placesRepository.save(places));
+    }
+
+    private boolean arrayCategoryContains(long id, List<Category> categories) {
+        for (Category c:
+             categories) {
+            if(id == c.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private Places toEntity(PlacesForm placesForm) {
         if(placesForm.getBeginDay().isAfter(placesForm.getEndDay())) {
             throw new IllegalArgumentException("Begin day must be before end day");
@@ -107,8 +157,10 @@ public class PlacesServiceIml implements PlacesService {
             s="Cao";
         } else if(placesForm.getCost().compareTo(BigDecimal.valueOf(50000)) >= 0) {
             s="Vừa";
-        } else {
+        } else if(placesForm.getCost().compareTo(BigDecimal.valueOf(30000)) >= 0) {
             s="Bình dân";
+        } else {
+            s="Tiết kiệm";
         }
         categories.add(categoryRepository.findByName(s).get());
 
@@ -130,12 +182,12 @@ public class PlacesServiceIml implements PlacesService {
                 .cost(placesForm.getCost())
                 .point(0)
                 .description(placesForm.getDescription())
-                .timePlaces(placesForm.getTimePlaces())
+                .minTimePlaces(placesForm.getMinTimePlaces())
                 .user(user)
                 .categories(categories)
                 .images(images)
                 .link(link)
-                .timePlaces(placesForm.getTimePlaces())
+                .maxTimePlaces(placesForm.getMaxTimePlaces())
                 .address(address)
                 .isFull(placesForm.isFull())
                 .beginDay(placesForm.getBeginDay())

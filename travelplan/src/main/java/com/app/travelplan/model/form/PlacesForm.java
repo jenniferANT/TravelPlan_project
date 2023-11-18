@@ -19,7 +19,9 @@ public class PlacesForm {
     private LocalTime beginDay; //giờ mở cửa
     @JsonFormat(pattern = "HH:mm")
     private LocalTime endDay; //giờ đóng cửa
-    private long timePlaces; //thời gian trung bình dành cho địa điểm này
+
+    private long minTimePlaces; //thời gian trung bình dành cho địa điểm này
+    private long maxTimePlaces; //thời gian trung bình dành cho địa điểm này
 
     private List<Long> categoryId = new ArrayList<>();
     private List<Long> imageId = new ArrayList<>();
