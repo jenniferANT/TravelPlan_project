@@ -1,4 +1,4 @@
-import { Routes, Route ,Link, useHistory} from 'react-router-dom'
+import { Routes, Route ,Link, useHistory, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 
 import './regis.scss'
@@ -11,6 +11,9 @@ import iconScience from './img/icon-science.png'
 import iconBook from './img/icon-book.png'
 import qrCode from './img/Frame 38.png'
 import { useState } from 'react';
+import { registerUser } from '../../redux/apiRequest';
+import { useDispatch } from 'react-redux';
+import { clear } from '@testing-library/user-event/dist/clear';
 
 
 export {earthImg, iconBook, iconDrone, iconMobile, iconRobot, iconScience, qrCode}
@@ -23,15 +26,14 @@ function Regis() {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [userDatas, setUserDatas] = useState([])
-
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [errorUser,setErrorUser] = useState('')
     const [errorEmail,setErrorEmail] = useState('')
     const [errorpassword,setErrorPassword] = useState('')
 
-    const api = axios.create({
-        baseURL: 'http://locallhost:8081/api/v1'
-    });
+   
 
 
     const isValidEmail = (email) => {
@@ -50,45 +52,25 @@ function Regis() {
 
 
 
-    const handleSubmit = (event) => {
+    const handleRegsister = (event) => {
         event.preventDefault();
-        
-        
-
-
-
-        if (userName.length <= 8 || userName.includes(" ")) {
-            setErrorUser("Username phải có ít nhất 8 kí tự và không chứa khoảng trắng")
-            if(errorUser!= '') {console.log(errorUser);}
-        }else if(!isValidEmail(email)) {
-            setErrorEmail("Email không hợp lệ");
-            if(errorEmail!='') {console.log(errorEmail);}
-        }else if (password.length <=8 || password.includes(" ")) {
-            setErrorPassword("Password phải có ít nhất 8 kí tự và không chứa khoảng trắng");
-            if(errorpassword!= '') {console.log(errorpassword);}
-        }
-            setUserDatas(prev => {
-                const newUser = [...prev, {userName,email,name,password}] 
-                return newUser
-            })
-            
-            const data = {
-                userName: userName,
-                email:email,
-                name:name,
-                password:password
-            };
-
-
-            api.post('/auth/register', data)
-                .then(response => {
-                    console.log(response.data); // In ra dữ liệu được trả về từ server
-                    clearInput(); // Clear các ô input sau khi gửi thành công
-                })
-                .catch(error => {
-                console.log(error);
-            });
-        
+        const newUser = {
+            email: email,
+            password: password,
+            userName: userName
+        };
+        // if (userName.length <= 8 || userName.includes(" ")) {
+        //     setErrorUser("Username phải có ít nhất 8 kí tự và không chứa khoảng trắng")
+        //     if(errorUser!= '') {console.log(errorUser);}
+        // }else if(!isValidEmail(email)) {
+        //     setErrorEmail("Email không hợp lệ");
+        //     if(errorEmail!='') {console.log(errorEmail);}
+        // }else if (password.length <=8 || password.includes(" ")) {
+        //     setErrorPassword("Password phải có ít nhất 8 kí tự và không chứa khoảng trắng");
+        //     if(errorpassword!= '') {console.log(errorpassword);}
+        // }
+        registerUser(newUser, dispatch, navigate);
+        clearInput()
     }
    return (
     <div className="body">
@@ -130,7 +112,7 @@ function Regis() {
                 <div className='regis-form__element'>
                     <input value={password}  type='password' onChange={(e) => setPassword(e.target.value)} required placeholder='Password:' />
                 </div>
-                <button onClick={handleSubmit} className='regis-form-btn'>Sign up</button>
+                <button onClick={handleRegsister} className='regis-form-btn'>Sign up</button>
                 <div className="to-log-in">
                     <p>Bạn đã có tài khoản?
                         <Link to='/login' className="link-log-in">Log in</Link>
