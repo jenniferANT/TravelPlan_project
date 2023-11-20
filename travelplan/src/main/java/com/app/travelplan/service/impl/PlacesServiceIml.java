@@ -1,20 +1,23 @@
 package com.app.travelplan.service.impl;
 
 import com.app.travelplan.model.dto.PlacesDto;
+import com.app.travelplan.model.dto.ListResponse;
 import com.app.travelplan.model.entity.*;
 import com.app.travelplan.model.form.PlacesForm;
 import com.app.travelplan.repository.*;
 import com.app.travelplan.service.GeneralService;
 import com.app.travelplan.service.PlacesService;
 import com.app.travelplan.utils.SecurityUtils;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,11 +43,28 @@ public class PlacesServiceIml implements PlacesService {
     }
 
     @Override
-    public List<PlacesDto> getAll() {
-        return placesRepository.findAll()
-                .stream()
-                .map(PlacesDto::toDto)
-                .collect(Collectors.toList());
+    public ListResponse getAll(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sort = sortDir.equals(Sort.Direction.ASC.name())
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+        Page<Places> listPage = placesRepository.findAll(pageable);
+        List<Places> listPlaces = listPage.getContent();
+        List<PlacesDto> content = listPlaces.stream().map(PlacesDto::toDto).toList();
+
+        ListResponse<PlacesDto> listResponse = new ListResponse<>();
+
+        return listResponse.toListResponse(
+                listResponse,
+                content,
+                listPage.getNumber(),
+                listPage.getSize(),
+                listPage.getTotalElements(),
+                listPage.getTotalPages(),
+                listPage.isLast()
+        );
     }
 
     @Override

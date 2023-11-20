@@ -1,5 +1,6 @@
 package com.app.travelplan.service;
 
+import com.app.travelplan.model.dto.ListResponse;
 import com.app.travelplan.model.dto.PlanDto;
 import com.app.travelplan.model.entity.Plan;
 import com.app.travelplan.model.form.PlanForm;
@@ -15,7 +16,7 @@ public interface PlanService {
     List<PlanDto> getAllHistory();
 
     //lấy danh sách plan đã lưu
-    List<PlanDto> getAll();
+    ListResponse getAll(int pageNo, int pageSize, String sortBy, String sortDir);
     PlanDto getById(long id);
 
     //lấy danh sách plan đã share

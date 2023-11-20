@@ -40,9 +40,11 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(form.getUsername(), form.getPassword())
         );
+
+        User userLogin = userRepository.findByUsername(authentication.getName()).get();
         String accessToken = jwtService.generateAccessToken(authentication);
         String refreshToken = jwtService.generateRefreshToken(authentication);
-        return AuthDto.from(authentication, accessToken, refreshToken);
+        return AuthDto.from(userLogin, accessToken, refreshToken);
     }
 
     @Override
@@ -72,8 +74,9 @@ public class AuthServiceImpl implements AuthService {
         if( refreshToken != null ){
             refreshToken = refreshToken.replaceFirst("Bearer ", "");
             if(jwtService.validateRefreshToken(refreshToken) ){
-                Authentication auth = jwtService.createAuthentication(refreshToken);
-                return AuthDto.from(auth, jwtService.generateAccessToken(auth), refreshToken);
+                Authentication authentication = jwtService.createAuthentication(refreshToken);
+                User userLogin = userRepository.findByUsername(authentication.getName()).get();
+                return AuthDto.from(userLogin, jwtService.generateAccessToken(authentication), refreshToken);
             }
         }
         throw new InvalidRefreshTokenException(refreshToken);

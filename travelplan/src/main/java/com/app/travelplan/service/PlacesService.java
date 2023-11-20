@@ -1,13 +1,14 @@
 package com.app.travelplan.service;
 
 import com.app.travelplan.model.dto.PlacesDto;
+import com.app.travelplan.model.dto.ListResponse;
 import com.app.travelplan.model.form.PlacesForm;
 
 import java.util.List;
 
 public interface PlacesService {
     PlacesDto save(PlacesForm placesForm);
-    List<PlacesDto> getAll();
+    ListResponse getAll(int pageNo, int pageSize, String sortBy, String sortDir);
     void deleteById(long id);
     PlacesDto update(PlacesForm placesForm, long id);
     PlacesDto getById(long id);

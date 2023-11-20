@@ -1,6 +1,8 @@
 package com.app.travelplan.service.impl;
 
 import com.app.travelplan.model.Sessions;
+import com.app.travelplan.model.dto.ListResponse;
+import com.app.travelplan.model.dto.PlacesDto;
 import com.app.travelplan.model.dto.PlanDto;
 import com.app.travelplan.model.entity.*;
 import com.app.travelplan.model.form.PlanForm;
@@ -11,6 +13,10 @@ import com.app.travelplan.utils.AppUtils;
 import com.app.travelplan.utils.SecurityUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -80,11 +86,28 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public List<PlanDto> getAll() {
-        return planRepository.findAll()
-                .stream()
-                .map(PlanDto::toDto)
-                .collect(Collectors.toList());
+    public ListResponse getAll(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sort = sortDir.equals(Sort.Direction.ASC.name())
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+        Page<Plan> listPage = planRepository.findAll(pageable);
+        List<Plan> listPlan = listPage.getContent();
+        List<PlanDto> content = listPlan.stream().map(PlanDto::toDto).toList();
+
+        ListResponse<PlanDto> listResponse = new ListResponse<>();
+
+        return listResponse.toListResponse(
+                listResponse,
+                content,
+                listPage.getNumber(),
+                listPage.getSize(),
+                listPage.getTotalElements(),
+                listPage.getTotalPages(),
+                listPage.isLast()
+        );
     }
 
     @Override

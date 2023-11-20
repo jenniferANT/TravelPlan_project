@@ -3,6 +3,7 @@ package com.app.travelplan.controller;
 import com.app.travelplan.model.dto.PlacesDto;
 import com.app.travelplan.model.form.PlacesForm;
 import com.app.travelplan.service.PlacesService;
+import com.app.travelplan.utils.PageableConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,13 @@ public class PlacesController {
     }
 
     @GetMapping("/api/v1/places/get-all")
-    public ResponseEntity getAll() {
-        return new ResponseEntity(placesService.getAll(), HttpStatus.OK);
+    public ResponseEntity getAll(
+            @RequestParam(value = "pageNo", defaultValue = PageableConstants.DEFAULT_PAGE_NUMBER , required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PageableConstants.DEFAULT_PAGE_SIZE , required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = PageableConstants.DEFAULT_SORT_BY , required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = PageableConstants.DEFAULT_SORT_DIRECTION , required = false) String sortDir
+    ) {
+        return new ResponseEntity(placesService.getAll(pageNo, pageSize, sortBy, sortDir), HttpStatus.OK);
     }
 
     @GetMapping("/api/v1/places/{id}")
