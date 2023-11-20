@@ -10,53 +10,49 @@ import {
 import { Routes, Route, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState, useContext, useRef, useEffect } from "react";
-import axios from "axios";
 import "./login.scss";
-import { loginUser } from "../../redux/apiRequest";
+import { login } from "../../redux/apiRequest";
 import { useDispatch } from "react-redux";
 
 function Login() {
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [userDatas, setUserDatas] = useState([]);
-
   const [errorUser, setErrorUser] = useState("");
-  const [errorEmail, setErrorEmail] = useState("");
   const [errorpassword, setErrorPassword] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const clearInput = () => {
-    setName("");
-    setEmail("");
-    setUserName("");
+    setUsername("");
     setPassword("");
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newUser = {
-      userName: userName,
+    const userLogin = {
+      username: username,
       password: password,
     };
-    loginUser(newUser, dispatch, navigate);
-    // if (userName.length <= 8 || userName.includes(" ")) {
-    //     setErrorUser("Username phải có ít nhất 8 kí tự và không chứa khoảng trắng")
-    //     if(errorUser!= '') {console.log(errorUser);}
-    // // }else if(!isValidEmail(email)) {
-    // //     setErrorEmail("Email không hợp lệ");
-    // //     if(errorEmail!='') {console.log(errorEmail);}
-    // }else if (password.length <=8 || password.includes(" ")) {
-    //     setErrorPassword("Password phải có ít nhất 8 kí tự và không chứa khoảng trắng");
-    //     if(errorpassword!= '') {console.log(errorpassword);}
-    // }else {
-    //     login(userName,password)
-    // }
 
+    if (username.length <= 8 || username.includes(" ")) {
+      setErrorUser(
+        "Username phải có ít nhất 8 kí tự và không chứa khoảng trắng"
+      );
+      if (errorUser !== "") {
+        console.log(errorUser);
+      }
+    } else if (password.length <= 8 || password.includes(" ")) {
+      setErrorPassword(
+        "Password phải có ít nhất 8 kí tự và không chứa khoảng trắng"
+      );
+      if (errorpassword !== "") {
+        console.log(errorpassword);
+      }
+    } 
+
+    login(userLogin, dispatch, navigate);
     clearInput();
   };
   return (
@@ -77,6 +73,7 @@ function Login() {
       <div className="body-img__container">
         <img className="login-img" src={earthImg} alt="Earth-img" />
       </div>
+
       <div className="login__container">
         <div className="login__container-header">
           <p className="header-text">Welcome back to</p>
@@ -88,11 +85,12 @@ function Login() {
           <div className="clear"></div>
           <h2 className="header-sign-text">Login</h2>
         </div>
+
         <div className="login-form">
           <div className="login-form__element">
             <input
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
               placeholder="Username:"
             />
@@ -122,6 +120,7 @@ function Login() {
           </div>
         </div>
       </div>
+
       {/* <Routes>
         <Route path='/' element={<Home />}/>
     </Routes> */}

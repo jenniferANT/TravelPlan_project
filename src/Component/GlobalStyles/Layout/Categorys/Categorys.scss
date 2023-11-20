@@ -73,25 +73,42 @@
     transition-timing-function: linear;
     transition-duration: 1s;
     margin: 0 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .category-item:hover {
     opacity: 0.8;
-    transform: scale(1.1) ;
-    
+    transform: scale(1.1) ;    
 }
 .category-item-img {
-    
+    height: 230px;
+    width: 170px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-top-right-radius: 85px 85px;
+    border-top-left-radius: 85px 85px;
+
+    border-bottom-right-radius: 85px 85px;
+    border-bottom-left-radius: 85px 85px;
 }
+
+.category-item-img img {
+    height: 100%;
+    filter: brightness(0.6);
+}
+
 .category-item > .category-item-img-text {
     position: absolute;
-    top: 30%;
-    left: 40%;
-    right: 50%;
+    top: 38%;
+    font-weight: 500;
     color: var(--second-color);
 }
 
 .category-item > .category-item-name {
-    padding-left: 60px;
-    width: 130px;
+    padding-top: 8px;
 }

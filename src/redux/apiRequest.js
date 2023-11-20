@@ -1,37 +1,42 @@
 import axios from "axios";
-import { loginFailed, loginStart, loginSuccess, logoutFailed, logoutStart, logoutSuccess, registerFailed, registerStart, registerSuccess } from "./authSlice";
-const baseUrl = " http://localhost:8081/api";
-export const loginUser = async(user,dispatch, navigate) => {
-    dispatch(loginStart());
-    try {
-        const res = await axios.post(baseUrl+"/v1/auth/login",user)
-        dispatch(loginSuccess(res.data));
-        console.log(res.data());
-        navigate("/");
-    }catch(err) {
-        dispatch(loginFailed());
-    }
-}
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
+import {
+  loginFailed,
+  loginStart,
+  loginSuccess,
+  registerFailed,
+  registerStart,
+  registerSuccess,
+} from "./authSlice";
 
-export const registerUser = async (user,dispatch,navigate) =>{
-    dispatch(registerStart());
-    try {
-        await axios.post(baseUrl+"/v1/auth/register",user);
-        dispatch(registerSuccess());
-        console.log("success");
-        navigate("/login")
-    }catch(err) {
-        dispatch(registerFailed());
-    }
-}
+export const login = async (user, dispatch, navigate) => {
+  dispatch(loginStart());
+  try {
+    const res = await axios.post(
+      "http://localhost:8081/api/v1/auth/login",
+      user
+    );
 
-export const logOut = async (dispatch, navigate) => {
-    dispatch(logoutStart());
-    try {
-        //await axios.post(baseUrl + "v1/auth/logout");
-        dispatch(logoutSuccess());
-        navigate("/login")
-    }catch(err) {
-        dispatch(logoutFailed());
-    }
-}
+    //store token in redux and r token in cookies
+    dispatch(loginSuccess(res.data));
+    Cookies.set("refreshToken", res.data.refreshToken, { expires: 30 });
+
+    navigate("/");
+  } catch (err) {
+    dispatch(loginFailed());
+  }
+};
+
+export const registerUser = async (user, dispatch, navigate) => {
+  dispatch(registerStart());
+  try {
+    await axios.post("http://localhost:8081/api/v1/auth/register", user);
+    dispatch(registerSuccess());
+    toast.success("Đăng ký thành công!");
+    navigate("/login");
+  } catch (err) {
+    dispatch(registerFailed());
+  }
+};

@@ -26,11 +26,11 @@ export {
 };
 
 function Regis() {
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [userDatas, setUserDatas] = useState([]);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -46,31 +46,43 @@ function Regis() {
   const clearInput = () => {
     setName("");
     setEmail("");
-    setUserName("");
+    setUsername("");
     setPassword("");
   };
+
   const handleRegsister = (event) => {
-      event.preventDefault();
-      const newUser = {
-          email: email,
-          password: password,
-          userName: userName,
-          name:name
-        };
-       
-    // if (userName.length <= 8 || userName.includes(" ")) {
-    //     setErrorUser("Username phải có ít nhất 8 kí tự và không chứa khoảng trắng")
-    //     if(errorUser!= '') {console.log(errorUser);}
-    // }else if(!isValidEmail(email)) {
-    //     setErrorEmail("Email không hợp lệ");
-    //     if(errorEmail!='') {console.log(errorEmail);}
-    // }else if (password.length <=8 || password.includes(" ")) {
-    //     setErrorPassword("Password phải có ít nhất 8 kí tự và không chứa khoảng trắng");
-    //     if(errorpassword!= '') {console.log(errorpassword);}
-    // }
+    event.preventDefault();
+    const newUser = {
+      name: name,
+      email: email,
+      password: password,
+      username: username,
+    };
+    if (username.length <= 8 || username.includes(" ")) {
+      setErrorUser(
+        "Username phải có ít nhất 8 kí tự và không chứa khoảng trắng"
+      );
+      if (errorUser !== "") {
+        console.log(errorUser);
+      }
+    } else if (!isValidEmail(email)) {
+      setErrorEmail("Email không hợp lệ");
+      if (errorEmail !== "") {
+        console.log(errorEmail);
+      }
+    } else if (password.length <= 8 || password.includes(" ")) {
+      setErrorPassword(
+        "Password phải có ít nhất 8 kí tự và không chứa khoảng trắng"
+      );
+      if (errorpassword !== "") {
+        console.log(errorpassword);
+      }
+    }
+
     registerUser(newUser, dispatch, navigate);
     clearInput();
   };
+
   return (
     <div className="body">
       <div className="body-up">
@@ -117,6 +129,7 @@ function Regis() {
               placeholder="Your Name:"
             />
           </div>
+
           <div className="regis-form__element">
             <input
               value={email}
@@ -125,14 +138,16 @@ function Regis() {
               placeholder="Your email:"
             />
           </div>
+
           <div className="regis-form__element">
             <input
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
               placeholder="Username:"
             />
           </div>
+
           <div className="regis-form__element">
             <input
               value={password}
@@ -142,9 +157,11 @@ function Regis() {
               placeholder="Password:"
             />
           </div>
+
           <button onClick={handleRegsister} className="regis-form-btn">
             Sign up
           </button>
+
           <div className="to-log-in">
             <p>
               Bạn đã có tài khoản?
