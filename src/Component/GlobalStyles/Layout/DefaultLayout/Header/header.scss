@@ -1,10 +1,8 @@
 @import "../../../GlobalStyles.scss";
 
-
-
 .content-header {
   font-family: "Inter", sans-serif;
-  background-color: var(---color);
+  background-color: var(--second-color);
 }
 .font {
   font-family: "Inter", sans-serif;
@@ -28,7 +26,7 @@
 }
 
 .header-heading-left {
-  margin-right: 600px;
+  margin-right: 500px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -36,7 +34,7 @@
 
 .header-heading-right {
   display: flex;
-  width: 140px;
+  width: 200px;
   background-color: var(--second-color);
   align-items: center;
 }
@@ -44,7 +42,8 @@
 .heading-right-button {
   display: flex;
   align-items: center;
-  width: 80%;
+  justify-content: center;
+  width: 50%;
   height: 40px;
   padding: 0 0 0 8px;
   border-radius: 10px;
@@ -54,17 +53,18 @@
 }
 
 .heading-right-button:hover {
-    cursor: pointer;
-    opacity: 0.5;
+  cursor: pointer;
+  opacity: 0.5;
 }
 .heading-right-button > Link {
   width: 70%;
-  
+
   color: var(--primary-color);
   font-weight: 500;
   text-decoration: none;
 }
-.header-heading-right > button > img {
+.header-heading-right  {
+  min-width: 100px;
 }
 
 .header-home,
@@ -103,14 +103,12 @@
 .header-planing > p {
 }
 
-
-.header-home:hover .header__link-hover{
+.header-home:hover .header__link-hover {
   cursor: pointer;
   border-bottom: 2px solid var(--primary-color);
   opacity: 0.8;
   padding-bottom: 4px;
 }
-
 
 .header-discover:hover .header__link-hover {
   cursor: pointer;
@@ -134,17 +132,87 @@
 }
 
 .header__link-left {
-    text-decoration: none;
-    height: auto;
-    width: 100%;
-    color: black;
+  text-decoration: none;
+  height: auto;
+  width: 100%;
+  color: black;
 }
 .header__link-right {
-    text-decoration: none;
-    color: var(--primary-color);
-    padding-right: 4px;
-    font-weight: 500;
-    height: 100%;
-    padding-top: 18px;
+  text-decoration: none;
+  color: var(--primary-color);
+  padding-right: 4px;
+  font-weight: 500;
+  height: 100%;
+  padding-top: 18px;
 }
 
+.current-user {
+  display: flex;
+  height: 90px;
+  align-items: center;
+  width: 200px;
+  justify-content: space-around;
+  position: relative;
+  .current-user-avt {
+    width: 25px;
+    height:25px;
+    border-radius: 50%;
+  }
+  .current-user-name {
+    font-size: 14px;
+    opacity: 0.6;
+  }
+}
+.current-user-button {
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  position: relative;
+  img {
+    width: 18px;
+    height: 18px;
+  }
+}
+.dropdown-menu {
+  position: absolute;
+  min-width: 160px;
+  min-height: 100px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 10px;
+  justify-content: center;
+  ul {
+    width: 100%;
+    padding: 0;
+    li {
+      height: 20px;
+      width: 100%;
+      display: flex;
+      padding: 8px;
+      text-decoration: none;
+      list-style-type: none;
+      align-items: center;
+      Link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+      }
+      img {
+        padding: 0px 14px;
+      }
+    }
+  }
+}
+.reset-link {
+  text-decoration: none;
+  color: inherit;
+}
+.dropdown-menu > ul > li:hover {
+  cursor: pointer;
+  opacity: 0.4;
+}
+.logout-btn {
+  border: none;
+  background-color: inherit;
+}
