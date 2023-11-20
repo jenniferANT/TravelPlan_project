@@ -57,37 +57,40 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void deleteById(long id) {
-        Review review  = reviewRepository.findById(id)
-                .orElseThrow(()->
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() ->
                         new NotFoundException("Review not found with id " + id));
 
-        if(review.getUser().getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
+        if (SecurityUtils.getRoleOfPrincipal().equals("ROLE_ADMIN") ||
+                review.getUser().getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
             review.getPlaces().getReviews().remove(review);
             reviewRepository.delete(review);
             return;
         }
-        throw new IllegalArgumentException("Delete places not permit");
+        throw new IllegalArgumentException("Not permit");
     }
 
     @Override
     public ReviewDto update(ReviewForm reviewForm, long id) {
-        Review review  = reviewRepository.findById(id)
-                .orElseThrow(()->
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() ->
                         new NotFoundException("Review not found with id " + id));
 
-        if(review.getUser().getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
+        if (SecurityUtils.getRoleOfPrincipal().equals("ROLE_ADMIN") ||
+                review.getUser().getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
             Review review1 = toEntity(reviewForm);
             review1.setId(id);
             return ReviewDto.toDto(reviewRepository.save(review1));
         }
-        throw new IllegalArgumentException("Update places not permit");
+
+        throw new IllegalArgumentException("Not permit");
     }
 
     @Override
     public ReviewDto getById(long id) {
         return ReviewDto.toDto(
                 reviewRepository.findById(id)
-                        .orElseThrow(()->
+                        .orElseThrow(() ->
                                 new NotFoundException("Review not found with id " + id))
         );
     }
@@ -99,15 +102,15 @@ public class ReviewServiceImpl implements ReviewService {
         for (long i : temp) {
             images.add(
                     imageRepository.findById(i)
-                            .orElseThrow(()->
-                                    new NotFoundException("Image not fount with id "+i))
+                            .orElseThrow(() ->
+                                    new NotFoundException("Image not fount with id " + i))
             );
         }
         User user = userRepository.findByUsername(SecurityUtils.getUsernameOfPrincipal())
-                .orElseThrow(()->
+                .orElseThrow(() ->
                         new UsernameNotFoundException("Username not found with " + SecurityUtils.getUsernameOfPrincipal()));
         Places places = placesRepository.findById(reviewForm.getPlaceId())
-                .orElseThrow(()->
+                .orElseThrow(() ->
                         new NotFoundException("Place not found with " + reviewForm.getPlaceId()));
 
         Review review = Review.builder()
@@ -121,6 +124,6 @@ public class ReviewServiceImpl implements ReviewService {
         review.getUser().getReviews().add(review);
         review.getPlaces().getReviews().add(review);
 
-        return  review;
+        return review;
     }
 }

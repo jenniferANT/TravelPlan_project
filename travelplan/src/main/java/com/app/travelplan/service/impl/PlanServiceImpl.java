@@ -11,6 +11,7 @@ import com.app.travelplan.utils.AppUtils;
 import com.app.travelplan.utils.SecurityUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -43,10 +44,14 @@ public class PlanServiceImpl implements PlanService {
                         new IllegalArgumentException("Plan not found with id " + id));
 
         //TODO: xóa plan trong cart
+        if (SecurityUtils.getRoleOfPrincipal().equals("ROLE_ADMIN") ||
+                plan.getUser().getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
+            shareRepository.deleteAllByPlan(plan);
+            planRepository.deleteById(id);
+            return "Success";
+        }
 
-        shareRepository.deleteAllByPlan(plan);
-        planRepository.deleteById(id);
-        return "Success";
+        throw new IllegalArgumentException("Not permit");
     }
 
     @Override
@@ -353,11 +358,6 @@ public class PlanServiceImpl implements PlanService {
             }
         }
 
-        String username = SecurityUtils.getUsernameOfPrincipal();
-        if (username == null) {
-            username = "admin";
-        }
-
         categories.add(categoryRepository.findByName(phanLoaiArray[phanLoai])
                 .orElseThrow(() ->
                         new IllegalArgumentException("Category not found with name " + phanLoaiArray[phanLoai]))
@@ -386,8 +386,10 @@ public class PlanServiceImpl implements PlanService {
         plan.setCostEat(costEat);
         plan.setCostPlay(costPlay);
         plan.setPlanItems(planItems);
-        plan.setUser(userRepository.findByUsername(username)
-                .orElseThrow());
+        plan.setUser(userRepository.findByUsername(
+                        SecurityUtils.getUsernameOfPrincipal().equals("anonymousUser") ? "admin" : SecurityUtils.getUsernameOfPrincipal())
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User not found with username " + SecurityUtils.getUsernameOfPrincipal())));
         plan.setCategories(categories);
         plan.setVehicle(vehicle);
         return PlanDto.toDto(planRepository.save(plan));
@@ -396,22 +398,22 @@ public class PlanServiceImpl implements PlanService {
     private void calculatorDistancePlanItems(List<PlanItem> planItems, Vehicle vehicle) {
         int length = planItems.size();
 
-        for (int i = 0; i < length-1 ; i++) {
+        for (int i = 0; i < length - 1; i++) {
             int finalI = i;
             Places places1 = placesRepository.findById(planItems.get(i).getPlacesId())
-                    .orElseThrow(()->
+                    .orElseThrow(() ->
                             new NotFoundException("Places not found with id " + planItems.get(finalI).getPlacesId()));
-            Places places2 = placesRepository.findById(planItems.get(i+1).getPlacesId())
-                    .orElseThrow(()->
-                            new NotFoundException("Places not found with id " + planItems.get(finalI+1).getPlacesId()));
+            Places places2 = placesRepository.findById(planItems.get(i + 1).getPlacesId())
+                    .orElseThrow(() ->
+                            new NotFoundException("Places not found with id " + planItems.get(finalI + 1).getPlacesId()));
             double km = AppUtils.getGoTwoPlace(places1, places2);
             long time = (long) ((km / vehicle.getAverageSpeed()) * 1.3 * 60.0);
 
             planItems.get(finalI).setDistanceGoTwoPlaces(km);
             planItems.get(finalI).setTimeGoTwoPlaces(time);
         }
-        planItems.get(length-1).setDistanceGoTwoPlaces(0.0);
-        planItems.get(length-1).setTimeGoTwoPlaces(0);
+        planItems.get(length - 1).setDistanceGoTwoPlaces(0.0);
+        planItems.get(length - 1).setTimeGoTwoPlaces(0);
     }
 
 

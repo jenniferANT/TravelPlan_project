@@ -18,7 +18,7 @@ public class VehicleController {
         return new ResponseEntity<>(vehicleService.save(vehicleForm), HttpStatus.OK);
     }
 
-    @GetMapping("api/v1/admin/vehicles")
+    @GetMapping("api/v1/vehicle")
     public ResponseEntity getAll() {
         return new ResponseEntity<>(vehicleService.getAll(), HttpStatus.OK);
     }

@@ -26,13 +26,17 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() ->
                         new NotFoundException("User not found with id " + SecurityUtils.getUsernameOfPrincipal()));
 
-        Image image = imageRepository.findById(id)
-                .orElseThrow(() ->
-                        new NotFoundException("Image not found with id " + id));
+        if (SecurityUtils.getRoleOfPrincipal().equals("ROLE_ADMIN") ||
+                user.getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
+            Image image = imageRepository.findById(id)
+                    .orElseThrow(() ->
+                            new NotFoundException("Image not found with id " + id));
 
-        image.setUser(user);
-        user.setAvatar(image);
-        return UserDto.toDto(userRepository.save(user));
+            image.setUser(user);
+            user.setAvatar(image);
+            return UserDto.toDto(userRepository.save(user));
+        }
+        throw new IllegalArgumentException("Not permit");
     }
 
     @Override
@@ -41,8 +45,12 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() ->
                         new NotFoundException("User not found with id " + SecurityUtils.getUsernameOfPrincipal()));
 
-        user.setName(name);
-        return UserDto.toDto(userRepository.save(user));
+        if (!SecurityUtils.getRoleOfPrincipal().equals("ROLE_ADMIN") ||
+                user.getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
+            user.setName(name);
+            return UserDto.toDto(userRepository.save(user));
+        }
+        throw new IllegalArgumentException("Not permit");
     }
 
     @Override

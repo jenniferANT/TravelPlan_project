@@ -3,6 +3,7 @@ package com.app.travelplan.config;
 import com.app.travelplan.security.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -43,9 +44,17 @@ public class WebSecurityConfig {
                                         "/api/v1/auth/refresh",
                                         "/api/v1/auth/register" ,
                                         "/error",
-                                        "/api/v1/image/get/**",
+                                        "/api/v1/plan/**",
+                                        "/api/v1/image/get/**").permitAll()
+
+                                //cho phép sử dụng gét theo chỉ định
+                                .requestMatchers(HttpMethod.GET,
                                         "/api/v1/category/**",
-                                        "/api/v1/places/get-all").permitAll()
+                                        "/api/v1/places/**",
+                                        "/api/v1/reviews/**",
+                                        "/api/v1/link/**",
+                                        "/api/v1/user/**",
+                                        "/api/v1/vehicle/**").permitAll()
                                 .requestMatchers("/v3/api-docs/**").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
                                 .requestMatchers("/swagger-resources/**").permitAll()

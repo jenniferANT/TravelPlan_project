@@ -10,7 +10,7 @@ public class SecurityUtils {
     public static String getUsernameOfPrincipal() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth != null) return auth.getName();
-        return null;
+        return "anonymousUser";
     }
 
     public static String getRoleOfPrincipal() {
