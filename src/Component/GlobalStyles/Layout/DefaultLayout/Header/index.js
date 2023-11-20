@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
-import { logOut } from "../../../../../redux/apiRequest";
 
 import Regis from "../../../../../pages/Regis";
 import Login from "../../../../../pages/Login";
@@ -31,7 +30,7 @@ function Header() {
 
   function handleLogout() {
     console.log("logout");
-    logOut(dispatch, navigate)
+    logout(dispatch, navigate)
   }
   function toggleDropdown() {
     setIsDropdownOpen(!isDropdownOpen);
