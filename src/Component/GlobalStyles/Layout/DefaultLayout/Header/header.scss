@@ -153,10 +153,20 @@
   width: 200px;
   justify-content: space-around;
   position: relative;
+
   .current-user-avt {
-    width: 25px;
-    height:25px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+
+    img {
+      height: 100%;
+      width: auto;
+      
+    }
   }
   .current-user-name {
     font-size: 14px;

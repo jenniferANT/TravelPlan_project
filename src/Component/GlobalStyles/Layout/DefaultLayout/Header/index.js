@@ -25,7 +25,7 @@ function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentUser = useSelector((state) => state.auth.user);
+  const currentUser = useSelector((state) => state.auth.login.currentUser);
   
 
   function handleLogout() {
@@ -82,7 +82,9 @@ function Header() {
         <div className="header-heading-right">
           {currentUser ? (
             <div className="current-user">
-              <img className="current-user-avt" src={currentUser.avt} />
+              <div className="current-user-avt">
+                <img src={currentUser.avatar} />{" "}
+              </div>
               <p className="current-user-name">{currentUser.name}</p>
               <button onClick={toggleDropdown} className="current-user-button">
                 <img src={down} />
@@ -115,7 +117,9 @@ function Header() {
                       </li>
                       <li>
                         <img src={logout} />
-                        <button className="logout-btn" onClick={handleLogout}>Log out</button>
+                        <button className="logout-btn" onClick={handleLogout}>
+                          Log out
+                        </button>
                       </li>
                     </ul>
                   </div>
