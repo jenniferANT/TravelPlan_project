@@ -1,154 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./PopularDestination.scss";
 
 import { Link } from "react-router-dom";
 import popularImg from "./popularDes.png";
-const popularDestinations = [
-  {
-    id: 1,
-    img: popularImg,
-    descript: "Mountai Hiking Tour",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-  {
-    id: 2,
-    img: popularImg,
-    descript: "Mountai Hiking Tour",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-  {
-    id: 3,
-    img: popularImg,
-    descript: "Mountai Hiking Tour",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-  {
-    id: 4,
-    img: popularImg,
-    descript: "Mountai Hiking Tour",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-  {
-    id: 5,
-    img: popularImg,
-    descript: "Mountai Hiking Tour",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-  {
-    id: 6,
-    img: popularImg,
-    descript: "Mountai Hiking Tour",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-  {
-    id: 7,
-    img: popularImg,
-    descript: "Beach7",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-  {
-    id: 8,
-    img: popularImg,
-    descript: "Mountai Hiking Tour",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-  {
-    id: 9,
-    img: popularImg,
-    descript: "van duy hoang 21511200311",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-  {
-    id: 10,
-    img: popularImg,
-    descript: "Mountai Hiking Tour",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-  {
-    id: 11,
-    img: popularImg,
-    descript: "Mountai Hiking Tour",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-  {
-    id: 12,
-    img: popularImg,
-    descript: "Mountai Hiking Tour",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-  {
-    id: 13,
-    img: popularImg,
-    descript: "Mountai Hiking Tour",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-  {
-    id: 14,
-    img: popularImg,
-    descript: "Mountai Hiking Tour",
-    price: "400.000",
-    subDescript:
-      "Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour, Mountai Hiking Tour ",
-  },
-];
+import userEvent from "@testing-library/user-event";
+
 
 function PopularDestinations() {
-  const [indexCategorys, setIndexCategorys] = useState(0);
+  const [popularDes, setPopularDes] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(null);
+  const [pageNo, setPageNo] = useState(0);
 
-  const [startIndex, setStartIndex] = useState(0);
+  useEffect(() => {
+    fetch("http://localhost:8081/api/v1/places/get-all")
+      .then((res) => res.json())
+      .then((result) => {
+        setIsLoaded(true);
+        setPopularDes(result.content);
+      },
+      (error) => {
+        setIsLoaded(true);
+        setError(error);
+      }
+      );
+  }, []);
 
   const prevCategories = () => {
-    setStartIndex((prevIndex) => {
+    setPageNo((prevIndex) => {
       let newIndex = prevIndex - 4;
-      if(newIndex < 0) {
-          newIndex = popularDestinations.length - (popularDestinations.length % 4);
+      if (newIndex < 0) {
+        newIndex =
+          popularDes.length - (popularDes.length % 4);
       }
-      return newIndex
-      
+      return newIndex;
     });
   };
   const nextCategories = () => {
-    setStartIndex((prevIndex) => {
-     let newIndex = prevIndex + 4;
-     if(newIndex >= popularDestinations.length) {
+    setPageNo((prevIndex) => {
+      let newIndex = prevIndex + 4;
+      if (newIndex >= popularDes.length) {
         return 0;
-     }
-     if(newIndex === popularDestinations.length - 1) {
+      }
+      if (newIndex === popularDes.length - 1) {
         newIndex = 0;
-     }
-     return newIndex;
+      }
+      return newIndex;
     });
   };
-  const displayCategories = popularDestinations.slice(
-    startIndex,
-    startIndex + 4
-  );
+  const displayCategories = popularDes.slice(pageNo, pageNo + 4);
+
   return (
     <div className="popularDestination-component">
       <div className="header">
@@ -169,30 +70,36 @@ function PopularDestinations() {
       </div>
       <div className="content-popularDestination">
         <div className="popularDestination-items">
-          {popularDestinations
-            .slice(startIndex, startIndex + 4)
+          {popularDes
+            .slice(pageNo, pageNo + 4)
             .map((popularDestination) => {
               return (
                 <div
                   key={popularDestination.id}
                   className="popularDestination-item"
                 >
-                  <img
-                    className="popularDestination-item-img"
-                    src={popularDestination.img}
-                  />
+                  <div className="popularDestination-item-img">
+                    {popularDestination.imageUrl.length === 0 ? (
+                      <img src={popularImg} />
+                    ) : (
+                      <img src={popularDestination.imageUrl[0]} />
+                    )}
+                  </div>
+
                   <span className="popularDestination-item-descript">
-                    {popularDestination.descript}
+                    {popularDestination.title}
                   </span>
-                    <p className="popularDestination-sub-Descript">
-                      {popularDestination.subDescript}
-                    </p>
+                  <p className="popularDestination-sub-Descript">
+                    {popularDestination.description}
+                  </p>
                   <div className="popularDestination-booking-container">
                     <h5 className="popularDestination-price">
-                      {popularDestination.price}
+                      {popularDestination.cost}
                     </h5>
-                      <p>VND /Person</p>
-                    <button className="popularDestination-booking-btn">Book Now</button>
+                    <p>VND /Person</p>
+                    <button className="popularDestination-booking-btn">
+                      Book Now
+                    </button>
                   </div>
                 </div>
               );

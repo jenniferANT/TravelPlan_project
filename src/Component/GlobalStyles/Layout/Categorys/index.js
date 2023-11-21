@@ -74,9 +74,7 @@ function Categorys() {
               return (
                 <Link key={category.id} className="category-item">
                   <div className="category-item-img">
-                    <img
-                      src={category.imageCategory}
-                    />
+                    <img src={category.imageCategory} />
                   </div>
 
                   <p className="category-item-img-text">Visit</p>
