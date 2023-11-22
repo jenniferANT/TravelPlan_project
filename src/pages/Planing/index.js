@@ -81,7 +81,7 @@ function Planing() {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   const [destination, setDestination] = useState("Select destination");
-  const [numberPeople, setNumberPeople] = useState("");
+  const [numberPeople, setNumberPeople] = useState(0);
   const [expense, setExpense] = useState(0);
   const [vehicleId, setVehicleId] = useState(1);
 
