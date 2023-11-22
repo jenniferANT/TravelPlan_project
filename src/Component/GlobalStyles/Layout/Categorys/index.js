@@ -15,9 +15,6 @@ function Categorys() {
           setIsLoaded(true);
           setCategories(result);
         },
-        // Lưu ý: việc xử lý lỗi ở đây rất quan trọng
-        // thay vì khối Catch() để chúng ta không nuốt
-        // ngoại lệ từ các lỗi thực tế trong các thành phần.
         (error) => {
           setIsLoaded(true);
           setError(error);
