@@ -61,4 +61,14 @@ public class PlacesController {
     public ResponseEntity delCategoryToPlace(@PathVariable("id") long placeId, @RequestParam(value = "categories[]") long[] ids) {
         return new ResponseEntity(placesService.delCategoryToPlace(placeId, ids), HttpStatus.OK);
     }
+
+    @PatchMapping("/api/v1/places/{id}/add-image")
+    public ResponseEntity addImageToPlace(@PathVariable("id") long placeId, @RequestParam(value = "image[]") long[] ids) {
+        return new ResponseEntity(placesService.addImageToPlace(placeId, ids), HttpStatus.OK);
+    }
+
+    @PatchMapping("/api/v1/places/{id}/remove-image")
+    public ResponseEntity delImageToPlace(@PathVariable("id") long placeId, @RequestParam(value = "image[]") long[] ids) {
+        return new ResponseEntity(placesService.delImageToPlace(placeId, ids), HttpStatus.OK);
+    }
 }

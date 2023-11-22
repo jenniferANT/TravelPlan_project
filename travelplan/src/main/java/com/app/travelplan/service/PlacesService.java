@@ -17,4 +17,8 @@ public interface PlacesService {
     PlacesDto addCategoryToPlace(long placeId, long[] ids);
 
     PlacesDto delCategoryToPlace(long placeId, long[] ids);
+
+    PlacesDto addImageToPlace(long placeId, long[] ids);
+
+    PlacesDto delImageToPlace(long placeId, long[] ids);
 }

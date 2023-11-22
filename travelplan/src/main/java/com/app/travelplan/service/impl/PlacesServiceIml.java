@@ -164,9 +164,68 @@ public class PlacesServiceIml implements PlacesService {
         throw new IllegalArgumentException("Not permit");
     }
 
+    @Override
+    public PlacesDto addImageToPlace(long placeId, long[] ids) {
+        Places places = placesRepository.findById(placeId)
+                .orElseThrow(() ->
+                        new NotFoundException("Places not found with id " + placeId));
+
+        if (SecurityUtils.getRoleOfPrincipal().equals("ROLE_ADMIN") ||
+                places.getUser().getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
+            for (long id :
+                    ids) {
+                if (!this.arrayImageContains(id, places.getImages())) {
+                    Image image = imageRepository.findById(id)
+                            .orElseThrow(() ->
+                                    new NotFoundException("Image not found with id " + id));
+
+                    places.getImages().add(image);
+                }
+            }
+            return PlacesDto.toDto(
+                    placesRepository.save(places));
+
+        }
+        throw new IllegalArgumentException("Not permit");
+    }
+
+    @Override
+    public PlacesDto delImageToPlace(long placeId, long[] ids) {
+        Places places = placesRepository.findById(placeId)
+                .orElseThrow(() ->
+                        new NotFoundException("Places not found with id " + placeId));
+
+        if (SecurityUtils.getRoleOfPrincipal().equals("ROLE_ADMIN") ||
+                places.getUser().getUsername().equals(SecurityUtils.getUsernameOfPrincipal())) {
+            for (long id :
+                    ids) {
+                if (this.arrayImageContains(id, places.getImages())) {
+                    Image image = imageRepository.findById(id)
+                            .orElseThrow(() ->
+                                    new NotFoundException("Image not found with id " + id));
+
+                    places.getImages().remove(image);
+                }
+            }
+            return PlacesDto.toDto(
+                    placesRepository.save(places));
+        }
+        throw new IllegalArgumentException("Not permit");
+    }
+
     private boolean arrayCategoryContains(long id, List<Category> categories) {
         for (Category c :
                 categories) {
+            if (id == c.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean arrayImageContains(long id, List<Image> images) {
+        for (Image c :
+                images) {
             if (id == c.getId()) {
                 return true;
             }

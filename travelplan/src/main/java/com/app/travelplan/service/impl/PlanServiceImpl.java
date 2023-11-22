@@ -183,11 +183,17 @@ public class PlanServiceImpl implements PlanService {
         Plan plan = new Plan();
 
         //-------------------------------chuẩn bị đã xong bắt đầu generate -----------------------------------------------------------
-        List<Category> categories = null;
+        List<Category> categories = new ArrayList<>();
         if (!planForm.getCategoryId().isEmpty()) {
             Category amThuc = categoryRepository.findByName("Ẩm thực")
                     .orElseThrow(() -> new NotFoundException("Category not found with name " + "Am Thuc"));
-            categories = generalService.getAllCategoryByArrayId(planForm.getCategoryId());
+
+            if(planForm.getCategoryId()==null) {
+                categories = new ArrayList<>();
+            } else {
+                categories = generalService.getAllCategoryByArrayId(planForm.getCategoryId());
+            }
+
             boolean isEat = categories.contains(amThuc); //xem danh mục có ẩm thực
             if (isEat) {
                 categories.remove(amThuc);

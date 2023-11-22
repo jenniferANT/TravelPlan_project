@@ -19,10 +19,10 @@ public class PlanForm {
     @NotBlank
     private String destination; //tên địa điểm tới
 
-    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
+    @JsonFormat(pattern = "HH:mm yyyy-MM-dd")
     @NotBlank
     private LocalDateTime beginDate;
-    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
+    @JsonFormat(pattern = "HH:mm yyyy-MM-dd")
     @NotBlank
     private LocalDateTime endDate;
 
