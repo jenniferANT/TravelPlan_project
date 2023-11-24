@@ -12,9 +12,9 @@ import java.util.List;
 @Data
 public class PlanForm {
     @NotBlank
-    private long locationLatitude;
+    private double locationLatitude;
     @NotBlank
-    private long locationLongitude;
+    private double locationLongitude;
 
     @NotBlank
     private String destination; //tên địa điểm tới
