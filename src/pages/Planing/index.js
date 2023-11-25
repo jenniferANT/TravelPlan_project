@@ -288,6 +288,7 @@ function Planing() {
 
               {/* ------------------------------- */}
               <input
+                className="input-date"
                 type="date"
                 data-date=""
                 data-date-format="DD-MM-YYYY"
@@ -295,7 +296,7 @@ function Planing() {
               />
 
               {/* ----------------------------------- */}
-              <img className="planing-img planing-img-start" src={date} />
+              {/* <img className="planing-img planing-img-start" src={date} /> */}
             </div>
 
             {/* chọn ngày kết thúc */}
@@ -313,13 +314,14 @@ function Planing() {
               </select>
 
               <input
+              className="input-date"
                 type="date"
                 data-date=""
                 data-date-format="DD-MM-YYYY"
                 onChange={handleSelectDateEnd}
               />
 
-              <img className="planing-img planing-img-end" src={date} />
+              {/* <img className="planing-img planing-img-end" src={date} /> */}
             </div>
           </div>
 
@@ -397,7 +399,7 @@ function Planing() {
         </div>
 
         {showForm ? (
-          <h1>${planGenerate}</h1>
+          <h1>{planGenerate}</h1>
         ) : (
           // <div className="planing-form">
           //   <h1 className="planing-form-heading">Planing For Your Trip</h1>
