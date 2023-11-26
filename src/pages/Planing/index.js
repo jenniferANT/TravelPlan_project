@@ -231,7 +231,7 @@ function Planing() {
     
     
   };
-
+  const startDate=1
   return (
     <div className="planing">
       <Header />
@@ -401,194 +401,195 @@ function Planing() {
         {showForm ? (
           <h1>{planGenerate}</h1>
         ) : (
-          // <div className="planing-form">
-          //   <h1 className="planing-form-heading">Planing For Your Trip</h1>
-          //   <div className="planing-form-item">
-          //     <div className="form-choose-content">
-          //       <div className="form-choose-content-plan">
-          //         <div className="content-plan-row">
-          //           <div className="form-choose-map__container">
-          //             <img src={planMap} />
-          //           </div>
-          //           <div className="content-row-details">
-          //             <div className="content-row-details-activity">
-          //               <div className="row-details-activity-items">
-          //                 <div className="content-plan-day-container">
-          //                   <h4 className="content-plan-startDay">
-          //                     {startDate.toLocaleDateString("en-GB")}
-          //                   </h4>
-          //                 </div>
-          //                 <div className="row-details-activity-item">
-          //                   <p className="content-row-day">Ngày</p>
-          //                   <div className="content-row-label-container">
-          //                     <label className="content-row-1">1</label>
-          //                   </div>
+          <div className="planing-form">
+            <h1 className="planing-form-heading">Planing For Your Trip</h1>
+            <div className="planing-form-item">
+              <div className="form-choose-content">
+                <div className="form-choose-content-plan">
+                  <div className="content-plan-row">
+                    <div className="form-choose-map__container">
+                      <img src={planMap} />
+                    </div>
+                    <div className="content-row-details">
+                      <div className="content-row-details-activity">
+                        <div className="row-details-activity-items">
+                          <div className="content-plan-day-container">
+                            <h4 className="content-plan-startDay">
+                              {startDate.toLocaleDateString("en-GB")}
+                            </h4>
+                          </div>
+                          <div className="row-details-activity-item">
+                            <p className="content-row-day">Ngày</p>
+                            <div className="content-row-label-container">
+                              <label className="content-row-1">1</label>
+                            </div>
 
-          //                   <h2 className="content-plan-startDay-main">
-          //                     TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
-          //                   </h2>
-          //                 </div>
-          //                 <div className="content-plan-day-container">
-          //                   <h4 className="content-plan-startDay">
-          //                     {startDate.toLocaleDateString("en-GB")}
-          //                   </h4>
-          //                 </div>
-          //                 <div className="row-details-activity-item">
-          //                   <p className="content-row-day">Ngày</p>
-          //                   <div className="content-row-label-container">
-          //                     <label className="content-row-1">2</label>
-          //                   </div>
+                            <h2 className="content-plan-startDay-main">
+                              TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
+                            </h2>
+                          </div>
+                          <div className="content-plan-day-container">
+                            <h4 className="content-plan-startDay">
+                              {startDate.toLocaleDateString("en-GB")}
+                            </h4>
+                          </div>
+                          <div className="row-details-activity-item">
+                            <p className="content-row-day">Ngày</p>
+                            <div className="content-row-label-container">
+                              <label className="content-row-1">2</label>
+                            </div>
 
-          //                   <h2 className="content-plan-startDay-main">
-          //                     TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
-          //                   </h2>
-          //                 </div>
-          //                 <div className="content-plan-day-container">
-          //                   <h4 className="content-plan-startDay">
-          //                     {startDate.toLocaleDateString("en-GB")}
-          //                   </h4>
-          //                 </div>
-          //                 <div className="row-details-activity-item">
-          //                   <p className="content-row-day">Ngày</p>
-          //                   <div className="content-row-label-container">
-          //                     <label className="content-row-1">3</label>
-          //                   </div>
+                            <h2 className="content-plan-startDay-main">
+                              TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
+                            </h2>
+                          </div>
+                          <div className="content-plan-day-container">
+                            <h4 className="content-plan-startDay">
+                              {startDate.toLocaleDateString("en-GB")}
+                            </h4>
+                          </div>
+                          <div className="row-details-activity-item">
+                            <p className="content-row-day">Ngày</p>
+                            <div className="content-row-label-container">
+                              <label className="content-row-1">3</label>
+                            </div>
 
-          //                   <h2 className="content-plan-startDay-main">
-          //                     TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
-          //                   </h2>
-          //                 </div>
-          //                 <div className="content-plan-day-container">
-          //                   <h4 className="content-plan-startDay">
-          //                     {startDate.toLocaleDateString("en-GB")}
-          //                   </h4>
-          //                 </div>
-          //                 <div className="row-details-activity-item">
-          //                   <p className="content-row-day">Ngày</p>
-          //                   <div className="content-row-label-container">
-          //                     <label className="content-row-1">3</label>
-          //                   </div>
+                            <h2 className="content-plan-startDay-main">
+                              TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
+                            </h2>
+                          </div>
+                          <div className="content-plan-day-container">
+                            <h4 className="content-plan-startDay">
+                              {startDate.toLocaleDateString("en-GB")}
+                            </h4>
+                          </div>
+                          <div className="row-details-activity-item">
+                            <p className="content-row-day">Ngày</p>
+                            <div className="content-row-label-container">
+                              <label className="content-row-1">3</label>
+                            </div>
 
-          //                   <h2 className="content-plan-startDay-main">
-          //                     TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
-          //                   </h2>
-          //                 </div>
-          //                 <div className="content-plan-day-container">
-          //                   <h4 className="content-plan-startDay">
-          //                     {startDate.toLocaleDateString("en-GB")}
-          //                   </h4>
-          //                 </div>
-          //                 <div className="row-details-activity-item">
-          //                   <p className="content-row-day">Ngày</p>
-          //                   <div className="content-row-label-container">
-          //                     <label className="content-row-1">1</label>
-          //                   </div>
+                            <h2 className="content-plan-startDay-main">
+                              TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
+                            </h2>
+                          </div>
+                          <div className="content-plan-day-container">
+                            <h4 className="content-plan-startDay">
+                              {startDate.toLocaleDateString("en-GB")}
+                            </h4>
+                          </div>
+                          <div className="row-details-activity-item">
+                            <p className="content-row-day">Ngày</p>
+                            <div className="content-row-label-container">
+                              <label className="content-row-1">1</label>
+                            </div>
 
-          //                   <h2 className="content-plan-startDay-main">
-          //                     TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
-          //                   </h2>
-          //                 </div>
-          //               </div>
-          //               <div className="form-choose-content-info">
-          //                 <div className="info-price">
-          //                   <p>400.000/</p>
-          //                   <img src={priceImg} />
-          //                 </div>
-          //                 <div className="info-weight">
-          //                   <p>200km</p>
-          //                   <img src={distanceImg} />
-          //                 </div>
-          //               </div>
-          //             </div>
-          //           </div>
-          //           <img src={airPlane} className="content-plan-row-img" />
-          //         </div>
-          //         <div className="row-btn-container">
-          //           <Link className="row-btn-link" to="/planing-detail">
-          //             More Detail
-          //           </Link>
-          //           <button>
-          //             Apply this trip
-          //             <img src={applyImg} />
-          //           </button>
-          //         </div>
-          //       </div>
-          //       <div className="form-choose-content-plan">
-          //         <div className="content-plan-row">
-          //           <div className="form-choose-map__container">
-          //             <img src={planMap} />
-          //           </div>
-          //           <div className="content-row-details">
-          //             <div className="content-row-details-activity">
-          //               <div className="row-details-activity-items">
-          //                 <div className="content-plan-day-container">
-          //                   <h4 className="content-plan-startDay">
-          //                     {startDate.toLocaleDateString("en-GB")}
-          //                   </h4>
-          //                 </div>
-          //                 <div className="row-details-activity-item">
-          //                   <p className="content-row-day">Ngày</p>
-          //                   <label className="content-row-1">1</label>
+                            <h2 className="content-plan-startDay-main">
+                              TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
+                            </h2>
+                          </div>
+                        </div>
+                        <div className="form-choose-content-info">
+                          <div className="info-price">
+                            <p>400.000/</p>
+                            <img src={priceImg} />
+                          </div>
+                          <div className="info-weight">
+                            <p>200km</p>
+                            <img src={distanceImg} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <img src={airPlane} className="content-plan-row-img" />
+                  </div>
+                  <div className="row-btn-container">
+                  {/* {`/planing-detail/${planingDetailId}`} */} 
+                    <Link className="row-btn-link" to="/planing-detail"> 
+                      More Detail
+                    </Link>
+                    <button>
+                      Apply this trip
+                      <img src={applyImg} />
+                    </button>
+                  </div>
+                </div>
+                <div className="form-choose-content-plan">
+                  <div className="content-plan-row">
+                    <div className="form-choose-map__container">
+                      <img src={planMap} />
+                    </div>
+                    <div className="content-row-details">
+                      <div className="content-row-details-activity">
+                        <div className="row-details-activity-items">
+                          <div className="content-plan-day-container">
+                            <h4 className="content-plan-startDay">
+                              {startDate.toLocaleDateString("en-GB")}
+                            </h4>
+                          </div>
+                          <div className="row-details-activity-item">
+                            <p className="content-row-day">Ngày</p>
+                            <label className="content-row-1">1</label>
 
-          //                   <h2 className="content-plan-startDay-main">
-          //                     TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
-          //                   </h2>
-          //                 </div>
-          //                 <div className="content-plan-day-container">
-          //                   <h4 className="content-plan-startDay">
-          //                     {startDate.toLocaleDateString("en-GB")}
-          //                   </h4>
-          //                 </div>
-          //                 <div className="row-details-activity-item">
-          //                   <p className="content-row-day">Ngày</p>
-          //                   <label className="content-row-1">2</label>
+                            <h2 className="content-plan-startDay-main">
+                              TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
+                            </h2>
+                          </div>
+                          <div className="content-plan-day-container">
+                            <h4 className="content-plan-startDay">
+                              {startDate.toLocaleDateString("en-GB")}
+                            </h4>
+                          </div>
+                          <div className="row-details-activity-item">
+                            <p className="content-row-day">Ngày</p>
+                            <label className="content-row-1">2</label>
 
-          //                   <h2 className="content-plan-startDay-main">
-          //                     TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
-          //                   </h2>
-          //                 </div>
-          //                 <div className="content-plan-day-container">
-          //                   <h4 className="content-plan-startDay">
-          //                     {startDate.toLocaleDateString("en-GB")}
-          //                   </h4>
-          //                 </div>
-          //                 <div className="row-details-activity-item">
-          //                   <p className="content-row-day">Ngày</p>
-          //                   <label className="content-row-1">3</label>
+                            <h2 className="content-plan-startDay-main">
+                              TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
+                            </h2>
+                          </div>
+                          <div className="content-plan-day-container">
+                            <h4 className="content-plan-startDay">
+                              {startDate.toLocaleDateString("en-GB")}
+                            </h4>
+                          </div>
+                          <div className="row-details-activity-item">
+                            <p className="content-row-day">Ngày</p>
+                            <label className="content-row-1">3</label>
 
-          //                   <h2 className="content-plan-startDay-main">
-          //                     TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
-          //                   </h2>
-          //                 </div>
-          //               </div>
-          //               <div className="form-choose-content-info">
-          //                 <div className="info-price">
-          //                   <p>400.000/</p>
-          //                   <img src={priceImg} />
-          //                 </div>
-          //                 <div className="info-weight">
-          //                   <p>200km</p>
-          //                   <img src={distanceImg} />
-          //                 </div>
-          //               </div>
-          //             </div>
-          //           </div>
-          //           <img src={airPlane} className="content-plan-row-img" />
-          //         </div>
-          //         <div className="row-btn-container">
-          //           <Link className="row-btn-link" to="/planing-detail">
-          //             More Detail
-          //           </Link>
-          //           <button>
-          //             Apply this trip
-          //             <img src={applyImg} />
-          //           </button>
-          //         </div>
-          //       </div>
-          //     </div>
-          //   </div>
-          // </div>
-          <p>User is not logged in.</p>
+                            <h2 className="content-plan-startDay-main">
+                              TP.HCM - CÔN ĐẢO (Ăn trưa,chiều)
+                            </h2>
+                          </div>
+                        </div>
+                        <div className="form-choose-content-info">
+                          <div className="info-price">
+                            <p>400.000/</p>
+                            <img src={priceImg} />
+                          </div>
+                          <div className="info-weight">
+                            <p>200km</p>
+                            <img src={distanceImg} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <img src={airPlane} className="content-plan-row-img" />
+                  </div>
+                  <div className="row-btn-container">
+                    <Link className="row-btn-link" to="/planing-detail">
+                      More Detail
+                    </Link>
+                    <button>
+                      Apply this trip
+                      <img src={applyImg} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          //<p>User is not logged in.</p>
         )}
       </div>
 

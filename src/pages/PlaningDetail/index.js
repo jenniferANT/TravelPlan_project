@@ -1,4 +1,4 @@
-import { Router, useHistory, Link } from "react-router-dom";
+import { Router, useHistory, Link, useParams } from "react-router-dom";
 import Header from "../../Component/GlobalStyles/Layout/DefaultLayout/Header";
 import Footer from "../../Component/GlobalStyles/Layout/Footer";
 import axios from "axios";
@@ -17,6 +17,14 @@ import vehicle from "./img/vehicle.png";
 import person from "./img/person.png";
 import price from "./img/price.png";
 function PlaningDetail() {
+  // Lay ID cua plan can render ra page detail
+  const { planingDetailId } = useParams();
+  // tu id lay ra data can để render
+  const planingDatas = []
+  const detail = planingDatas.find((plan) => plan.id===parseInt(planingDetailId));
+  if(!detail) {
+    return <div>Planing Not Found</div>
+  }
   return (
     <div className="planing-detail">
       <Header />
