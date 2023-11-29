@@ -17,6 +17,7 @@ import distance from "./img/distance.png";
 import vehicle from "./img/vehicle.png";
 import person from "./img/person.png";
 import price from "./img/price.png";
+import { handleAddToCart } from "../../service/UserApi";
 
 function PlaningDetail() {
   const params = useParams();
@@ -124,9 +125,7 @@ function PlaningDetail() {
                       <h4>{item.title}</h4>
                       <div className="detail-activity-main__content">
                         <img src={map} />
-                        <p>
-                          {item.content}
-                        </p>
+                        <p>{item.content}</p>
                       </div>
                     </div>
                   </div>
@@ -141,7 +140,10 @@ function PlaningDetail() {
                 <p>Edit this trip</p>
                 <img src={editImg} />
               </button>
-              <button className="detail-btn-apply">
+              <button
+                className="detail-btn-apply"
+                onClick={() => handleAddToCart(plan.id)}
+              >
                 <p>Apply this trip</p>
                 <img src={sendPlan} />
               </button>

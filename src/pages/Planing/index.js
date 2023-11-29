@@ -23,6 +23,7 @@ import applyImg from "./img/applyImg.png";
 import distanceImg from "./img/quantiyLugage.png";
 import { format } from "date-fns";
 import { useSelector, useDispatch } from "react-redux";
+import { handleAddToCart } from "../../service/UserApi";
 
 const time = [
   "03:00",
@@ -94,7 +95,7 @@ function Planing() {
   const [showForm, setShowForm] = useState(false);
   const [planGenerate, setPlanGenerate] = useState(null);
   const [planItemGenerate, setPlanItemGenerate] = useState(null);
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
+  let currentUser = JSON.parse(localStorage.getItem("userCurrent")) || null;
 
   useEffect(() => {
     fetch("http://localhost:8081/api/v1/category/category-child/name?name=area")
@@ -142,7 +143,7 @@ function Planing() {
   }, []);
 
   useEffect(() => {
-    if(planGenerate) {
+    if (planGenerate) {
       setShowForm(true);
     }
   }, []);
@@ -213,21 +214,39 @@ function Planing() {
     console.log(plan);
 
     try {
-      if(false) {
-    } else {
-      let response = await axios.post(
-        "http://localhost:8081/api/v1/plan",
-        plan
-      );
-      setPlanGenerate(response.data);
-      setPlanItemGenerate(response.data.planItems);
-      setShowForm(true);
-    }
-    } catch(err) {
+      if (currentUser !== null) {
+        let response = await axios.post(
+          "http://localhost:8081/api/v1/plan",
+          plan,
+          {
+            headers: {
+              "Content-Type": "application/json", 
+              Authorization: `${currentUser.token}`,
+            },
+          }
+        );
+        setPlanGenerate(response.data);
+        setPlanItemGenerate(response.data.planItems);
+        setShowForm(true);
+
+        console.log("author" + currentUser.token);
+      } else {
+        let response = await axios.post(
+          "http://localhost:8081/api/v1/plan",
+          plan
+        );
+        setPlanGenerate(response.data);
+        setPlanItemGenerate(response.data.planItems);
+        setShowForm(true);
+
+        console.log("not author");
+      }
+    } catch (err) {
       console.log(err.message);
     }
   };
-  const startDate=1
+
+  const startDate = 1;
   return (
     <div className="planing">
       <Header />
@@ -410,8 +429,7 @@ function Planing() {
                       <div className="content-row-details">
                         <div className="content-row-details-activity">
                           <div className="row-details-activity-items">
-
-                            {planItemGenerate?.map(item => (
+                            {planItemGenerate?.map((item) => (
                               <>
                                 <div className="content-plan-day-container">
                                   <h4 className="content-plan-startDay">
@@ -430,7 +448,6 @@ function Planing() {
                                 </div>
                               </>
                             ))}
-
                           </div>
                         </div>
 
@@ -454,7 +471,7 @@ function Planing() {
                       >
                         More Detail
                       </Link>
-                      <button>
+                      <button onClick={() => handleAddToCart(planGenerate.id)}>
                         Apply this trip
                         <img src={applyImg} />
                       </button>

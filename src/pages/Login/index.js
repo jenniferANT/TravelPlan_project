@@ -13,6 +13,8 @@ import { useState, useContext, useRef, useEffect } from "react";
 import "./login.scss";
 import { login } from "../../redux/apiRequest";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { loginApi } from "../../service/UserApi";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -31,28 +33,8 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const userLogin = {
-      username: username,
-      password: password,
-    };
 
-    if (username.length <= 8 || username.includes(" ")) {
-      setErrorUser(
-        "Username phải có ít nhất 8 kí tự và không chứa khoảng trắng"
-      );
-      if (errorUser !== "") {
-        console.log(errorUser);
-      }
-    } else if (password.length <= 8 || password.includes(" ")) {
-      setErrorPassword(
-        "Password phải có ít nhất 8 kí tự và không chứa khoảng trắng"
-      );
-      if (errorpassword !== "") {
-        console.log(errorpassword);
-      }
-    } 
-
-    login(userLogin, dispatch, navigate);
+    loginApi(username, password, navigate);
     clearInput();
   };
   return (

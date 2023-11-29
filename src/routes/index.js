@@ -7,6 +7,8 @@ import Blog from "../pages/Blog";
 import BlogList from "../pages/BlogList";
 import UserHome from "../pages/UserHome";
 import UserCart from "../pages/UserCart";
+import UserHistory from "../pages/UserHistory";
+
 const publicRoutes = [
   { path: "/", component: Home },
   { path: "/regis", component: Regis, layout: null },
@@ -16,7 +18,8 @@ const publicRoutes = [
   { path: "/blog", component: Blog },
   { path: "/blog-list", component: BlogList },
   { path: "/user", component: UserHome },
-  { path: "/cart", component:UserCart},
+  { path: "/cart", component: UserCart },
+  { path: "/history", component: UserHistory },
 ];
 
 const privateRoutes = [];

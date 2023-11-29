@@ -2,36 +2,37 @@ import { Router, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
-import { useState } from "react";
-
-import Regis from "../../../../../pages/Regis";
-import Login from "../../../../../pages/Login";
+import { useEffect, useState } from "react";
 import "./header.scss";
 import logo from "./img/Union.png";
 import airplane from "./img/airplane.png";
-import earthSvg from "./img/earth.svg";
-import image from "./img/Image.png";
-import map from "./img/map.png";
-import search from "./img/search.png";
-import authSlice from "../../../../../redux/authSlice";
 import cart from "./img/cart.png";
 import profile from "./img/profile.png";
 import logout from "./img/logout.png";
 import down from "./img/down.png";
 import history from "./img/history (1).png";
 import favorite from "./img/favorite.png";
+import { toast } from "react-toastify";
+
 function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentUser = useSelector((state) => state.auth.login.currentUser);
-  
+  const [currentUser, setCurrentUser] = useState(null);
+  const [checkUser, setCheckUser] = useState();
 
-  function handleLogout() {
-    console.log("logout");
-    logout(dispatch, navigate)
+  useEffect(() => {
+    if (localStorage.getItem("userCurrent")) {
+      setCurrentUser(JSON.parse(localStorage.getItem("userCurrent")));
+    }
+  }, [checkUser]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("userCurrent");
+    navigate("/");
+    toast.success("Logout succeed!");
   }
+
   function toggleDropdown() {
     setIsDropdownOpen(!isDropdownOpen);
   }
@@ -80,7 +81,7 @@ function Header() {
           </button>
         </div>
         <div className="header-heading-right">
-          {currentUser ? (
+          {currentUser !== null ? (
             <div className="current-user">
               <div className="current-user-avt">
                 <img src={currentUser.avatar} />{" "}
@@ -99,7 +100,7 @@ function Header() {
                       </li>
                       <li>
                         <img src={cart} />
-                        <Link className="reset-link">
+                        <Link className="reset-link" to="/cart">
                           <p>Your Cart</p>
                         </Link>
                       </li>
@@ -111,13 +112,13 @@ function Header() {
                       </li>
                       <li>
                         <img src={history} />
-                        <Link className="reset-link">
+                        <Link className="reset-link" to="/history">
                           <p>Your History</p>
                         </Link>
                       </li>
-                      <li>
+                      <li onClick={() => handleLogout()}>
                         <img src={logout} />
-                        <button className="logout-btn" onClick={handleLogout}>
+                        <button className="logout-btn">
                           Log out
                         </button>
                       </li>

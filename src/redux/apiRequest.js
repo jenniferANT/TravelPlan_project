@@ -22,10 +22,13 @@ export const login = async (user, dispatch, navigate) => {
     //store token in redux and r token in cookies
     dispatch(loginSuccess(res.data));
     Cookies.set("refreshToken", res.data.refreshToken, { expires: 30 });
-
+    
+    toast.success("Login success!");
     navigate("/");
   } catch (err) {
     dispatch(loginFailed());
+
+    toast.error(err.response.data.message);
   }
 };
 
@@ -38,5 +41,6 @@ export const registerUser = async (user, dispatch, navigate) => {
     navigate("/login");
   } catch (err) {
     dispatch(registerFailed());
+    toast.error(err.response.data.message);
   }
 };

@@ -10,14 +10,14 @@ const images = {
   locationI: require("./img/locationI.png"),
   timeI: require("./img/timeI.png"),
 };
-function UserCart() {
+function UserHistory() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [plan, setPlan] = useState([]);
 
   let userCurrent = JSON.parse(localStorage.getItem("userCurrent"));
   useEffect(() => {
-    fetch("http://localhost:8081/api/v1/plan/my-cart", {
+    fetch("http://localhost:8081/api/v1/plan/my-history", {
       headers: {
         Authorization: `${userCurrent.token}`,
       },
@@ -41,7 +41,7 @@ function UserCart() {
       <Header />
       <div className="cart-app">
         <div className="cart-container">
-          <h3 className="cart__username">{userCurrent.name}'s cart</h3>
+          <h3 className="cart__username">{userCurrent.name}'s history</h3>
 
           {/* {`/planing-detail/${planingDetailId}`} */}
           {plan?.map((item) => {
@@ -79,4 +79,4 @@ function UserCart() {
   );
 }
 
-export default UserCart;
+export default UserHistory;
