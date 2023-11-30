@@ -65,20 +65,20 @@ function Header() {
           <button className="header-discover">
             <Link
               className="font header__link-left header__link-hover"
-              to="/discover"
+              to="/places"
             >
-              Discover
+              Places
             </Link>
           </button>
 
-          <button className="header-blog">
+          {/* <button className="header-blog">
             <Link
               className="font header__link-left header__link-hover"
               to="/blog"
             >
               Blog
             </Link>
-          </button>
+          </button> */}
         </div>
         <div className="header-heading-right">
           {currentUser !== null ? (
@@ -118,9 +118,7 @@ function Header() {
                       </li>
                       <li onClick={() => handleLogout()}>
                         <img src={logout} />
-                        <button className="logout-btn">
-                          Log out
-                        </button>
+                        <button className="logout-btn">Log out</button>
                       </li>
                     </ul>
                   </div>
