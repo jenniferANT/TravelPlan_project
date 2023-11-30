@@ -46,28 +46,33 @@ function UserCart() {
           {/* {`/planing-detail/${planingDetailId}`} */}
           {plan?.map((item) => {
             return (
-              <Link className="cart-item" to={`/planing-detail/${item.id}`}>
-                <div className="cart-item-info">
-                  <div className="cart-item-info-col1">
-                    <h4 className="cart-item-info__title">{item.title}</h4>
-                    <p className="cart-item-info__price">
-                      <img src={images.moneyI} />
-                      {item.expense}
-                    </p>
+              <Link
+                className="link-container"
+                to={`/planing-detail/${item.id}`}
+              >
+                <div className="cart-item">
+                  <div className="cart-item-info">
+                    <div className="cart-item-info-col1">
+                      <h4 className="cart-item-info__title">{item.title}</h4>
+                      <p className="cart-item-info__price">
+                        <img src={images.moneyI} />
+                        {item.expense}
+                      </p>
+                    </div>
+                    <div className="cart-item-info-col2">
+                      <h5 className="cart-item-info__name">
+                        <img src={images.locationI} />
+                        {item.destination}
+                      </h5>
+                      <p className="cart-item-info__date">
+                        <img src={images.timeI} />
+                        {item.beginDate} - {item.endDate}
+                      </p>
+                    </div>
                   </div>
-                  <div className="cart-item-info-col2">
-                    <h5 className="cart-item-info__name">
-                      <img src={images.locationI} />
-                      {item.destination}
-                    </h5>
-                    <p className="cart-item-info__date">
-                      <img src={images.timeI} />
-                      {item.beginDate} - {item.endDate}
-                    </p>
+                  <div className="cart-item-time">
+                    <p>{item.createdAt}</p>
                   </div>
-                </div>
-                <div className="cart-item-time">
-                  <p>{item.createdAt}</p>
                 </div>
               </Link>
             );

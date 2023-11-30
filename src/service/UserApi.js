@@ -21,22 +21,20 @@ const loginApi = async (username, password, navigate) => {
 
 const handleAddToCart = async (planId) => {
 
-  console.log("id plan" + planId);
-  let currentUser = JSON.parse(localStorage.getItem("userCurrent")) || null;
+  const currentUser = JSON.parse(localStorage.getItem("userCurrent")) || null;
   if (currentUser !== null) {
+    const url = `http://localhost:8081/api/v1/cart?planId=${planId}`;
     try {
-      console.log("id plan 1");
-      console.log( await axios.post(
-        "http://localhost:8081/api/v1/cart",
-        planId,
+      await axios.post(
+        url,
+        {},
         {
           headers: {
             "Content-Type": "application/json",
             Authorization: `${currentUser.token}`,
           },
         }
-      ));
-      console.log("id plan 2");
+      );
 
       toast.success("Add cart succeed!");
     } catch (err) {
