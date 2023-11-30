@@ -1,4 +1,5 @@
 @import "../../Component/GlobalStyles/GlobalStyles.scss";
+
 .blog-list {
     min-height: 1200px;
     background-color: var(--second-color);
@@ -78,4 +79,28 @@
     top: 70%;
     left: 10%;
     color: white;
+}
+
+.center {
+    text-align: center;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
 }
