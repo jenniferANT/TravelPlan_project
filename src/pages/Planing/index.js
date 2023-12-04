@@ -193,11 +193,7 @@ function Planing() {
   const generate = async (event) => {
     event.preventDefault();
 
-    const categoryId = selectedCategories.map((item) => {
-      return {
-        id: item.value,
-      };
-    });
+    const categoryId = selectedCategories.map((item) => item.value);
 
     const plan = {
       locationLatitude: latitude,
