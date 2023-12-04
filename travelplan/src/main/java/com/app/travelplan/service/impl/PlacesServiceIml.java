@@ -68,6 +68,31 @@ public class PlacesServiceIml implements PlacesService {
     }
 
     @Override
+    public ListResponse getMyPlace(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sort = sortDir.equals(Sort.Direction.ASC.name())
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+        Page<Places> listPage = placesRepository.findAllByUser_Username(pageable, SecurityUtils.getUsernameOfPrincipal());
+        List<Places> listPlaces = listPage.getContent();
+        List<PlacesDto> content = listPlaces.stream().map(PlacesDto::toDto).toList();
+
+        ListResponse<PlacesDto> listResponse = new ListResponse<>();
+
+        return listResponse.toListResponse(
+                listResponse,
+                content,
+                listPage.getNumber(),
+                listPage.getSize(),
+                listPage.getTotalElements(),
+                listPage.getTotalPages(),
+                listPage.isLast()
+        );
+    }
+
+    @Override
     public void deleteById(long id) {
         Places places = placesRepository.findById(id)
                 .orElseThrow(() ->

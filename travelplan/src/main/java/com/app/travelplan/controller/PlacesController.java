@@ -31,6 +31,16 @@ public class PlacesController {
         return new ResponseEntity(placesService.getAll(pageNo, pageSize, sortBy, sortDir), HttpStatus.OK);
     }
 
+    @GetMapping("/api/v1/places/my")
+    public ResponseEntity getMyPlace(
+            @RequestParam(value = "pageNo", defaultValue = PageableConstants.DEFAULT_PAGE_NUMBER , required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PageableConstants.DEFAULT_PAGE_SIZE , required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = PageableConstants.DEFAULT_SORT_BY , required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = PageableConstants.DEFAULT_SORT_DIRECTION , required = false) String sortDir
+    ) {
+        return new ResponseEntity(placesService.getMyPlace(pageNo, pageSize, sortBy, sortDir), HttpStatus.OK);
+    }
+
     @GetMapping("/api/v1/places/{id}")
     public ResponseEntity getById(@PathVariable("id") long id) {
         return new ResponseEntity(placesService.getById(id), HttpStatus.OK);

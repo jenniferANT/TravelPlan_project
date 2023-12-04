@@ -21,4 +21,6 @@ public interface PlacesService {
     PlacesDto addImageToPlace(long placeId, long[] ids);
 
     PlacesDto delImageToPlace(long placeId, long[] ids);
+
+    ListResponse getMyPlace(int pageNo, int pageSize, String sortBy, String sortDir);
 }

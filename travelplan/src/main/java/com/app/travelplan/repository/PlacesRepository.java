@@ -12,4 +12,5 @@ public interface PlacesRepository extends JpaRepository<Places, Long> {
     boolean existsById(long id);
     List<Places> findAllByFollows(Follow follow);
     List<Places> findAllByCategories_Name(String name);
+    Page<Places> findAllByUser_Username(Pageable pageable,String username);
 }
