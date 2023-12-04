@@ -54,22 +54,83 @@ function UserHome() {
   const [tag, setTag] = useState("");
   const [point, setPoint] = useState(0);
   const [count, setCount] = useState(0);
-  const [comment, setComment] = useState('')
-  const [imgComment,setImgComment] = useState([]);
+  const [comment, setComment] = useState("");
+  const [imgComment, setImgComment] = useState([]);
 
   const [showPopUp, setShowPopUp] = useState(false);
   const popUpref = useRef(null);
   const [userData, setUserData] = useState(userProfile[0]); //null khi ket noi db
-  console.log(userData.name);
-  // useEffect(() => {
-  //    axios.get('') //api
-  //     .then(response =>setUserData(response.data))
-  //     .catch(error =>console.log(error));
-  // },[])
-  // if (!userData) {
-  //     // Hiển thị thông báo hoặc spinner trong quá trình tải dữ liệu
-  //     return <div>Loading...</div>;
-  //  }
+
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [pageNo, setPageNo] = useState(1);
+  const [totalPages, setTotalPages] = useState();
+  const [places, setPlaces] = useState([]);
+  const [last, setLast] = useState();
+  const [numbers, setNumbers] = useState();
+  const currentUser = JSON.parse(localStorage.getItem("userCurrent")) || null;
+
+  useEffect(() => {
+    if (currentUser) {
+      fetch(
+        `http://localhost:8081/api/v1/places/my?pageNo=${
+          pageNo - 1
+        }&pageSize=15&sortBy=id&sortDir=asc`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${currentUser.token}`,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            setPlaces(result.content);
+
+            console.log(places);
+
+            setTotalPages(result.totalPages);
+            setLast(result.last);
+
+            const x = Array.from(
+              { length: totalPages },
+              (_, index) => index + 1
+            );
+            setNumbers(x);
+            setIsLoaded(true);
+          },
+          (error) => {
+            setIsLoaded(true);
+            setError(error);
+          }
+        );
+    }
+  }, [pageNo]);
+
+  const handlePagination = (x) => {
+    if (x === pageNo) {
+      return;
+    } else {
+      setPageNo(x);
+    }
+  };
+
+  const handleFirstPage = () => {
+    if (pageNo === 1) {
+      return;
+    } else {
+      setPageNo(1);
+    }
+  };
+
+  const handleLastPage = () => {
+    if (last) {
+      return;
+    } else {
+      setPageNo(totalPages);
+    }
+  };
 
   const listCategories = [
     {
@@ -143,285 +204,320 @@ function UserHome() {
     setTag((preTag) => [...preTag, e.target.value]);
   }
   function handleCommentChange(e) {
-    setComment(e.target.value)
+    setComment(e.target.value);
   }
-
 
   function handlePostUserComment() {
     const newComment = {
       newAvartar: avatar,
       newName: userData.name,
       newComment: comment,
-      newImg: imgComment
-    }
-    
+      newImg: imgComment,
+    };
   }
 
-
-
-  return (
-    <div className="User">
-      <div className="user-heading">
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  } else if (!isLoaded) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+      <>
         <Header />
-      </div>
-      <div className="user-app">
-        <div className="user-app-profile">
-          <div className="user-app-profile-info">
-            <div className="user-app-profile-avt">
-              <img src={userData.avatar} />
-            </div>
-            <div className="user-app-profile-name">
-              <h4 className="profile-name__full">{userData.name}</h4>
-              <p className="profile-name__nick">{userData.nickName}</p>
-            </div>
-          </div>
+        <div className="User">
+          <div className="user-app">
+            <div className="user-app-profile">
+              <div className="user-app-profile-info">
+                <div className="user-app-profile-avt">
+                  <img src={currentUser.avatar} />
+                </div>
+                <div className="user-app-profile-name">
+                  <h4 className="profile-name__full">{currentUser.name}</h4>
+                  <p className="profile-name__nick">{currentUser.username}</p>
+                </div>
+              </div>
 
-          <div className="user-app-profile-icon">
-            <img className="profile-icon1" src={icon.icon1} />
-            <img className="profile-icon2" src={icon.icon2} />
-            <img className="profile-icon3" src={icon.icon3} />
-          </div>
-        </div>
-        <div className="user-app-blog">
-          <div className="app-blog-posting">
-            <div className="app-blog-posting-row1">
-              <img src={userData.avatar} />
-              <div
-                className="blog-posting-btn__create"
-                onClick={handleTogglePopUp}
-              >
-                <span>Creat place !</span>
+              <div className="user-app-profile-icon">
+                <img className="profile-icon1" src={icon.icon1} />
+                <img className="profile-icon2" src={icon.icon2} />
+                <img className="profile-icon3" src={icon.icon3} />
               </div>
             </div>
-            {showPopUp && (
-              <div ref={popUpref} className="blog-posting-popup">
-                <div className="blog-posting-popup__row1">
-                  <div className="popup__row1__col1">
-                    <textarea
-                      placeholder="Title"
-                      className=" reset-resize"
-                      onChange={handleChangeTitle}
-                    ></textarea>
-                    <textarea
-                      placeholder="Phone Number"
-                      className=" reset-resize"
-                      onChange={handleChangePhone}
-                    ></textarea>
-                    <textarea
-                      placeholder="Average Price"
-                      className=" reset-resize"
-                      onChange={handleChangePrice}
-                    ></textarea>
-                    <div className="">
-                      <textarea
-                        placeholder="Begin Date"
-                        className="popup__row1__col1__date reset-resize"
-                        onChange={handleChangeBeginDate}
-                      ></textarea>
-                      <textarea
-                        placeholder="End Date"
-                        className="popup__row1__col1__date reset-resize"
-                        onChange={handleChangeEndDate}
-                      ></textarea>
+            <div className="user-app-blog">
+              <div className="app-blog-posting">
+                <div className="app-blog-posting-row1">
+                  <img src={currentUser.avatar} />
+                  <div
+                    className="blog-posting-btn__create"
+                    onClick={handleTogglePopUp}
+                  >
+                    <span>Creat place !</span>
+                  </div>
+                </div>
+
+                {/* popup  */}
+                {showPopUp && (
+                  <div ref={popUpref} className="blog-posting-popup">
+                    <div className="blog-posting-popup__row1">
+                      <div className="popup__row1__col1">
+                        <textarea
+                          placeholder="Title"
+                          className=" reset-resize"
+                          onChange={handleChangeTitle}
+                        ></textarea>
+                        <textarea
+                          placeholder="Phone Number"
+                          className=" reset-resize"
+                          onChange={handleChangePhone}
+                        ></textarea>
+                        <textarea
+                          placeholder="Average Price"
+                          className=" reset-resize"
+                          onChange={handleChangePrice}
+                        ></textarea>
+                        <div className="">
+                          <textarea
+                            placeholder="Begin Date"
+                            className="popup__row1__col1__date reset-resize"
+                            onChange={handleChangeBeginDate}
+                          ></textarea>
+                          <textarea
+                            placeholder="End Date"
+                            className="popup__row1__col1__date reset-resize"
+                            onChange={handleChangeEndDate}
+                          ></textarea>
+                        </div>
+                      </div>
+                      <div className="popup__row1__col2">
+                        <textarea
+                          placeholder="Description"
+                          className="popup__description reset-resize"
+                          onChange={handleChangeDes}
+                        ></textarea>
+                        <div className="popup__time-container">
+                          <input type="checkbox" />
+                          <h4>24/24</h4>
+                          <textarea
+                            placeholder="Min Time"
+                            className="reset-resize"
+                            onChange={handleChangeMinTime}
+                          ></textarea>
+                          <textarea
+                            placeholder="Max Time"
+                            className="reset-resize"
+                            onChange={handleChangeMaxTime}
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="blog-posting-popup__row2">
+                      <div className="popup__row2__col1">
+                        <textarea
+                          placeholder="Address"
+                          className="reset-resize"
+                          onChange={handleChangeAddress}
+                        ></textarea>
+                        <textarea
+                          placeholder="Link map"
+                          className="reset-resize"
+                          onChange={handleChangeLinkMap}
+                        ></textarea>
+                        <textarea
+                          placeholder="Embedded Link"
+                          className="reset-resize"
+                          onChange={handleChangeEmbeddedLink}
+                        ></textarea>
+                      </div>
+                      <div className="popup__row2__col2">
+                        <textarea
+                          placeholder="Web name"
+                          className="reset-resize"
+                          onChange={handleChangeWebName}
+                        ></textarea>
+                        <textarea
+                          placeholder="Link web"
+                          className="reset-resize"
+                          onChange={handleChangeLinkWeb}
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div className="blog-posting-popup__row3">
+                      <Select options={options} isMulti />
+                    </div>
+                    <div className="blog-posting-popup__row4">
+                      <label
+                        className="popup__row4__label"
+                        for="popup-input-image"
+                      >
+                        Picture
+                        <img src={icon.imageI} />
+                      </label>
+                      <input
+                        style={{ display: "none" }}
+                        id="popup-input-image"
+                        type="file"
+                        accept="image/*"
+                        multiple
+                      />
+                    </div>
+                    <button className="blog-posting-popup-postBtn">
+                      Post
+                      <img src={icon.postI} />
+                    </button>
+                    <button
+                      onClick={handleTogglePopUp}
+                      className="blog-posting-popup-close"
+                    >
+                      X
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {places?.map((place) => (
+                <div className="app-blog-posted">
+                  <div className="blog-posted-profile">
+                    <div className="blog-posted-profile-left">
+                      <div className="blog-posted-profile-left__col1">
+                        {/* user avartar */}
+                        <img src={currentUser.avatar} />
+                      </div>
+                      <div className="blog-posted-profile-left__col2">
+                        {/* user name */}
+                        <p>{currentUser.name}</p>
+                        <div className="blog-posted-profile-left__col2-date">
+                          <p className="profile-left__col2-date">
+                            {place.createdAt}
+                          </p>
+                          <li className="profile-left__col2-location">
+                            {place.addressDto.addressString}
+                          </li>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="blog-posted-profile-right">
+                      <button className="edit-button">&#8942;</button>
                     </div>
                   </div>
-                  <div className="popup__row1__col2">
-                    <textarea
-                      placeholder="Description"
-                      className="popup__description reset-resize"
-                      onChange={handleChangeDes}
-                    ></textarea>
-                    <div className="popup__time-container">
-                      <input type="checkbox" />
-                      <h4>24/24</h4>
-                      <textarea
-                        placeholder="Min Time"
-                        className="reset-resize"
-                        onChange={handleChangeMinTime}
-                      ></textarea>
-                      <textarea
-                        placeholder="Max Time"
-                        className="reset-resize"
-                        onChange={handleChangeMaxTime}
-                      ></textarea>
+                  <div className="blog-posted">
+                    <div className="blog-posted-content">
+                      <div className="blog-posted-content-left">
+                        <h3>{place.title}</h3>
+                        <p>{place.description}</p>
+                      </div>
+                      <div className="blog-posted-content-right">
+                        <div>
+                          <img src={icon.phoneI} />
+                          <p>{place.phoneNumber}</p>
+                        </div>
+                        <div>
+                          <img src={icon.moneyI} />
+                          <p>{place.cost}</p>
+                        </div>
+                        <div>
+                          <img src={icon.timeI} />
+                          <p>{`${place.beginDay} - ${place.endDay}`}</p>
+                        </div>
+                        <div className="posted-content-right-web">
+                          <img src={icon.websiteI} />
+                          <div>
+                            <p>{place.link.url}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="blog-posted-img">
+                      <img src={avatar} />
+                      <img src={avatar} />
+                      <img src={avatar} />
+                      <img src={avatar} />
+                    </div>
+                    <div className="blog-posted-rate">
+                      <div className="blog-posted-point">
+                        <img src={icon.pointI} />
+                        <p>{place.point}</p>
+                      </div>
+                      <div className="blog-posted-count">
+                        <img src={icon.countI} />
+                        <p>{place.count}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="blog-posting-popup__row2">
-                  <div className="popup__row2__col1">
-                    <textarea
-                      placeholder="Address"
-                      className="reset-resize"
-                      onChange={handleChangeAddress}
-                    ></textarea>
-                    <textarea
-                      placeholder="Link map"
-                      className="reset-resize"
-                      onChange={handleChangeLinkMap}
-                    ></textarea>
-                    <textarea
-                      placeholder="Embedded Link"
-                      className="reset-resize"
-                      onChange={handleChangeEmbeddedLink}
-                    ></textarea>
-                  </div>
-                  <div className="popup__row2__col2">
-                    <textarea
-                      placeholder="Web name"
-                      className="reset-resize"
-                      onChange={handleChangeWebName}
-                    ></textarea>
-                    <textarea
-                      placeholder="Link web"
-                      className="reset-resize"
-                      onChange={handleChangeLinkWeb}
-                    ></textarea>
-                  </div>
+              ))}
+
+              <div class="center">
+                <div class="pagination">
+                  <Link onClick={() => handleFirstPage()}>&laquo;</Link>
+                  {numbers?.map((number) => (
+                    <Link
+                      key={number}
+                      onClick={() => handlePagination(number)}
+                      style={
+                        number === pageNo
+                          ? {
+                              backgroundColor: "var(--third-color)",
+                              color: "white",
+                              border: "1px solid var(--third-color)",
+                            }
+                          : {}
+                      }
+                    >{`${number}`}</Link>
+                  ))}
+                  <Link onClick={() => handleLastPage()}>&raquo;</Link>
                 </div>
-                <div className="blog-posting-popup__row3">
-                  <Select options={options} isMulti />
+              </div>
+
+              <div className="app-blog-comment">
+                <h3>Commments</h3>
+                <div className="app-blog-comment-profile">
+                  <img src={avatar} />
+                  <p>{userData.name}</p>
                 </div>
-                <div className="blog-posting-popup__row4">
-                  <label className="popup__row4__label" for="popup-input-image">
-                    Picture
-                    <img src={icon.imageI} />
+                <div className="app-blog-comment-input">
+                  <textarea
+                    onChange={handleCommentChange}
+                    placeholder="Your comment"
+                  ></textarea>
+                </div>
+                <div className="app-blog-comment-btn">
+                  <label for="input-comment">
+                    <img src={icon.inputI} />
                   </label>
                   <input
                     style={{ display: "none" }}
-                    id="popup-input-image"
+                    id="input-comment"
                     type="file"
-                    accept="image/*"
                     multiple
                   />
+                  <button
+                    onClick={handlePostUserComment}
+                    className="app-blog-comment-btn__post"
+                  >
+                    Post
+                  </button>
                 </div>
-                <button className="blog-posting-popup-postBtn">
-                  Post
-                  <img src={icon.postI} />
-                </button>
-                <button
-                  onClick={handleTogglePopUp}
-                  className="blog-posting-popup-close"
-                >
-                  X
-                </button>
               </div>
-            )}
-          </div>
-          <div className="app-blog-posted">
-            <div className="blog-posted-profile">
-              <div className="blog-posted-profile-left">
-                <div className="blog-posted-profile-left__col1">
-                  {/* user avartar */}
-                  <img src={userData.avatar} />
-                </div>
-                <div className="blog-posted-profile-left__col2">
-                  {/* user name */}
+              <div className="app-blog-watch">
+                <div className="app-blog-comment-profile">
+                  <img src={avatar} />
                   <p>{userData.name}</p>
-                  <div className="blog-posted-profile-left__col2-date">
-                    <p className="profile-left__col2-date">27/08/2023</p>
-                    <li className="profile-left__col2-location">Sài Gòn</li>
-                  </div>
+                </div>
+                <div className="app-blog-comment-input">
+                  {/* cac comment */}
+                  <p>abcxỹ0c0ádsads</p>
+                  {/* time up comment */}
+                  <p className="app-blog-comment-time">5 mins ago</p>
                 </div>
               </div>
-              <div className="blog-posted-profile-right">
-                <button className="edit-button">&#8942;</button>
-              </div>
-            </div>
-            <div className="blog-posted">
-              <div className="blog-posted-content">
-                <div className="blog-posted-content-left">
-                  <h3>{title}</h3>
-                  <p>{description}</p>
-                </div>
-                <div className="blog-posted-content-right">
-                  <div>
-                    <img src={icon.phoneI} />
-                    <p>{phone}</p>
-                  </div>
-                  <div>
-                    <img src={icon.moneyI} />
-                    <p>{price}</p>
-                  </div>
-                  <div>
-                    <img src={icon.timeI} />
-                    <p>{`${beginDate} - ${endDate}`}</p>
-                  </div>
-                  <div className="posted-content-right-web">
-                    <img src={icon.websiteI} />
-                    <div>
-                      <p>{webName}</p>
-                      <p>{webLink}</p>
-                    </div>
-                  </div>
-                  <div>
-                    <img src={icon.addressI} />
-                    <p>{address}</p>
-                  </div>
-                  <div>
-                    <img src={icon.tagI} />
-                    <p>{tag}</p>
-                  </div>
-                </div>
-              </div>
-              <div className="blog-posted-img">
-                <img src={avatar} />
-                <img src={avatar} />
-                <img src={avatar} />
-                <img src={avatar} />
-              </div>
-              <div className="blog-posted-rate">
-                <div className="blog-posted-point">
-                  <img src={icon.pointI} />
-                  <p>{point}</p>
-                </div>
-                <div className="blog-posted-count">
-                  <img src={icon.countI} />
-                  <p>{count}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="app-blog-comment">
-            <h3>Commments</h3>
-            <div className="app-blog-comment-profile">
-              <img src={avatar} />
-              <p>{userData.name}</p>
-            </div>
-            <div className="app-blog-comment-input">
-              <textarea onChange={handleCommentChange} placeholder="Your comment"></textarea>
-            </div>
-            <div className="app-blog-comment-btn">
-              <label for="input-comment">
-                <img src={icon.inputI} />
-              </label>
-              <input
-                style={{ display: "none" }}
-                id="input-comment"
-                type="file"
-                multiple
-              />
-              <button onClick={handlePostUserComment} className="app-blog-comment-btn__post">Post</button>
-            </div>
-          </div>
-          <div className="app-blog-watch">
-            <div className="app-blog-comment-profile">
-              <img src={avatar} />
-              <p>{userData.name}</p>
-            </div>
-            <div className="app-blog-comment-input">
-              {/* cac comment */}
-              <p>abcxỹ0c0ádsads</p>
-              {/* time up comment */}
-              <p className="app-blog-comment-time">5 mins ago</p>
             </div>
           </div>
         </div>
-      </div>
-      <div className="user-footing">
+
         <Footer />
-      </div>
-    </div>
-  );
+      </>
+    );
+  }
 }
 
 export default UserHome;

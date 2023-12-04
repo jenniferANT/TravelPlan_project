@@ -90,7 +90,7 @@ function PlacesList() {
                     {place.title}
                   </h3>
                   <p className="blog-list-row-detail__content">
-                    {place.description}
+                    Content: {place.description}
                   </p>
                 </div>
               </div>
