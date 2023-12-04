@@ -467,49 +467,6 @@ function UserHome() {
                   <Link onClick={() => handleLastPage()}>&raquo;</Link>
                 </div>
               </div>
-
-              <div className="app-blog-comment">
-                <h3>Commments</h3>
-                <div className="app-blog-comment-profile">
-                  <img src={avatar} />
-                  <p>{userData.name}</p>
-                </div>
-                <div className="app-blog-comment-input">
-                  <textarea
-                    onChange={handleCommentChange}
-                    placeholder="Your comment"
-                  ></textarea>
-                </div>
-                <div className="app-blog-comment-btn">
-                  <label for="input-comment">
-                    <img src={icon.inputI} />
-                  </label>
-                  <input
-                    style={{ display: "none" }}
-                    id="input-comment"
-                    type="file"
-                    multiple
-                  />
-                  <button
-                    onClick={handlePostUserComment}
-                    className="app-blog-comment-btn__post"
-                  >
-                    Post
-                  </button>
-                </div>
-              </div>
-              <div className="app-blog-watch">
-                <div className="app-blog-comment-profile">
-                  <img src={avatar} />
-                  <p>{userData.name}</p>
-                </div>
-                <div className="app-blog-comment-input">
-                  {/* cac comment */}
-                  <p>abcxỹ0c0ádsads</p>
-                  {/* time up comment */}
-                  <p className="app-blog-comment-time">5 mins ago</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
