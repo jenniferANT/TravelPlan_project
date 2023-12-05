@@ -19,10 +19,10 @@ function PopularDestinations() {
         setIsLoaded(true);
         setPopularDes(result.content);
       },
-      (error) => {
-        setIsLoaded(true);
-        setError(error);
-      }
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
       );
   }, []);
 
@@ -80,27 +80,19 @@ function PopularDestinations() {
                 >
                   <div className="popularDestination-item-img">
                     {popularDestination.imageUrl.length === 0 ? (
-                      <img src={popularImg} />
+                      <img style={{ maxWidth: '350px' }} src={popularImg} />
                     ) : (
-                      <img src={popularDestination.imageUrl[0]} />
+                      <img style={{ maxWidth: '350px', minWidth: '350px' }} src={popularDestination.imageUrl[0]} />
                     )}
                   </div>
 
-                  <span className="popularDestination-item-descript">
+                  <span style={{minHeight:'92px', maxWidth:'80%'}} className="popularDestination-item-descript">
                     {popularDestination.title}
                   </span>
                   <p className="popularDestination-sub-Descript">
                     {popularDestination.description}
                   </p>
-                  <div className="popularDestination-booking-container">
-                    <h5 className="popularDestination-price">
-                      {popularDestination.cost}
-                    </h5>
-                    <p>VND /Person</p>
-                    <button className="popularDestination-booking-btn">
-                      Book Now
-                    </button>
-                  </div>
+                  
                 </div>
               );
             })}

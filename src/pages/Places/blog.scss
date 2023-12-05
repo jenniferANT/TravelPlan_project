@@ -7,10 +7,13 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .blog-main {
-  margin-left: 840px;
+//   margin-left: 840px;
   font-size: 40px;
 }
 
@@ -45,7 +48,7 @@ h4 {
 
 .blog-destination-container {
   margin-top: 30px;
-  margin-left: 160px;
+  margin-left: 300px;
   position: relative;
   display: flex;
   background-color: var(--second-color);
@@ -208,7 +211,7 @@ h4 {
     background-color: white;
     width: 60%;
     height: fit-content;
-    margin-left: 320px;
+    // margin-left: 320px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     padding: 60px;
     position: relative;
@@ -228,7 +231,7 @@ h4 {
 .plane-img {
     position: absolute;
     bottom: -20%;
-    left: -10%;
+    left: -17%;
 }
 .map-img {
     position: absolute;
@@ -239,4 +242,10 @@ h4 {
 .comment-container {
     margin-top: 200px;
     margin-left: 300px;
+}
+
+.review-post-comment-avt {
+    padding-right: 10px;
+    max-width: 102px;
+    max-height: 102px;
 }

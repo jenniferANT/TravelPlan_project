@@ -3,6 +3,7 @@
 .popularDestination-component {
   background-color: var(--second-color);
   margin-top: 40px;
+  max-width: 100%;
 }
 
 .header {
@@ -52,6 +53,8 @@
 }
 
 .content-popularDestination {
+  max-width: 100%;
+  margin: auto;
   margin-top: 180px;
 }
 
@@ -59,8 +62,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 100px;
+  // margin: 0 100px;
   padding: 0 40px;
+  max-width: fit-content;
 }
 
 .popularDestination-item {
@@ -74,15 +78,16 @@
   border: 1px solid white;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
   margin: 0 16px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 20px;
 }
 
 .popularDestination-item-img {
   margin-top: 0px;
-  width: 350px;
+  
 }
 
 .popularDestination-item-descript {

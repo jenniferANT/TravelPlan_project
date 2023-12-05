@@ -215,7 +215,9 @@ function UserHome() {
       newImg: imgComment,
     };
   }
-
+  function handlePostPlace(e) {
+    const newPostPlace = {}
+  }
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
@@ -360,7 +362,7 @@ function UserHome() {
                         multiple
                       />
                     </div>
-                    <button className="blog-posting-popup-postBtn">
+                    <button onClick={handlePostPlace} className="blog-posting-popup-postBtn">
                       Post
                       <img src={icon.postI} />
                     </button>

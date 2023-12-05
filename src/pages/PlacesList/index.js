@@ -14,7 +14,7 @@ function PlacesList() {
   const [totalPages, setTotalPages] = useState();
   const [places, setPlaces] = useState([]);
   const [last, setLast] = useState();
-  const [numbers, setNumbers] = useState();
+  const [numbers, setNumbers] = useState([1,2]);
 
   useEffect(() => {
     fetch(
@@ -75,7 +75,7 @@ function PlacesList() {
 
         <div className="blog-list-main">
           {places?.map((place) => (
-            <Link key={place.id} to={`/places/${place.id}`}>
+            <Link style={{textDecoration:'none', color:'black'}} key={place.id} to={`/places/${place.id}`}>
               <div className="blog-list-row">
                 <div className="blog-list-row-left">
                   <img

@@ -2,6 +2,8 @@
 
 .planing-detail {
   background-color: var(--second-color);
+  min-width: 1200px;
+  overflow: hidden;
 }
 
 .content {
@@ -34,9 +36,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 20px 40px;
+  margin: 0 20px;
   position: relative;
   z-index: 1;
+  border-bottom: 1px solid #333;
+
+}
+.detail-activity-item:last-child {
+  border: none;
 }
 
 .detail-activity-day {
@@ -49,15 +57,15 @@
   justify-content: center;
   position: relative;
 }
-.detail-activity-item-container::after {
-  content: "";
-  border: 1px dotted #333;
-  position: absolute;
-  height: 90%;
-  z-index: -1;
-  left: 6.3%;
-  top: 5%;
-}
+// .detail-activity-item-container::after {
+//   content: "";
+//   border: 1px dotted #333;
+//   position: absolute;
+//   height: 100%;
+//   z-index: -1;
+//   left: 6.3%;
+//   top: 5%;
+// }
 .detail-activity-day__lable {
   color: white;
 }

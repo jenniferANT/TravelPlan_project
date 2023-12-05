@@ -394,7 +394,8 @@ function Planing() {
 
           {/* chọn danh mục */}
           <div className="option-category-like">
-            <Select
+            <Select 
+              className="option-category-like__select"
               onChange={(item) => setSelectedCategories(item)}
               isMulti
               options={options}
@@ -420,12 +421,16 @@ function Planing() {
                     <div className="content-plan-row">
                       <div className="form-choose-map__container">
                         <img src={planMap} />
+                        <img src={planMap} />
+                        <img src={planMap} />
+                       
+                        
                       </div>
 
                       <div className="content-row-details">
                         <div className="content-row-details-activity">
                           <div className="row-details-activity-items">
-                            {planItemGenerate?.map((item) => (
+                            {planItemGenerate?.map((item,index) => (
                               <>
                                 <div className="content-plan-day-container">
                                   <h4 className="content-plan-startDay">
@@ -433,9 +438,9 @@ function Planing() {
                                   </h4>
                                 </div>
                                 <div className="row-details-activity-item">
-                                  <p className="content-row-day">Ngày</p>
+                                  <p className="content-row-day">Điểm</p>
                                   <div className="content-row-label-container">
-                                    <label className="content-row-1">1</label>
+                                    <label className="content-row-1">{index+1}</label>
                                   </div>
 
                                   <h2 className="content-plan-startDay-main">
@@ -445,18 +450,19 @@ function Planing() {
                               </>
                             ))}
                           </div>
+                            <div className="form-choose-content-info">
+                              <div className="info-price">
+                                <p>{planGenerate.expense}/</p>
+                                <img src={priceImg} />
+                              </div>
+                              <div className="info-weight">
+                                <p>{planGenerate.estimatedTotalDistance}km</p>
+                                <img src={distanceImg} />
+                              </div>
+                            </div>
                         </div>
 
-                        <div className="form-choose-content-info">
-                          <div className="info-price">
-                            <p>{planGenerate.expense}/</p>
-                            <img src={priceImg} />
-                          </div>
-                          <div className="info-weight">
-                            <p>{planGenerate.estimatedTotalDistance}km</p>
-                            <img src={distanceImg} />
-                          </div>
-                        </div>
+                        
                       </div>
                       {/* <img src={airPlane} className="content-plan-row-img" /> */}
                     </div>

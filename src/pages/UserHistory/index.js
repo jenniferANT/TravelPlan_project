@@ -47,15 +47,15 @@ function UserHistory() {
           {plan?.map((item) => {
             return (
               <Link className="cart-item" to={`/planing-detail/${item.id}`}>
-                <div className="cart-item-info">
-                  <div className="cart-item-info-col1">
+                <div style={{ width: '100%' }} className="cart-item-info">
+                  <div style={{ width: '40%' }} className="cart-item-info-col1">
                     <h4 className="cart-item-info__title">{item.title}</h4>
                     <p className="cart-item-info__price">
                       <img src={images.moneyI} />
                       {item.expense}
                     </p>
                   </div>
-                  <div className="cart-item-info-col2">
+                  <div style={{ width: '40%' }} className="cart-item-info-col2">
                     <h5 className="cart-item-info__name">
                       <img src={images.locationI} />
                       {item.destination}
@@ -67,7 +67,7 @@ function UserHistory() {
                   </div>
                 </div>
                 <div className="cart-item-time">
-                  <p>{item.createdAt}</p>
+                  <p style={{ fontSize: '11px' }}>{item.createdAt}</p>
                 </div>
               </Link>
             );

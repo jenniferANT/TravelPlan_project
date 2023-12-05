@@ -113,11 +113,11 @@ function PlaningDetail() {
             </div>
             <div className="detail-container">
               <div className="detail-activity-item-container">
-                {planItem.map((item) => (
+                {planItem.map((item,index) => (
                   <div className="detail-activity-item">
-                    <p>Ngày</p>
+                    <p>Điểm</p>
                     <div className="detail-activity-day">
-                      <lable className="detail-activity-day__lable">1</lable>
+                      <lable className="detail-activity-day__lable">{index+1}</lable>
                     </div>
                     <div className="detail-activity-main">
                       {/* ${`{time} {date}`} */}

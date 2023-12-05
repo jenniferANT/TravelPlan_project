@@ -2,7 +2,7 @@
 .User {
   background-color: var(--second-color);
   min-height: 1200px;
-  min-width: 2000px;
+  min-width: 1200px;
 }
 .reset-resize {
   resize: none;
@@ -109,8 +109,8 @@
 
 .blog-posting-popup {
   position: fixed;
-  top: 20%;
-  left: 20%;
+  top: 10%;
+  left: 10%;
   width: 1200px;
   min-height: 500px;
   background-color: white;
